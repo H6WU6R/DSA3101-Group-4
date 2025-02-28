@@ -1,5 +1,6 @@
 # pages/home.py
-from dash import dcc, html
+from dash import dcc, html, callback, Input, Output, no_update
+import segmentation  # Make sure your segmentation module is available
 
 # Theme Colors
 BACKGROUND_COLOR = "#d6dcb0"
@@ -16,9 +17,12 @@ home_layout = html.Div(
         'fontFamily': 'Arial, sans-serif',
         'backgroundColor': BACKGROUND_COLOR,
         'display': 'flex',
-        'flexDirection': 'column'
+        'flexDirection': 'column',
+        'position': 'relative'
     },
     children=[
+        # Hidden Location component for redirection
+        dcc.Location(id='redirect-home', refresh=True),
         html.Div(
             style={
                 'flex': '1',
@@ -28,22 +32,37 @@ home_layout = html.Div(
                 'alignItems': 'center'
             },
             children=[
-                html.H1("AI-Powered Banking Marketing Solutions",
-                        style={'color': TEXT_COLOR, 'fontSize': '48px', 'textAlign': 'center', 'marginBottom': '20px'}),
-                html.H2("Optimize Your Marketing with AI-Driven Insights",
-                        style={'color': ACCENT_COLOR, 'fontSize': '24px', 'textAlign': 'center', 'marginBottom': '40px'}),
-                dcc.Link(
-                    html.Button("Get Started",
-                                style={
-                                    'backgroundColor': BUTTON_COLOR,
-                                    'color': 'white',
-                                    'border': 'none',
-                                    'padding': '15px 30px',
-                                    'fontSize': '18px',
-                                    'borderRadius': '8px',
-                                    'cursor': 'pointer'
-                                }),
-                    href="/overview"
+                html.H1(
+                    "AI-Powered Banking Marketing Solutions",
+                    style={
+                        'color': TEXT_COLOR,
+                        'fontSize': '48px',
+                        'textAlign': 'center',
+                        'marginBottom': '20px'
+                    }
+                ),
+                html.H2(
+                    "Optimize Your Marketing with AI-Driven Insights",
+                    style={
+                        'color': ACCENT_COLOR,
+                        'fontSize': '24px',
+                        'textAlign': 'center',
+                        'marginBottom': '40px'
+                    }
+                ),
+                # Changed from a dcc.Link to a normal button with an ID to trigger a callback
+                html.Button(
+                    "Get Started",
+                    id="start-btn",
+                    style={
+                        'backgroundColor': BUTTON_COLOR,
+                        'color': 'white',
+                        'border': 'none',
+                        'padding': '15px 30px',
+                        'fontSize': '18px',
+                        'borderRadius': '8px',
+                        'cursor': 'pointer'
+                    }
                 )
             ]
         ),
@@ -62,7 +81,7 @@ home_layout = html.Div(
                     },
                     children=[
                         html.Img(
-                            src="/assets/App Logo.webp",
+                            src="/assets/App Logo.webp",  # Ensure your logo is in the Resources folder
                             style={'width': '100%', 'height': '100%', 'objectFit': 'cover'}
                         )
                     ]
@@ -71,3 +90,17 @@ home_layout = html.Div(
         )
     ]
 )
+
+# Callback: When "Get Started" is clicked, run the segmentation model and redirect to /overview
+@callback(
+    Output('redirect-home', 'pathname'),
+    [Input('start-btn', 'n_clicks')]
+)
+def start_segmentation(n_clicks):
+    if n_clicks and n_clicks > 0:
+        # Use the segmentation model to cluster the current dataset.
+        # This function reads the CSV from your data folder and trains the model.
+        segmentation.initial_model_training()
+        # Redirect to the overview page once training is complete.
+        return "/overview"
+    return no_update

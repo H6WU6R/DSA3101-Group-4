@@ -134,8 +134,7 @@ def parse_contents(contents, filename):
         return None
 
 def initial_model_training():
-    """Train initial clustering model on historical data."""
-    global global_scaler, global_model, global_numeric_columns
+    global global_scaler, global_model, global_numeric_columns, global_dataset
     initial_df = pd.read_csv('Data/Bank Customer Segmentation.csv')
     initial_df = preprocess_data(initial_df)
     initial_scaled, global_scaler, global_numeric_columns = scale_data(initial_df)
@@ -143,8 +142,10 @@ def initial_model_training():
     from sklearn.cluster import MiniBatchKMeans
     global_model = MiniBatchKMeans(n_clusters=initial_clusters, random_state=42, batch_size=100)
     initial_labels = global_model.fit_predict(initial_scaled)
+    global_dataset = initial_df  # Store dataset for later use
     print("Initial clustering complete.")
     return initial_df, initial_scaled, initial_labels
+
 
 if __name__ == '__main__':
     # For testing the segmentation module independently
