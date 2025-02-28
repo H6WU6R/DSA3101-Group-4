@@ -72,8 +72,6 @@ def apply_log_transform_selectively(df):
     """For each numeric column, if |skew| > 1 then apply log1p transform."""
     numeric_cols = df.select_dtypes(include=[np.number]).columns
     skewness_values = df[numeric_cols].apply(lambda x: skew(x.dropna()))
-    print("Skewness BEFORE transform:")
-    print(skewness_values)
     
     for col in numeric_cols:
         if abs(skewness_values[col]) > 1:
@@ -83,8 +81,6 @@ def apply_log_transform_selectively(df):
             df[col] = np.log1p(df[col])
     
     new_skew = df[numeric_cols].apply(lambda x: skew(x.dropna()))
-    print("Skewness AFTER transform:")
-    print(new_skew)
     return df
 
 def preprocess_data(df):
@@ -143,7 +139,6 @@ def initial_model_training():
     global_model = MiniBatchKMeans(n_clusters=initial_clusters, random_state=42, batch_size=100)
     initial_labels = global_model.fit_predict(initial_scaled)
     global_dataset = initial_df  # Store dataset for later use
-    print("Initial clustering complete.")
     return initial_df, initial_scaled, initial_labels
 
 
