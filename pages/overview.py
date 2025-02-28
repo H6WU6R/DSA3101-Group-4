@@ -1,4 +1,3 @@
-# pages/overview.py
 from dash import dcc, html
 from pages.topbar import top_bar
 
@@ -25,9 +24,6 @@ overview_layout = html.Div(
         html.P("Total number of customers: 1000", style={'fontSize': '20px'}),
         html.P("Current clusters: 5", style={'fontSize': '20px'}),
         html.P("Cluster details:\nCluster 0: High spenders\nCluster 1: Moderate spenders\nCluster 2: Low spenders\n...", 
-               style={'whiteSpace': 'pre-line', 'fontSize': '16px'}),
-        dcc.Link("Go to Data Extraction", href="/extract", style={'color': PRIMARY_COLOR, 'fontSize': '18px'}),
-        html.Br(),
-        dcc.Link("Back to Home", href="/", style={'color': PRIMARY_COLOR, 'fontSize': '18px', 'marginTop': '20px'})
+               style={'whiteSpace': 'pre-line', 'fontSize': '16px'})
     ]
 )

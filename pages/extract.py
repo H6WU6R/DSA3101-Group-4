@@ -1,4 +1,3 @@
-# pages/extract.py
 from dash import dcc, html
 from pages.topbar import top_bar
 
@@ -57,17 +56,13 @@ extract_layout = html.Div(
             'fontSize': '16px',
             'marginTop': '20px',
             'color': TEXT_COLOR
-        }),
-        html.Br(),
-        dcc.Link("Go to Individual Dashboard", href="/individual", style={'color': PRIMARY_COLOR, 'fontSize': '18px'}),
-        html.Br(),
-        dcc.Link("Back to Overview", href="/overview", style={'color': PRIMARY_COLOR, 'fontSize': '18px', 'marginTop': '20px'})
+        })
     ]
 )
 
 def register_callbacks(app):
     from dash.dependencies import Input, Output, State
-    import segmentation
+    import segmentation  # Import segmentation logic from src
     @app.callback(
         Output('output-div', 'children'),
         [Input('update-data-btn', 'n_clicks')],

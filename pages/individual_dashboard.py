@@ -1,4 +1,3 @@
-# pages/individual_dashboard.py
 from dash import dcc, html
 from pages.topbar import top_bar
 
@@ -30,10 +29,6 @@ individual_dashboard_layout = html.Div(
             style={'width': '40%', 'margin': 'auto'}
         ),
         html.Br(),
-        html.Div(id='customer-output', style={'whiteSpace': 'pre-line', 'fontSize': '16px'}),
-        html.Br(),
-        dcc.Link("Back to Extraction", href="/extract", style={'color': PRIMARY_COLOR, 'fontSize': '18px'}),
-        html.Br(),
-        dcc.Link("Back to Home", href="/", style={'color': PRIMARY_COLOR, 'fontSize': '18px'})
+        html.Div(id='customer-output', style={'whiteSpace': 'pre-line', 'fontSize': '16px'})
     ]
 )
