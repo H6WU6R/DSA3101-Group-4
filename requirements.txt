@@ -1,6 +1,8 @@
+dash==2.18.2
 numpy==1.23.5
 pandas==2.0.3
-scikit-learn==1.5.2
+scikit_learn==1.6.1
+scipy==1.15.2
 matplotlib==3.10.1
 seaborn==0.13.2
 skimpy==0.0.8
