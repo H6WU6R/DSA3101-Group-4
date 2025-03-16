@@ -1,5 +1,15 @@
 dash==2.18.2
+<<<<<<< HEAD
 numpy==1.24.3
 pandas==2.0.3
 scikit_learn==1.6.1
 scipy==1.15.2
+=======
+numpy==1.23.5
+pandas==1.5.3
+scikit_learn==1.6.1
+scipy==1.15.2
+matplotlib==3.10.1
+seaborn==0.13.2
+skimpy==0.0.8
+>>>>>>> 083e64c6c6053d7417c0dc8824e261cab6245193
