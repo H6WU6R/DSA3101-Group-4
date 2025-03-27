@@ -1,5 +1,20 @@
-from sklearn.preprocessing import StandardScaler
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+from scipy import stats
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.decomposition import PCA
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.preprocessing import StandardScaler
+from scipy.stats import skew, boxcox, yeojohnson
+from datetime import datetime
+from scipy.cluster.hierarchy import dendrogram, linkage
+from scipy.stats import zscore 
 
 ####################################################################################################
 ### Objective of model: Segment Customers Based On Their Features      ###         
@@ -100,8 +115,13 @@ def apply_pca_kmeans(df_scaled, best_pca_n, best_k_for_best):
 
     kmeans = KMeans(n_clusters=best_k_for_best, random_state=42, n_init=10)
     labels = kmeans.fit_predict(df_pca)
+    # Copy df_pca to df_labels
+    df_labels = df_original.copy()
 
-    return df_pca, labels, kmeans, pca_best
+    # Add the cluster labels (which is an array) to the new df_labels DataFrame
+    df_labels['Cluster_Label'] = labels
+
+    return df_pca, labels, kmeans, pca_best, df_labels
 
 
 def track_kmeans_centroids(kmeans, pca_best, scalar, df_encoded, best_k_for_best):
