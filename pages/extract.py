@@ -2,7 +2,7 @@ from dash import dcc, html
 from pages.topbar import top_bar
 
 # Theme Colors
-BACKGROUND_COLOR = "#d6dcb0"
+BACKGROUND_COLOR = "#FFFFFF"
 TEXT_COLOR = "#3c6454"
 PRIMARY_COLOR = "#acd42c"
 
@@ -13,7 +13,7 @@ extract_layout = html.Div(
         'marginTop': '70px',  # space for fixed top bar
         'padding': '20px',
         'fontFamily': 'Arial, sans-serif',
-        'backgroundColor': BACKGROUND_COLOR,
+        'backgroundColor': "var(--body--background-color)",
         'color': TEXT_COLOR,
         'position': 'relative',
         'textAlign': 'center'
@@ -21,40 +21,49 @@ extract_layout = html.Div(
     children=[
         top_bar("extract"),
         html.H1("Data Extraction", style={'marginBottom': '20px'}),
-        html.P("Upload new user data (CSV) to predict clusters for new customers:", style={'fontSize': '18px'}),
-        dcc.Upload(
-            id='upload-data',
-            children=html.Div([
-                'Drag and Drop or ',
-                html.A('Select a File', style={'color': PRIMARY_COLOR})
-            ]),
-            style={
-                'width': '40%',
-                'height': '60px',
-                'lineHeight': '60px',
-                'borderWidth': '1px',
-                'borderStyle': 'dashed',
-                'borderRadius': '5px',
-                'margin': '20px auto',
-                'backgroundColor': "#ced897",
-                'color': TEXT_COLOR
-            },
-            multiple=False
+        # Wrap the upload prompt and dcc.Upload in a card-like container.
+        html.Div(
+            children=[
+                html.P(
+                    "Upload new user data (CSV) to predict clusters for new customers:",
+                    style={'fontSize': '18px'}
+                ),
+                dcc.Upload(
+                    id='upload-data',
+                    children=html.Div([
+                        'Drag and Drop or ',
+                        html.A('Select a File', style={'color': PRIMARY_COLOR})
+                    ]),
+                    style={
+                        'height': '60px',
+                        'lineHeight': '60px',
+                        'borderWidth': '1px',
+                        'borderStyle': 'dashed',
+                        'borderRadius': '12px',
+                        'margin': '20px auto',
+                        'backgroundColor': "#ced897",
+                        'color': TEXT_COLOR
+                    },
+                    multiple=False
+                )
+            ],
+            className="card-like"  # This class should be defined in your CSS file.
         ),
         html.Br(),
-        html.Button("Update Data", id="update-data-btn", n_clicks=0, style={
+        html.Button("Start Predict", id="update-data-btn", n_clicks=0, style={
             'backgroundColor': "#6c904c",
             'color': 'white',
             'border': 'none',
             'padding': '10px 20px',
             'fontSize': '16px',
-            'borderRadius': '5px'
+            'borderRadius': '5px',
+            'marginTop': '20px'
         }),
         html.Br(),
         html.Div(id="output-div", style={
             'whiteSpace': 'pre-line',
             'fontSize': '16px',
-            'marginTop': '20px',
+            'marginTop': '40px',
             'color': TEXT_COLOR
         })
     ]

@@ -3,7 +3,7 @@ from dash import dcc, html, callback, Input, Output, no_update
 import segmentation  # Make sure your segmentation module is available
 
 # Theme Colors
-BACKGROUND_COLOR = "#d6dcb0"
+BACKGROUND_COLOR = "#FFFFFF"
 TEXT_COLOR = "#3c6454"
 BUTTON_COLOR = "#6c904c"
 ACCENT_COLOR = "#93af1c"
@@ -15,7 +15,7 @@ home_layout = html.Div(
         'margin': '0',
         'padding': '0',
         'fontFamily': 'Arial, sans-serif',
-        'backgroundColor': BACKGROUND_COLOR,
+        'backgroundColor': "var(--body--background-color)",
         'display': 'flex',
         'flexDirection': 'column',
         'position': 'relative'
