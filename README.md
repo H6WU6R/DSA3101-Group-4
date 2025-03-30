@@ -114,13 +114,54 @@ To set up the project on a local machine, follow the steps below:
 If you do not have Git installed, visit the [Git website](https://git-scm.com/) for instructions on installation. Once installed, you can verify your version of Git by running the following in your terminal:
 
 ```bash
-git --version
+git --version 
 ```
 
-3. ** Clone the respository. You may do this using SSH:
+3. **Clone the respository** You may do this using SSH:
 
 ```bash
-git clone
+git clone git@github.com:H6WU6R/DSA3101-Group-4.git
+```
+Alternatively, you may clone using HTTPS:
+
+```bash
+git clone https://github.com/H6WU6R/DSA3101-Group-4.git
+```
+
+4. **Set working directory**
+
+```bash
+cd DSA3101-Group-4
+```
+
+5. **Create virtual environment**
+
+```bash
+python -m venv.
+```
+
+6. **Activate the virtual environment**
+
+```bash
+venv\Scripts\activate
+```
+
+7. **Install necessary packages**
+
+```bash
+pip install -r requirements.txt
+```
+
+8. **Run the main program**
+
+```bash
+python -m src.main
+```
+
+9. **Deactivate your virtual environment**
+
+```bash
+deactivate
 ```
 
 
