@@ -102,7 +102,6 @@ DSA3101-Group-Project
 ### 2.2 Set Up Instruction
 
 
-```
 ## 4. Data Understanding
 ### 4.1 Data Acquisition
 
