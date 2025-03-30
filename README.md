@@ -99,7 +99,29 @@ DSA3101-Group-Project
 ├── api.py
 └── .gitignore
 ```
-### 2.2 Set Up Instruction
+### 2.2 Setup Instruction
+
+To set up the project on a local machine, follow the steps below:
+
+1. **Ensure Python 3.13 is installed**.  
+   If not, you can visit the [Python website](https://www.python.org/) for instructions on installation.  
+   Once installed, you can verify your version of Python by running the following in your terminal:
+   
+   ```bash
+   python --version
+   ```
+2. **Ensure Git is installed**
+If you do not have Git installed, visit the [Git website](https://git-scm.com/) for instructions on installation. Once installed, you can verify your version of Git by running the following in your terminal:
+
+```bash
+git --version
+```
+
+3. ** Clone the respository. You may do this using SSH:
+
+```bash
+git clone
+```
 
 
 ## 4. Data Understanding
