@@ -242,15 +242,15 @@ For each dataset, we have conducted feature engineering based on the requirement
 This section contains a list of processed datasets for each of the CSV files stated in Section 4.2, in order of appearance.
   1. 
   | Field Name | Description | Data Type | Allowed Values | Example |
-  |:---------:|:----------:|:---------:|:-----------:|:-------:|
-  |           |           |           |             |          |
+  |:---|:---|:---:|:---|:---:|
+  | |  |           |             |          |
   
-  2.
+  2. 
   | Field Name | Description | Data Type | Allowed Values | Example |
-  |:---------:|:----------:|:---------:|:-----------:|:-------:|
+  |:---|:---:|:---|:---|:---:|
   |            |           |           |             |          |
 
-  4. `clv_predictions.csv`
+  3. `clv_predictions.csv`
 
   | Field Name | Description | Data Type | Allowed Values | Example |
   |:---|:---|:---:|:---|:---:|
@@ -263,7 +263,7 @@ This section contains a list of processed datasets for each of the CSV files sta
   |`T`|Number of days since first purchase|int64|Positive integer greater than or equals to `recency`|220|
   
   
-  6. 
+  4. 
   | Field Name | Description | Data Type | Allowed Values | Example |
-  |:---------:|:----------:|:---------:|:-----------:|:-------:|
+  |:---|:---:|:---|:---|:---:|
   |            |           |           |             |          |
