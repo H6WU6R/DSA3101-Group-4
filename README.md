@@ -3,8 +3,9 @@
 - [Project-3: Machine Learning for Personalized Marketing Campaigns in Banking](#project-3-machine-learning-for-personalized-marketing-campaigns-in-banking)
   - [1. Project Overview](#1-project-overview)
   - [2. Technical Implementation](#2-technical-implementation)
-    - [2.1 System Architecture](#21-system-architecture)
-    - [2.2 Setup Instruction](#22-model-development)
+    - [2.1 Branch Usage Instruction](#21-branch-usage-instruction)
+    - [2.2 Main Branch_Repository Structure](#22-main-branch-repository-structure)
+    - [2.3 Setup Instruction](#23-setup-instruction)
   - [3. Deployment](#3-deployment)
     - [3.1 Web Application](#31-web-application)
     - [3.2 Docker Instructions](#32-docker-instructions)
@@ -23,11 +24,28 @@ To overcome these challenges, we are developing an AI-driven system that leverag
 
 ## 2. Technical Implementation
 
-### 2.1 System Architecture
+### 2.1 Branch Usage Instruction
 
-DSA3101-Group-Project  
+This repository is organized to manage various problem codes and related tasks efficiently. Here's an overview of the relationship between the branches and how to use the repository:
+
+1. **Main Branch**:
+   - To run the entire program, navigate to the `main` branch and execute the script located at `source/main.py`.
+   - To access code for specific problems, go to the respective folder under the `source` directory. For example, for problem **A1-Customer-Segmentation**, go to `source/A1-Customer-Segmentation`.
+   - Raw and processed data can be found in the `source/data` directory.
+
+3. **Individual Problem Branches**:
+   - For detailed exploration of individual problems, including notebooks for Exploratory Data Analysis (EDA) and plots, checkout the specific problem branch. 
+   - For example, to view details of **A1-Customer-Segmentation**, use the following command to switch to the relevant branch:
+     ```bash
+     git checkout A1-Customer-Segmentation
+     ```
+
+This structure ensures that the main program remains stable while individual branches allow for the development and testing of specific problems and tasks.
+
+### 2.2 Main Branch Repository Structure
 
 ```plaintext
+DSA3101-Group-Project  
 │
 ├── src/
 │   ├── A1-Customer-Segmentation/
@@ -99,7 +117,7 @@ DSA3101-Group-Project
 ├── api.py
 └── .gitignore
 ```
-### 2.2 Setup Instruction
+### 2.3 Setup Instruction
 
 To set up the project on a local machine, follow the steps below:
 
