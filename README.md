@@ -109,7 +109,7 @@ DSA3101-Group-Project
 │       └── (processed files)
 │
 ├── docs/
-│   └── readme.md
+│   └── README.md
 │
 ├── database.py
 ├── requirements.txt
