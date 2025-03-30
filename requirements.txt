@@ -6,7 +6,7 @@ scipy==1.15.2
 matplotlib==3.10.1
 seaborn==0.13.2
 skimpy>0.0.8,<1.0.0
-openpyxl == 3.1.2
+openpyxl==3.1.2
 sqlalchemy==2.0.12
-psycopg2 == 2.9.6
-
+psycopg2==2.9.6
+lifetimes==0.11.3
