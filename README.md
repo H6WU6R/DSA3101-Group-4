@@ -20,4 +20,7 @@ The `requirements.txt` file should list all Python libraries depend on, and they
 ```
 pip install -r requirements.txt
 ```
-## Data Understanding
+## 4. Data Understanding
+### 4.1 Data Acquisition
+
+Based on our tasks of understanding and segmenting bank customer needs, thus personalizing and optimising bank marketing campaigns, we have researched and identified 4 relevant datasets from Kaggle, namely [digital_marketing_campaign_dataset](https://www.kaggle.com/datasets/rabieelkharoua/predict-conversion-in-digital-marketing-dataset)
