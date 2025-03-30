@@ -199,9 +199,10 @@ This section contains a list of processed datasets for each of the CSV files sta
   4. clv_predictions.csv
   | Field Name | Description | Data Type | Allowed Values | Example |
   |:---------:|:----------:|:---------:|:-----------:|:-------:|
-  |:CustomerID:|:Identifier for each customer:|:int64:|:Positive integer:|:12490:|
+  |CustomerID|Identifier for each customer|int64|Positive integer|12490|
   
-  5. 
+  
+  6. 
   | Field Name | Description | Data Type | Allowed Values | Example |
   |:---------:|:----------:|:---------:|:-----------:|:-------:|
   |            |           |           |             |          |
