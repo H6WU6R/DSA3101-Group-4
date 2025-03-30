@@ -128,3 +128,17 @@ git clone
 ### 4.1 Data Acquisition
 
 Based on our tasks of understanding and segmenting bank customer needs, thus personalizing and optimising bank marketing campaigns, we have researched and identified 4 relevant datasets from Kaggle. For customer segmentation, engagement, behavioral analysis and campaign cost-effectiveness evaluation, we used [digital_marketing_campaign_dataset](https://www.kaggle.com/datasets/rabieelkharoua/predict-conversion-in-digital-marketing-dataset); for predicting customer preferenes we are using [financial transactions dataset](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets); for measuring campaign ROI we are using [transactions_and_customer_insights](https://www.kaggle.com/datasets/rishikumarrajvansh/marketing-insights-for-e-commerce-company?select=CustomersData.xlsx); for devising customer retention strategies we are using [bank customer churn data](https://www.kaggle.com/datasets/radheshyamkollipara/bank-customer-churn)
+
+### 4.2 Data Preparation and Feature Engineering
+
+For each dataset, we have conducted feature engineering based on the requirements of the tasks. This involves selecting, modifying, or creating new variables to better represent the underlying patterns in the data. Please refer to ?? for a detailed documentation of these processes.
+
+#### 4.2.1 Digital Marketing Campaign Dataset
+
+#### 4.2.2 Financial Transactions Dataset
+
+#### 4.2.3 Transactions and Customer Insights Dataset
+  1. Carry out data cleaning on Online_Transactions.csv to ensure unique rows of transactions and appropriate data type. Only relevant columns are kept. Join on CustomersData.xlsx by CustomerID, the resultant dataset is saved as clv_prediction.csv
+  2. Carry out feature engineering by computing essential features for predicting customer lifetime value, including Recency, Frequency, Monetary_value, T.
+     
+#### 4.2.4 Bank Customer Churn Dataset
