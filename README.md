@@ -253,7 +253,7 @@ This section contains a list of processed datasets for each of the CSV files sta
   4. `clv_predictions.csv`
 
   | Field Name | Description | Data Type | Allowed Values | Example |
-  |:---:|:---:|:---:|:---:|:---:|
+  |:---|:---|:---:|:---|:---:|
   |`CustomerID`|Identifier for each customer|int64|Positive integer|17490|
   |`join_date`|Date of customer's first purchase|object|Any valid timestamp format|2019-09-15|
   |`last_purchase_date`|Date when the customer made his last purchase|object|Any valid timestamp format later or equal to join_date|2019-11-02|
