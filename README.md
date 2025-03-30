@@ -148,6 +148,8 @@ git clone https://github.com/H6WU6R/DSA3101-Group-4.git
 
 4. **Set working directory**
 
+Set your working directory to the folder containing the cloned repository:
+
 ```bash
 cd DSA3101-Group-4
 ```
@@ -182,6 +184,40 @@ python -m src.main
 deactivate
 ```
 
+## 3. Deployment
+### 3.1 Web Application
+
+### 3.2 Docker Instructions
+
+To build and run the necessary Docker containers, follow the steps below:
+
+1. **Install Docker**
+
+If you do not have Docker installed, visit the [Docker website](https://www.docker.com/get-started) for instructions on installation. Once installed, you can verify your version of Docker by running the following command in your terminal:
+
+```bash
+docker --version
+```
+
+2. **Set Working Directory**
+
+Set your working directory to the folder containing the cloned repository:
+
+```bash
+cd DSA3101-Group-4
+```
+
+3. **Build Docker Image**
+
+```bash
+docker build -t HAVE NOT ADD HERE !!!!
+```
+
+4.**Run Image in Container**
+
+```
+docker run --name HAVE NOT ADD HERE !!!!
+```
 
 ## 4. Data Understanding
 ### 4.1 Data Acquisition
