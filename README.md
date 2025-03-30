@@ -213,7 +213,7 @@ cd DSA3101-Group-4
 docker build -t HAVE NOT ADD HERE !!!!
 ```
 
-4.**Run Image in Container**
+4. **Run Image in Container**
 
 ```
 docker run --name HAVE NOT ADD HERE !!!!
