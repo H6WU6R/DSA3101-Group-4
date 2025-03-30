@@ -1,9 +1,20 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+from scipy import stats
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.preprocessing import StandardScaler
+from scipy.stats import skew, boxcox, yeojohnson
+from datetime import datetime
+from scipy.cluster.hierarchy import dendrogram, linkage
+from scipy.stats import zscore 
 
 
 
@@ -67,17 +78,16 @@ def optimize_clusters(df_scaled):
     # Loop over different numbers of PCA components
     for n_components in pca_range:
         # Apply PCA with n_components
-        pca = PCA(n_components=n_components, random_state=42)
+        pca = PCA(n_components=n_components, random_state=42, svd_solver='full')
         X_pca_temp = pca.fit_transform(df_scaled)
         
         # Test K-Means for this PCA-transformed data
         scores_temp = []
         for k in k_range:
             kmeans_temp = KMeans(n_clusters=k, random_state=42)
-            labels_temp = kmeans_temp.fit_predict(X_pca_temp)
+            labels_temp = kmeans_temp.fit_predict(X_pca_temp.astype('float32'))
             sil = silhouette_score(X_pca_temp, labels_temp)
             scores_temp.append((k, sil))
-        
         # Find the best silhouette score for this number of PCA components
         best_for_this = max(scores_temp, key=lambda x: x[1])
         
@@ -87,21 +97,18 @@ def optimize_clusters(df_scaled):
             best_pca_n = n_components
             best_k = best_for_this[0]
             best_scores = scores_temp
-    print("KMeans model training running...")
+    
+    print("Best number of PCA components:", best_pca_n)
+    print("Explained variance by 2 PCA components:", pca.explained_variance_ratio_)
+    print("Best k (clusters) for that PCA configuration:", best_k)
+    print("Overall best silhouette score:", overall_best_sil)
+    
     # Fit the best PCA and K-Means models
     pca_best = PCA(n_components=best_pca_n, random_state=42)
     df_pca = pca_best.fit_transform(df_scaled)
-    kmeans = KMeans(n_clusters=best_k, random_state=42)
-    labels = kmeans.fit_predict(df_pca)
-    print("Best number of PCA components:", best_pca_n)
-    print("Best number of clusters (k):", best_k)
-    print("Overall best silhouette score:", overall_best_sil)
-
-    print("PCA-transformed DataFrame:")
-    print(df_pca.head())  # Show the first few rows
-
-    print("Cluster Labels:")
-    print(labels[:10])  # Show the first 10 labels
+    kmeans = KMeans(n_clusters=best_k, random_state=42, algorithm='lloyd')
+    labels = kmeans.fit_predict(df_pca.astype('float32'))
+    print(labels)
     
     return best_pca_n, best_k, overall_best_sil, df_pca, labels,kmeans, pca_best
 
@@ -135,15 +142,15 @@ def get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k):
     
     # 5. Add cluster labels (0, 1, ..., k-1)
     centroids_df.insert(0, 'Cluster', range(best_k))
-    print("Centroids DataFrame:")
     print(centroids_df)
-
     
     return centroids_df
 
 
 def main():
+    # 1. Load data
     df_original = pd.read_csv('/Users/wenlilyu/Desktop/DSA3101-Group-4/Data/digital_marketing_campaign_dataset.csv')
+
 
     # 2. Preprocess data (need to modify preprocess_data to return 3 objects)
     df_encoded, df_scaled, scaler = preprocess_data(df_original)
@@ -155,6 +162,21 @@ def main():
     centroids_df = get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k)
     
     df_original['Cluster_Label'] = labels
+
+    # Basic segment profile
+    segment_sizes = df_original['Cluster_Label'].value_counts().sort_index()
+    print("\nSegment sizes:")
+    print(segment_sizes)
+
+    # Visualize segment distribution
+    plt.figure(figsize=(10, 6))
+    sns.countplot(x='Cluster_Label', data=df_original)
+    plt.title('Distribution of Customers Across Segments')
+    plt.xlabel('Segment')
+    plt.ylabel('Count')
+    plt.grid(axis='y')
+    plt.tight_layout()
+    plt.show()
     return df_original
 
 main()
