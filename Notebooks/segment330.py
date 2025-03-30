@@ -17,6 +17,7 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 from scipy.stats import zscore 
 
 
+
 def preprocess_data(df_original):
     """
     Preprocess the input DataFrame by:
@@ -44,7 +45,8 @@ def preprocess_data(df_original):
     # Convert back to DataFrame (since StandardScaler returns numpy array)
     df_scaled = pd.DataFrame(df_scaled, columns=df_encoded.columns)
     
-    return df_scaled
+    return df_encoded, df_scaled, scaler
+
 
 
 
@@ -102,8 +104,9 @@ def optimize_clusters(df_scaled):
     df_pca = pca_best.fit_transform(df_scaled)
     kmeans = KMeans(n_clusters=best_k, random_state=42)
     labels = kmeans.fit_predict(df_pca)
+    print(labels)
     
-    return best_pca_n, best_k, overall_best_sil, df_pca, labels
+    return best_pca_n, best_k, overall_best_sil, df_pca, labels,kmeans, pca_best
 
 
 
@@ -137,3 +140,22 @@ def get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k):
     centroids_df.insert(0, 'Cluster', range(best_k))
     
     return centroids_df
+
+
+def main():
+    # 1. Load data
+    df_original = pd.read_csv('/Users/wenlilyu/Desktop/DSA3101-Group-4/Data/digital_marketing_campaign_dataset.csv')
+
+    # 2. Preprocess data (need to modify preprocess_data to return 3 objects)
+    df_encoded, df_scaled, scaler = preprocess_data(df_original)
+    
+    # 3. Optimize clusters (need to modify optimize_clusters to return 7 objects)
+    best_pca_n, best_k, overall_best_sil, df_pca, labels,kmeans, pca_best = optimize_clusters(df_scaled)
+    
+    # 4. Get centroids
+    centroids_df = get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k)
+    
+    df_original['Cluster_Label'] = labels
+    return df_original
+
+main()
