@@ -142,3 +142,13 @@ For each dataset, we have conducted feature engineering based on the requirement
   2. Carry out feature engineering by computing essential features for predicting customer lifetime value, including Recency, Frequency, Monetary_value, T.
      
 #### 4.2.4 Bank Customer Churn Dataset
+
+### 4.3 Data Dictionaries
+This section contains a list of processed datasets for each of the CSV files stated in Section 4.2, in order of appearance.
+  1.
+  2.
+  3. clv_predictions.csv
+  | Field Name | Description | Data Type | Allowed Values | Example |
+  |:---------:|:----------:|:---------:|:-----------:|:-------:|
+  |            |           |           |             |          |
+  4. 
