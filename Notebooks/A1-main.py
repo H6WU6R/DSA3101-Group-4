@@ -1,9 +1,20 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os
+from scipy import stats
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.preprocessing import StandardScaler
+from scipy.stats import skew, boxcox, yeojohnson
+from datetime import datetime
+from scipy.cluster.hierarchy import dendrogram, linkage
+from scipy.stats import zscore 
 
 
 
@@ -63,7 +74,8 @@ def optimize_clusters(df_scaled):
     best_pca_n = None
     best_k = None
     best_scores = None
-    
+
+    print("Loop over different numbers of PCA components and cluster number: ")
     # Loop over different numbers of PCA components
     for n_components in pca_range:
         # Apply PCA with n_components
@@ -87,7 +99,7 @@ def optimize_clusters(df_scaled):
             best_pca_n = n_components
             best_k = best_for_this[0]
             best_scores = scores_temp
-    print("KMeans model training running...")
+    
     # Fit the best PCA and K-Means models
     pca_best = PCA(n_components=best_pca_n, random_state=42)
     df_pca = pca_best.fit_transform(df_scaled)
@@ -96,11 +108,7 @@ def optimize_clusters(df_scaled):
     print("Best number of PCA components:", best_pca_n)
     print("Best number of clusters (k):", best_k)
     print("Overall best silhouette score:", overall_best_sil)
-
-    print("PCA-transformed DataFrame:")
-    print(df_pca.head())  # Show the first few rows
-
-    print("Cluster Labels:")
+    print("First ten cluster labels:")
     print(labels[:10])  # Show the first 10 labels
     
     return best_pca_n, best_k, overall_best_sil, df_pca, labels,kmeans, pca_best
@@ -140,9 +148,11 @@ def get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k):
 
     
     return centroids_df
+    
 
 
 def main():
+    # 1. Load data
     df_original = pd.read_csv('/Users/wenlilyu/Desktop/DSA3101-Group-4/Data/digital_marketing_campaign_dataset.csv')
 
     # 2. Preprocess data (need to modify preprocess_data to return 3 objects)
