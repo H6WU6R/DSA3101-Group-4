@@ -186,10 +186,22 @@ For each dataset, we have conducted feature engineering based on the requirement
 
 ### 4.3 Data Dictionaries
 This section contains a list of processed datasets for each of the CSV files stated in Section 4.2, in order of appearance.
-  1.
+  1. 
+  | Field Name | Description | Data Type | Allowed Values | Example |
+  |:---------:|:----------:|:---------:|:-----------:|:-------:|
+  |           |           |           |             |          |
+  
   2.
-  3. clv_predictions.csv
   | Field Name | Description | Data Type | Allowed Values | Example |
   |:---------:|:----------:|:---------:|:-----------:|:-------:|
   |            |           |           |             |          |
-  4. 
+
+  4. clv_predictions.csv
+  | Field Name | Description | Data Type | Allowed Values | Example |
+  |:---------:|:----------:|:---------:|:-----------:|:-------:|
+  |  CustomerID |Identifier for each customer | int64 | Positive integer | 12490 |
+  
+  5. 
+  | Field Name | Description | Data Type | Allowed Values | Example |
+  |:---------:|:----------:|:---------:|:-----------:|:-------:|
+  |            |           |           |             |          |
