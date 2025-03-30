@@ -210,13 +210,13 @@ cd DSA3101-Group-4
 3. **Build Docker Image**
 
 ```bash
-docker build -t HAVE NOT ADD HERE !!!!
+docker build -t DSA3101-Group-4
 ```
 
 4. **Run Image in Container**
 
 ```
-docker run --name HAVE NOT ADD HERE !!!!
+docker run --name DSA3101-Group-4
 ```
 
 ## 4. Data Understanding
