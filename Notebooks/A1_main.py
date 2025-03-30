@@ -1,20 +1,10 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import os
-from scipy import stats
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
-from sklearn.cluster import AgglomerativeClustering
 from sklearn.preprocessing import StandardScaler
-from scipy.stats import skew, boxcox, yeojohnson
-from datetime import datetime
-from scipy.cluster.hierarchy import dendrogram, linkage
-from scipy.stats import zscore 
 
 
 
@@ -153,7 +143,7 @@ def get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k):
 
 def main():
     # 1. Load data
-    df_original = pd.read_csv('/Users/wenlilyu/Desktop/DSA3101-Group-4/Data/digital_marketing_campaign_dataset.csv')
+    df_original = pd.read_csv('../Data/digital_marketing_campaign_dataset.csv')
 
     # 2. Preprocess data (need to modify preprocess_data to return 3 objects)
     df_encoded, df_scaled, scaler = preprocess_data(df_original)
@@ -165,6 +155,7 @@ def main():
     centroids_df = get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k)
     
     df_original['Cluster_Label'] = labels
+    df_original.to_csv('segmented_df.csv', index=False)
     return df_original
 
 main()
