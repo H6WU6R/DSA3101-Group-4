@@ -1,5 +1,5 @@
-# pages/home.py
 from dash import dcc, html, callback, Input, Output, no_update
+import pandas as pd
 import segmentation  # Make sure your segmentation module is available
 
 # Theme Colors
@@ -50,7 +50,6 @@ home_layout = html.Div(
                         'marginBottom': '40px'
                     }
                 ),
-                # Changed from a dcc.Link to a normal button with an ID to trigger a callback
                 html.Button(
                     "Get Started",
                     id="start-btn",
@@ -91,16 +90,17 @@ home_layout = html.Div(
     ]
 )
 
-# Callback: When "Get Started" is clicked, run the segmentation model and redirect to /overview
 @callback(
     Output('redirect-home', 'pathname'),
     [Input('start-btn', 'n_clicks')]
 )
 def start_segmentation(n_clicks):
     if n_clicks and n_clicks > 0:
-        # Use the segmentation model to cluster the current dataset.
-        # This function reads the CSV from your data folder and trains the model.
-        segmentation.initial_model_training()
-        # Redirect to the overview page once training is complete.
+        try:
+            # Load pre-generated segmentation results
+            df_segmented = pd.read_csv("data/A1-segmented_df.csv")
+            segmentation.global_dataset = df_segmented
+        except Exception as e:
+            print("Error reading segmented data:", e)
         return "/overview"
     return no_update
