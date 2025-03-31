@@ -54,9 +54,7 @@ DSA3101-Group-Project
 │   │   └── A1_dataclean.py
 │   │
 │   ├── A2-Customer-Engagement/
-│   │   ├── A2_main.py
-│   │   ├── A2_trainmodel.py
-│   │   └── A2_dataclean.py
+│   │   └── A2_main.py
 │   │
 │   ├── A3-Behavioral-Patterns/
 │   │   ├── A3_main.py
