@@ -66,6 +66,25 @@ def update_cluster_profile(selected_cluster):
         color_discrete_map={'higher': '#6c904c', 'lower': '#d64545'}
     )
     
+    # Update layout to remove background and customize appearance
+    fig_features.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
+        paper_bgcolor='rgba(0,0,0,0)',  # Transparent surrounding
+        xaxis=dict(
+            showgrid=False,  # Remove x-axis gridlines
+            showline=True,   # Show x-axis line
+            linecolor='#3c6454'  # Match text color
+        ),
+        yaxis=dict(
+            showgrid=True,   # Keep y-axis gridlines
+            gridcolor='rgba(60,100,84,0.1)',  # Light gridlines
+            showline=True,   # Show y-axis line
+            linecolor='#3c6454'  # Match text color
+        ),
+        title_x=0.5,  # Center the title
+        font=dict(color=TEXT_COLOR)  # Match text color
+    )
+    
     # Engagement Spider Chart
     patterns = profile['engagement_patterns']
     values = [float(v.strip('%').strip(' min')) for v in patterns.values()]
@@ -182,7 +201,26 @@ def update_overview(pathname):
                 text="count",
                 color_discrete_sequence=['#6c904c']
             )
-            fig_bar.update_traces(textposition='outside')
+            
+            # Update layout to remove background and customize appearance
+            fig_bar.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
+                paper_bgcolor='rgba(0,0,0,0)',  # Transparent surrounding
+                xaxis=dict(
+                    showgrid=False,  # Remove x-axis gridlines
+                    showline=True,   # Show x-axis line
+                    linecolor='#3c6454'  # Match text color
+                ),
+                yaxis=dict(
+                    showgrid=True,   # Keep y-axis gridlines
+                    gridcolor='rgba(60,100,84,0.1)',  # Light gridlines
+                    showline=True,   # Show y-axis line
+                    linecolor='#3c6454'  # Match text color
+                ),
+                title_x=0.5,  # Center the title
+                font=dict(color=TEXT_COLOR)  # Match text color
+            )
+            fig_bar.update_traces(textposition='outside')  # Move text labels outside bars
             
             fig_pie = px.pie(
                 cluster_counts,
@@ -211,12 +249,12 @@ def update_overview(pathname):
                     html.Div([
                         dcc.Graph(figure=fig_bar, config={'displayModeBar': False})
                     ], className="statistics-card", 
-                       style={'width': '38%', 'display': 'inline-block', 'margin': '10px'}),
+                       style={'width': '40%', 'display': 'inline-block', 'margin': '10px'}),
                     
                     html.Div([
                         dcc.Graph(figure=fig_pie, config={'displayModeBar': False})
                     ], className="statistics-card",
-                       style={'width': '38%', 'display': 'inline-block', 'margin': '10px'})
+                       style={'width': '40%', 'display': 'inline-block', 'margin': '10px'})
                 ], style={
                     'display': 'flex',
                     'justifyContent': 'center',
