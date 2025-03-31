@@ -206,7 +206,7 @@ cd DSA3101-Group-4
 3. **Build Docker Image**
 
 ```bash
-docker build -t DSA3101-Group-4
+docker build -t dsa3101-group4 .
 ```
 
 4. **Run Image in Container**
