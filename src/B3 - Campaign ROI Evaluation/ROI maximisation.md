@@ -104,4 +104,44 @@ print(cluster_summary)
 
 From the statistical and graphical distribution of customer segments, we can see their is a generally good distinction across segments, though each segment can have a bit of variability. Let us interpret the segmentation results below.
 
-## Interpretation of segmentation results
+## 3. Interpretation of segmentation results
+
+### 3.1 Cluster 0: Inactive Customers
+This group's dominance in number suggests that majority of customers are likely one-time or churned customers.
+
+Behavioral Profile:
+`Lowest engagement`: Longest recency (155.7 days since last purchase), lowest purchase frequency (17.58 transactions) and lowest spending amount (average $109.5)
+`Lowest predicted CLV value`: predicted CLV is the lowest, suggesting these customers are not deemed to have very high purchasing potential in the future.
+
+### 3.2 Cluster 1: Potential loyalties
+These are our most regular and high-spending customers, demonstrating sustained loyalty and frequent engagement.
+
+Behavioral Profile:
+`Newly converted`: Relatively recent tenure time of 7 days
+`Premium spenders`: Highest average monetary value ($192.12) and highest frequency (39.33 transactions).
+
+
+### 3.3 Cluster 2: Growth-Potential Customers
+This segment shows moderate behavior of purchases and spend, which has the potential to be converted to loyal customers.
+
+Behavioral Profile:
+`Strong but not elite`: Above-average frequency (25.4 transactions) but not top monetary value ($153.76).
+`Moderate recency`: Last purchased around 12 days ago.
+
+
+### 3.4 Cluster 3: Recent Actives
+These are newly acquired customers with significant future value potential, though their current spending is minimal.
+
+Behavioral Profile:
+`Very recent activity`: Shortest recency and tenure length (1.5 days)
+`Active purchasers`: Decent purchase frequencies given a short tenure time, thus are given highest predicted CLV ($339,078).
+
+
+
+### 3.5 Cluster 4: At-Risk Customers
+This group is showing signs of disengagement. Their recent inactivity indicates they may be transitioning towards inactive customers.
+
+Behavioral Profile:
+`Declining engagement`: Long time since last purchase (39.5 days).
+`Mid-range value`: Predicted CLV ($26,879) suggests they were once valuable but are now slipping.
+
