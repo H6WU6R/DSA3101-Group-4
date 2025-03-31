@@ -22,79 +22,109 @@ def create_profile_visualizations():
     """Create visualizations for cluster profiles"""
     profiles = load_cluster_profiles()
     
-    # Segment Size Chart
-    sizes_df = pd.DataFrame([
-        {
-            'Cluster': f"Cluster {k}",
-            'Count': int(v['size']['count']),
-            'Percentage': float(v['size']['percentage'].strip('%'))
-        }
-        for k, v in profiles.items()
+    return html.Div([
+        # Dropdown for cluster selection
+        html.Div([
+            dcc.Dropdown(
+                id='cluster-profile-dropdown',
+                options=[
+                    {'label': f'Cluster {k}', 'value': k}
+                    for k in profiles.keys()
+                ],
+                value='0',  # Default to first cluster
+                style={'width': '200px', 'margin': '20px auto'}
+            )
+        ]),
+        
+        # Container for profile visualizations
+        html.Div(id='cluster-profile-content')
     ])
+
+@callback(
+    Output('cluster-profile-content', 'children'),
+    [Input('cluster-profile-dropdown', 'value')]
+)
+def update_cluster_profile(selected_cluster):
+    if not selected_cluster:
+        return html.P("Please select a cluster to view its profile.")
     
-    fig_size = px.bar(
-        sizes_df,
-        x='Cluster',
-        y='Count',
-        text='Percentage',
-        labels={'Count': 'Number of Customers'},
-        title='Cluster Sizes',
-        color_discrete_sequence=['#6c904c']
-    )
-    fig_size.update_traces(texttemplate='%{text}%')
+    profiles = load_cluster_profiles()
+    profile = profiles[selected_cluster]
     
-    # Top Features Heatmap
-    features_data = []
-    for cluster, profile in profiles.items():
-        top_features = ast.literal_eval(profile['top_features'])
-        for feature in top_features:
-            features_data.append({
-                'Cluster': f"Cluster {cluster}",
-                'Feature': feature['feature'],
-                'Deviation': feature['deviation'],
-                'Direction': feature['direction']
-            })
+    # Create visualizations for selected cluster
+    # Top Features Bar Chart
+    top_features = ast.literal_eval(profile['top_features'])
+    features_df = pd.DataFrame(top_features)
     
-    features_df = pd.DataFrame(features_data)
-    fig_features = px.imshow(
-        features_df.pivot(index='Feature', columns='Cluster', values='Deviation'),
-        color_continuous_scale=['red', 'white', 'green'],
-        title='Feature Importance by Cluster',
-        aspect='auto'
+    fig_features = px.bar(
+        features_df,
+        x='feature',
+        y='deviation',
+        color='direction',
+        title=f'Top 5 Features for Cluster {selected_cluster}',
+        labels={'deviation': 'Importance Score', 'feature': 'Feature'},
+        color_discrete_map={'higher': '#6c904c', 'lower': '#d64545'}
     )
     
-    # Engagement Patterns Spider Chart
+    # Engagement Spider Chart
+    patterns = profile['engagement_patterns']
+    values = [float(v.strip('%').strip(' min')) for v in patterns.values()]
+    
     fig_engagement = go.Figure()
-    for cluster, profile in profiles.items():
-        patterns = profile['engagement_patterns']
-        values = [float(v.strip('%').strip(' min')) for v in patterns.values()]
-        fig_engagement.add_trace(go.Scatterpolar(
-            r=values,
-            theta=list(patterns.keys()),
-            name=f'Cluster {cluster}'
-        ))
+    fig_engagement.add_trace(go.Scatterpolar(
+        r=values,
+        theta=list(patterns.keys()),
+        fill='toself',
+        name=f'Cluster {selected_cluster}'
+    ))
     
     fig_engagement.update_layout(
         polar=dict(radialaxis=dict(visible=True, range=[0, max(values)])),
-        title='Engagement Patterns by Cluster',
+        title='Engagement Patterns',
         showlegend=True
     )
     
+    # Channel Distribution Pie Chart
+    channels = profile['channel_preferences']['distribution']
+    fig_channels = px.pie(
+        values=list(channels.values()),
+        names=list(channels.keys()),
+        title='Channel Distribution',
+        color_discrete_sequence=['#6c904c', '#acd42c', '#3c6454', '#ced897', '#d6dcb0']
+    )
+    
     return html.Div([
-        # First row - Size and Features
+        # Cluster Summary Card
         html.Div([
-            html.Div([
-                dcc.Graph(figure=fig_size)
-            ], className="statistics-card", style={'width': '45%', 'display': 'inline-block'}),
-            html.Div([
-                dcc.Graph(figure=fig_features)
-            ], className="statistics-card", style={'width': '45%', 'display': 'inline-block', 'marginLeft': '2%'})
-        ]),
-        # Second row - Engagement Patterns
+            html.H3(f"Cluster {selected_cluster} Summary", 
+                   style={'color': TEXT_COLOR, 'marginBottom': '15px'}),
+            html.P(f"Size: {profile['size']['count']} customers ({profile['size']['percentage']})"),
+            html.P(f"Best Channel: {profile['channel_preferences']['best_channel']}"),
+            html.P(f"Conversion Rate: {profile['value_metrics']['conversion_rate']}")
+        ], className="statistics-card", 
+           style={'margin': '20px auto', 'maxWidth': '500px', 'padding': '20px'}),
+        
+        # Visualizations Grid
         html.Div([
+            # First row
             html.Div([
-                dcc.Graph(figure=fig_engagement)
-            ], className="statistics-card", style={'width': '92%', 'margin': '20px auto'})
+                html.Div([
+                    dcc.Graph(figure=fig_features, config={'displayModeBar': False})
+                ], className="statistics-card", 
+                   style={'width': '45%', 'display': 'inline-block', 'margin': '10px'}),
+                html.Div([
+                    dcc.Graph(figure=fig_engagement, config={'displayModeBar': False})
+                ], className="statistics-card", 
+                   style={'width': '45%', 'display': 'inline-block', 'margin': '10px'})
+            ], style={'display': 'flex', 'justifyContent': 'center'}),
+            
+            # Second row
+            html.Div([
+                html.Div([
+                    dcc.Graph(figure=fig_channels, config={'displayModeBar': False})
+                ], className="statistics-card", 
+                   style={'width': '45%', 'margin': '20px auto'})
+            ], style={'display': 'flex', 'justifyContent': 'center'})
         ])
     ])
 
@@ -119,7 +149,7 @@ overview_layout = html.Div(
     ]
 )
 
-# Import the global dataset
+# Import the A1 dataset
 try:
     df = pd.read_csv('data/A1-segmented_df.csv')
     segmentation.global_dataset = df
