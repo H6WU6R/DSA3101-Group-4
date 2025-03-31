@@ -234,10 +234,31 @@ For each dataset, we have conducted feature engineering based on the requirement
 
 ### 4.3 Data Dictionaries
 This section contains a list of processed datasets for each of the CSV files stated in Section 4.2, in order of appearance.
-  1. 
-  | Field Name | Description | Data Type | Allowed Values | Example |
+   1. `digital_marketing_campaign_dataset.csv`
+  
+| Field Name | Description | Data Type | Allowed Values | Example |
   |:---|:---|:---:|:---|:---:|
-  | |  |           |             |          |
+| `CustomerID` | Unique identifier for each customer | int64 | Positive integers | 8000 |
+| `Age` | Customer age in years | int64 | 18-100 | 56 |
+|` Gender`| Customer gender | object | ['Female', 'Male', 'Other'] | 'Female' |
+| `Income`| Annual income in local currency | float64 | Positive numbers | 136912.0 |
+| `CampaignChannel` | Marketing channel used | object | ['Social Media', 'Email', 'PPC', 'Referral', 'SEO'] | 'Social Media' |
+| `CampaignType` | Campaign objective type | object | ['Awareness', 'Retention', 'Conversion'] | 'Awareness' |
+| `AdSpend` | Amount spent on advertising for this customer (currency) | float64 | Positive numbers | 6497.87 |
+| `ClickThroughRate` | Ratio of ad clicks to impressions | float64 | 0.0-1.0 | 0.0439 |
+| `ConversionRate` | Ratio of conversions to clicks | float64 | 0.0-1.0 | 0.0880 |
+| `WebsiteVisits` | Number of website visits during campaign | int64 | Non-negative integers | 0 |
+| `PagesPerVisit` | Average pages viewed per visit | float64 | Positive numbers | 2.399 |
+| `TimeOnSite` | Average time spent on site (minutes) | float64 | Positive numbers | 7.396 |
+| `SocialShares` | Number of social media shares | int64 | Non-negative integers | 19 |
+| `EmailOpens`| Number of marketing emails opened | int64 | Non-negative integers | 6 |
+| `EmailClicks`| Number of clicked links in emails | int64 | Non-negative integers | 9 |
+| `PreviousPurchases` | Count of purchases before campaign | int64 | Non-negative integers | 4 |
+| `LoyaltyPoints` | Accumulated loyalty program points | int64 | Non-negative integers | 688 |
+| `AdvertisingPlatform` | Platform used for ads | object | ['IsConfid', 'OtherPlatforms'] | 'IsConfid' |
+| `AdvertisingTool` | Tool used for ad management | object | ['ToolConfid', 'OtherTools'] | 'ToolConfid' |
+| `Conversion` | Whether conversion occurred (1/0) | int64 | [0, 1] | 1 |
+
   
   2.`cards_data.csv` 
   | Field Name | Description | Data Type | Allowed Values | Example |
@@ -292,22 +313,50 @@ This section contains a list of processed datasets for each of the CSV files sta
 | `credit_score`   | Credit score of the customer                                          | int64     | Positive integer| 772 |
 | `num_credit_cards`| Number of credit cards owned by the customer | int64     | Non-negative integer | 3 |
 
+  5. `Online_Sales.csv`
 
-
-  3. `clv_predictions.csv`
-
-  | Field Name | Description | Data Type | Allowed Values | Example |
-  |:---|:---|:---:|:---|:---:|
-  |`CustomerID`|Identifier for each customer|int64|Positive integer|17490|
-  |`join_date`|Date of customer's first purchase|object|Any valid timestamp format|2019-09-15|
-  |`last_purchase_date`|Date when the customer made his last purchase|object|Any valid timestamp format later or equal to join_date|2019-11-02|
-  |`frequency`|Number of times of purchases|int64|Positive Integer|30|
-  |`monetary_value`|Average value of each purchase|float64|Positive Number|201.486|
-  |`recency`|Number of days since last purchase|int64|Positive Integer|108|
-  |`T`|Number of days since first purchase|int64|Positive integer greater than or equals to `recency`|220|
+| Field Name         | Description                                              | Data Type | Allowed Values           | Example |
+|:------------------|:---------------------------------------------------------|:---------|:------------------------|:--------:|
+| `CustomerID`        | Unique identifier for the customer                      | int64    | Positive integer        | 17850    |
+| `Transaction_ID`    | Unique identifier for each transaction                   | int64    | Positive integer        | 16679    |
+| `Transaction_Date`  | Date when the transaction occurred                       | object   | Date in MM/DD/YYYY format | 1/1/2019 |
+| `Product_SKU`       | Stock Keeping Unit (SKU) of the product                  | object   | Alphanumeric string     | GGOENEBJ079499 |
+| `Product_Description` | Description of the product                            | object   | String                  | Nest Learning Thermostat 3rd Gen-USA - Stainless Steel |
+| `Product_Category`  | Category of the product                                 | object   | String                  | Nest-USA |
+| `Quantity`         | Number of units purchased                               | int64    | Positive integer        | 1        |
+| `Avg_Price`        | Average price per unit of the product                   | float64  | Positive decimal        | 153.71   |
+| `Delivery_Charges` | Shipping cost for the transaction                       | float64  | Positive decimal        | 6.5      |
+| `Coupon_Status`   | Status of coupon usage for the transaction               | object   | Used, Not Used | Used     |  
   
-  
-  4. 
-  | Field Name | Description | Data Type | Allowed Values | Example |
-  |:---|:---:|:---|:---|:---:|
-  |            |           |           |             |          |
+  6. `CustomersData.xlsx`
+
+| Field Name     | Description                                | Data Type | Allowed Values                  | Example |
+|:--------------|:-----------------------------------------|:---------|:------------------------------|:--------:|
+| `CustomerID`    | Unique identifier for the customer       | int64    | Positive integer               | 17850    |
+| `Gender`        | Gender of the customer                   | object   | M, F                           | M        |
+| `Location`      | Geographic location of the customer      | object   | City or State names            | Chicago  |
+| `Tenure_Months` | Duration of customer relationship (months) | int64    | Positive integer               | 12       |
+
+  7. `Customer-Churn-Records.csv`
+
+| Field Name          | Description                                              | Data Type | Allowed Values               | Example          |
+|:-------------------|:------------------------------------------------------|:----------|:----------------------------|:----------------:|
+| RowNumber          | Unique identifier for the row                            | int64     | Positive integer            | 1                |
+| CustomerId         | Unique identifier for the customer                       | int64     | Positive integer            | 15634602         |
+| Surname            | Last name of the customer                                | object    | String                      | Hargrave         |
+| CreditScore        | Credit score of the customer                             | int64     | 300-850                     | 619              |
+| Geography          | Country of residence                                     | object    | France, Spain, Germany      | France           |
+| Gender             | Gender of the customer                                   | object    | Male, Female                | Female           |
+| Age                | Age of the customer                                      | int64     | Positive integer            | 42               |
+| Tenure             | Number of years as a customer                            | int64     | 0-10                        | 2                |
+| Balance            | Account balance                                          | float64   | Positive decimal or 0       | 0.0              |
+| NumOfProducts      | Number of bank products used                             | int64     | 1-4                         | 1                |
+| HasCrCard          | Indicates if the customer has a credit card              | int64     | 0 (No), 1 (Yes)             | 1                |
+| IsActiveMember     | Indicates if the customer is an active member            | int64     | 0 (No), 1 (Yes)             | 1                |
+| EstimatedSalary    | Estimated salary of the customer                         | float64   | Positive decimal            | 101348.88        |
+| Exited             | Indicates if the customer churned                        | int64     | 0 (No), 1 (Yes)             | 1                |
+| Complain           | Indicates if the customer has lodged a complaint         | int64     | 0 (No), 1 (Yes)             | 1                |
+| Satisfaction Score | Customer satisfaction score (1-5)                        | int64     | 1, 2, 3, 4, 5               | 2                |
+| Card Type          | Type of credit card held                                 | object    | DIAMOND, GOLD, SILVER, PLATINUM | DIAMOND       |
+| Point Earned       | Reward points earned by the customer                     | int64     | Positive integer            | 464              |
+
