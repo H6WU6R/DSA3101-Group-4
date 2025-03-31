@@ -1,0 +1,254 @@
+{
+    "0": {
+        "segment_id": "0",
+        "size": {
+            "count": 748,
+            "percentage": "9.3%"
+        },
+        "top_features": "[{'feature': 'EmailClicks', 'deviation': 7.972341962891094, 'direction': 'higher'}, {'feature': 'PreviousPurchases', 'deviation': 5.032436663115904, 'direction': 'higher'}, {'feature': 'TimeOnSite', 'deviation': 4.207987012137913, 'direction': 'higher'}, {'feature': 'ConversionRate', 'deviation': 3.7265198203581926, 'direction': 'higher'}, {'feature': 'LoyaltyPoints', 'deviation': 3.6446772170591912, 'direction': 'higher'}]",
+        "engagement_patterns": {
+            "website_visits": "24.4",
+            "pages_per_visit": "5.6",
+            "time_on_site": "8.1 min",
+            "email_ctr": "50.3%",
+            "engagement_depth": "45.1",
+            "social_propensity": "2.07"
+        },
+        "value_metrics": {
+            "conversion_rate": "100.0%",
+            "previous_purchases": "4.7",
+            "loyalty_points": "2581"
+        },
+        "channel_preferences": {
+            "best_channel": "Email",
+            "best_channel_conversion": "100.0%",
+            "distribution": {
+                "PPC": "22.32620320855615",
+                "Referral": "21.92513368983957",
+                "Email": "19.919786096256683",
+                "Social Media": "18.181818181818183",
+                "SEO": "17.647058823529413"
+            }
+        },
+        "campaign_preferences": {
+            "best_campaign": "Conversion",
+            "best_campaign_conversion": "100.0%",
+            "distribution": {
+                "Conversion": "95.98930481283422",
+                "Retention": "1.7379679144385027",
+                "Consideration": "1.3368983957219251",
+                "Awareness": "0.9358288770053476"
+            }
+        }
+    },
+    "1": {
+        "segment_id": "1",
+        "size": {
+            "count": 523,
+            "percentage": "6.5%"
+        },
+        "top_features": "[{'feature': 'AdSpend', 'deviation': -23.439861789359888, 'direction': 'lower'}, {'feature': 'TimeOnSite', 'deviation': -23.851227784174963, 'direction': 'lower'}, {'feature': 'LoyaltyPoints', 'deviation': -15.546207365644282, 'direction': 'lower'}, {'feature': 'SocialShares', 'deviation': 2.813296890758771, 'direction': 'higher'}, {'feature': 'PagesPerVisit', 'deviation': -12.174847383604366, 'direction': 'lower'}]",
+        "engagement_patterns": {
+            "website_visits": "21.4",
+            "pages_per_visit": "4.9",
+            "time_on_site": "5.9 min",
+            "email_ctr": "44.2%",
+            "engagement_depth": "28.7",
+            "social_propensity": "2.39"
+        },
+        "value_metrics": {
+            "conversion_rate": "1.1%",
+            "previous_purchases": "3.4",
+            "loyalty_points": "2103"
+        },
+        "channel_preferences": {
+            "best_channel": "SEO",
+            "best_channel_conversion": "3.7%",
+            "distribution": {
+                "Email": "21.79732313575526",
+                "SEO": "20.84130019120459",
+                "Referral": "19.50286806883365",
+                "Social Media": "19.50286806883365",
+                "PPC": "18.35564053537285"
+            }
+        },
+        "campaign_preferences": {
+            "best_campaign": "Retention",
+            "best_campaign_conversion": "1.7%",
+            "distribution": {
+                "Awareness": "36.137667304015295",
+                "Retention": "33.07839388145315",
+                "Consideration": "30.401529636711285",
+                "Conversion": "0.3824091778202677"
+            }
+        }
+    },
+    "2": {
+        "segment_id": "2",
+        "size": {
+            "count": 2083,
+            "percentage": "26.0%"
+        },
+        "top_features": "[{'feature': 'PagesPerVisit', 'deviation': 2.1355125754136437, 'direction': 'higher'}, {'feature': 'AdSpend', 'deviation': 1.8575301793853847, 'direction': 'higher'}, {'feature': 'ConversionRate', 'deviation': 1.7082788246853635, 'direction': 'higher'}, {'feature': 'LoyaltyPoints', 'deviation': 1.6577966726934517, 'direction': 'higher'}, {'feature': 'TimeOnSite', 'deviation': 0.1949253347261937, 'direction': 'higher'}]",
+        "engagement_patterns": {
+            "website_visits": "25.4",
+            "pages_per_visit": "5.7",
+            "time_on_site": "7.7 min",
+            "email_ctr": "47.4%",
+            "engagement_depth": "43.9",
+            "social_propensity": "1.96"
+        },
+        "value_metrics": {
+            "conversion_rate": "96.8%",
+            "previous_purchases": "4.5",
+            "loyalty_points": "2532"
+        },
+        "channel_preferences": {
+            "best_channel": "Referral",
+            "best_channel_conversion": "97.3%",
+            "distribution": {
+                "Referral": "20.97935669707153",
+                "Social Media": "20.259241478636582",
+                "PPC": "20.115218434949593",
+                "SEO": "19.58713394143063",
+                "Email": "19.059049447911665"
+            }
+        },
+        "campaign_preferences": {
+            "best_campaign": "Consideration",
+            "best_campaign_conversion": "99.9%",
+            "distribution": {
+                "Consideration": "32.45319251080173",
+                "Awareness": "32.16514642342775",
+                "Retention": "31.973115698511762",
+                "Conversion": "3.4085453672587613"
+            }
+        }
+    },
+    "3": {
+        "segment_id": "3",
+        "size": {
+            "count": 3062,
+            "percentage": "38.3%"
+        },
+        "top_features": "[{'feature': 'PagesPerVisit', 'deviation': 1.545662877348866, 'direction': 'higher'}, {'feature': 'LoyaltyPoints', 'deviation': 1.2078873612057197, 'direction': 'higher'}, {'feature': 'ConversionRate', 'deviation': 1.533738066220705, 'direction': 'higher'}, {'feature': 'TimeOnSite', 'deviation': 3.630656174239677, 'direction': 'higher'}, {'feature': 'ClickThroughRate', 'deviation': 2.1501261215566774, 'direction': 'higher'}]",
+        "engagement_patterns": {
+            "website_visits": "25.3",
+            "pages_per_visit": "5.6",
+            "time_on_site": "8.0 min",
+            "email_ctr": "46.9%",
+            "engagement_depth": "45.1",
+            "social_propensity": "1.98"
+        },
+        "value_metrics": {
+            "conversion_rate": "97.4%",
+            "previous_purchases": "4.6",
+            "loyalty_points": "2520"
+        },
+        "channel_preferences": {
+            "best_channel": "SEO",
+            "best_channel_conversion": "98.0%",
+            "distribution": {
+                "Referral": "22.501632919660352",
+                "PPC": "19.921619856303067",
+                "Email": "19.333768778576093",
+                "SEO": "19.13781841933377",
+                "Social Media": "19.105160026126715"
+            }
+        },
+        "campaign_preferences": {
+            "best_campaign": "Awareness",
+            "best_campaign_conversion": "99.8%",
+            "distribution": {
+                "Awareness": "32.98497713912475",
+                "Consideration": "32.85434356629654",
+                "Retention": "31.678641410842584",
+                "Conversion": "2.4820378837361203"
+            }
+        }
+    },
+    "4": {
+        "segment_id": "4",
+        "size": {
+            "count": 1254,
+            "percentage": "15.7%"
+        },
+        "top_features": "[{'feature': 'TimeOnSite', 'deviation': 3.494383034529993, 'direction': 'higher'}, {'feature': 'ConversionRate', 'deviation': 1.2522255059040144, 'direction': 'higher'}, {'feature': 'AdSpend', 'deviation': 1.4193113725523727, 'direction': 'higher'}, {'feature': 'SocialShares', 'deviation': -2.9029925137256054, 'direction': 'lower'}, {'feature': 'PagesPerVisit', 'deviation': 1.1790337374160127, 'direction': 'higher'}]",
+        "engagement_patterns": {
+            "website_visits": "24.7",
+            "pages_per_visit": "5.6",
+            "time_on_site": "8.0 min",
+            "email_ctr": "46.5%",
+            "engagement_depth": "44.9",
+            "social_propensity": "1.95"
+        },
+        "value_metrics": {
+            "conversion_rate": "99.9%",
+            "previous_purchases": "4.7",
+            "loyalty_points": "2558"
+        },
+        "channel_preferences": {
+            "best_channel": "Social Media",
+            "best_channel_conversion": "100.0%",
+            "distribution": {
+                "PPC": "23.444976076555022",
+                "Referral": "20.813397129186605",
+                "Email": "19.936204146730464",
+                "SEO": "19.85645933014354",
+                "Social Media": "15.94896331738437"
+            }
+        },
+        "campaign_preferences": {
+            "best_campaign": "Retention",
+            "best_campaign_conversion": "100.0%",
+            "distribution": {
+                "Conversion": "96.41148325358851",
+                "Retention": "1.7543859649122806",
+                "Awareness": "1.1164274322169059",
+                "Consideration": "0.7177033492822966"
+            }
+        }
+    },
+    "5": {
+        "segment_id": "5",
+        "size": {
+            "count": 330,
+            "percentage": "4.1%"
+        },
+        "top_features": "[{'feature': 'LoyaltyPoints', 'deviation': -15.582426456253929, 'direction': 'lower'}, {'feature': 'TimeOnSite', 'deviation': -19.93465805155419, 'direction': 'lower'}, {'feature': 'SocialShares', 'deviation': 0.7428691302606311, 'direction': 'higher'}, {'feature': 'PagesPerVisit', 'deviation': -15.104641898960528, 'direction': 'lower'}, {'feature': 'AdSpend', 'deviation': -17.60382627327357, 'direction': 'lower'}]",
+        "engagement_patterns": {
+            "website_visits": "21.9",
+            "pages_per_visit": "4.7",
+            "time_on_site": "6.2 min",
+            "email_ctr": "46.3%",
+            "engagement_depth": "29.1",
+            "social_propensity": "2.29"
+        },
+        "value_metrics": {
+            "conversion_rate": "2.1%",
+            "previous_purchases": "3.7",
+            "loyalty_points": "2102"
+        },
+        "channel_preferences": {
+            "best_channel": "SEO",
+            "best_channel_conversion": "6.1%",
+            "distribution": {
+                "Social Media": "22.424242424242426",
+                "PPC": "20.909090909090907",
+                "Referral": "20.0",
+                "SEO": "20.0",
+                "Email": "16.666666666666664"
+            }
+        },
+        "campaign_preferences": {
+            "best_campaign": "Awareness",
+            "best_campaign_conversion": "3.1%",
+            "distribution": {
+                "Consideration": "38.78787878787879",
+                "Retention": "31.212121212121215",
+                "Awareness": "29.6969696969697",
+                "Conversion": "0.30303030303030304"
+            }
+        }
+    }
+}

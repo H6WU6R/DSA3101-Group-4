@@ -1,91 +1,16 @@
+"""
+Segment profiler module for customer behavioral analysis.
+
+This module contains the SegmentProfiler class for analyzing customer segments
+and calculating detailed profile metrics.
+"""
 
 import pandas as pd
 import numpy as np
 import warnings
 from typing import Dict, List, Tuple, Optional, Union, Any
-import os
-import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
-from matplotlib.patches import Patch
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
-from dataclasses import dataclass
-import importlib
-
-
-def behavioral_data_processing(df):
-    """
-    Process customer behavioral data by applying segmentation and engineering additional
-    behavioral metrics.
-    
-    This function:
-    1. Takes a DataFrame of customer data
-    2. Imports and runs segment.py to add cluster labels
-    3. Adds engineered features for deeper behavioral analysis
-    
-    Args:
-        df (pd.DataFrame): Original DataFrame containing customer data
-        
-    Returns:
-        pd.DataFrame: Processed DataFrame with Cluster_Label and engineered features
-    """
-    try:
-        # Import the segmentation module
-        import segment
-        import importlib
-        
-        # Reload in case of recent edits
-        importlib.reload(segment)
-        
-        # Apply segmentation to get Cluster_Label
-        # Call main() with no arguments since that's how it's defined
-        segmented_df = segment.main()
-        
-        # Validate that segmentation was successful
-        if 'Cluster_Label' not in segmented_df.columns:
-            raise ValueError("Segmentation did not produce a 'Cluster_Label' column")
-        
-        return segmented_df
-        
-    except ImportError:
-        raise ImportError("Could not import 'segment.py'. Make sure it exists in your path.")
-    except Exception as e:
-        raise RuntimeError(f"Error applying segmentation: {str(e)}")
-    
-    # Data cleaning
-    # 1. Remove unnecessary columns if they exist
-    columns_to_drop = ['AdvertisingPlatform', 'AdvertisingTool']
-    for col in columns_to_drop:
-        if col in df.columns:
-            df = df.drop(columns=[col])
-    
-    # 2. Convert categorical columns to category dtype for efficiency
-    categorical_cols = ['Gender', 'CampaignChannel', 'CampaignType']
-    for col in categorical_cols:
-        if col in df.columns:
-            df[col] = df[col].astype('category')
-    
-    # 3. Feature engineering: Create additional behavioral metrics
-    
-    # Email Click-Through Rate (CTR)
-    if 'EmailClicks' in df.columns and 'EmailOpens' in df.columns:
-        df['email_ctr'] = df.apply(
-            lambda row: row['EmailClicks'] / row['EmailOpens'] if row['EmailOpens'] > 0 else 0, 
-            axis=1
-        )
-    
-    # Website Engagement Depth
-    if 'PagesPerVisit' in df.columns and 'TimeOnSite' in df.columns:
-        df['engagement_depth'] = df['PagesPerVisit'] * df['TimeOnSite']
-    
-    # Social Sharing Propensity
-    if 'SocialShares' in df.columns and 'WebsiteVisits' in df.columns:
-        df['social_propensity'] = df.apply(
-            lambda row: row['SocialShares'] / row['WebsiteVisits'] if row['WebsiteVisits'] > 0 else 0,
-            axis=1
-        )
-    
-    return df
 
 
 class SegmentProfiler:
@@ -402,13 +327,24 @@ class SegmentProfiler:
     def calculate_segment_deviations(self) -> Tuple[pd.DataFrame, List[str]]:
         """
         Calculate how each segment deviates from the overall average for key metrics.
+    
+        This method:
+        1. Identifies all numeric metrics from the available columns
+        2. Calculates the overall average for each metric across all segments
+        3. For each segment, calculates the percentage difference from the overall average
+        4. Handles division by zero cases appropriately
+        
+        The deviation values represent how much higher or lower (as a percentage) each 
+        segment's average is compared to the overall average. Positive values indicate 
+        the segment is above average, negative values indicate below average.
         
         Returns:
             Tuple containing:
-                pd.DataFrame: DataFrame with percentage deviations from average for each segment and metric
+                pd.DataFrame: DataFrame with percentage deviations from average for each segment and metric.
+                            Rows are segment IDs, columns are metrics.
                 List[str]: List of numeric metrics that were analyzed
         
-        Example:
+        Examples:
             >>> profiler = SegmentProfiler(customer_data)
             >>> deviations, metrics = profiler.calculate_segment_deviations()
             >>> print(f"Segment 1 has {deviations.loc[1, 'WebsiteVisits']:.1f}% more website visits than average")
@@ -498,297 +434,6 @@ class SegmentProfiler:
             important_traits[segment] = traits
         
         return important_traits
-
-
-class SegmentVisualizer:
-    """
-    A class for creating visual representations of customer segment profiles.
-    
-    This class provides methods for generating visualizations including radar charts,
-    bar charts, and comprehensive profile cards that highlight key segment traits.
-    
-    Attributes:
-        main_color (str): Primary color used in visualizations
-        secondary_color (str): Secondary color used in visualizations
-        positive_color (str): Color used for positive values
-        negative_color (str): Color used for negative values
-    """
-    
-    def __init__(self, color_scheme: Optional[Dict[str, str]] = None):
-        """
-        Initialize the SegmentVisualizer with an optional custom color scheme.
-        
-        Args:
-            color_scheme (Optional[Dict[str, str]]): Custom color scheme with keys:
-                'main', 'secondary', 'positive', 'negative'
-        """
-        # Define default color scheme
-        default_colors = {
-            'main': '#1E5C97',       # Banking blue
-            'secondary': '#78A2CC',  # Lighter blue
-            'positive': '#4CAF50',   # Green for positive values
-            'negative': '#E57373',   # Red for negative values
-        }
-        
-        # Use provided colors or defaults
-        colors = color_scheme or default_colors
-        
-        self.main_color = colors.get('main', default_colors['main'])
-        self.secondary_color = colors.get('secondary', default_colors['secondary'])
-        self.positive_color = colors.get('positive', default_colors['positive'])
-        self.negative_color = colors.get('negative', default_colors['negative'])
-    
-    def create_profile_card(self, 
-                          segment: int, 
-                          profile_data: Dict[str, Any],
-                          features: List[str],
-                          deviations: List[float],
-                          conversion_rate: float,
-                          best_channel: Tuple[str, float],
-                          best_campaign: Tuple[str, float],
-                          output_path: str):
-        """
-        Create a comprehensive visual profile card for a customer segment.
-        
-        Args:
-            segment (int): Segment ID
-            profile_data (Dict[str, Any]): Profile data for this segment
-            features (List[str]): List of top features for this segment
-            deviations (List[float]): List of deviations from average for top features
-            conversion_rate (float): Conversion rate for this segment
-            best_channel (Tuple[str, float]): Best channel and its conversion rate
-            best_campaign (Tuple[str, float]): Best campaign type and its conversion rate
-            output_path (str): Path where the visualization should be saved
-        
-        Returns:
-            None: The profile card is saved to the specified path
-        """
-        # Create figure
-        fig = plt.figure(figsize=(12, 9))
-        gs = gridspec.GridSpec(3, 2, figure=fig, height_ratios=[0.6, 1.8, 1.5], width_ratios=[1, 1])
-        
-        # Add a border to the entire figure
-        fig.patch.set_edgecolor(self.main_color)
-        fig.patch.set_linewidth(1)
-        
-        #----- HEADER SECTION -----#
-        ax_header = fig.add_subplot(gs[0, :])
-        ax_header.axis('off')
-        ax_header.text(0.5, 0.6, f"Banking Segment {segment} Profile", 
-                      fontsize=22, weight='bold', ha='center', color=self.main_color)
-        ax_header.text(0.5, 0.2, 
-                      f"Size: {profile_data['size']['count']} customers ({profile_data['size']['percentage']})", 
-                      fontsize=14, ha='center')
-        
-        #----- TOP FEATURES WITH DEVIATION COMPARISON -----#
-        ax_features = fig.add_subplot(gs[1, 0])
-        ax_features.axis('off')
-        ax_features.text(0.5, 1.05, "Top Features Driving Conversion", 
-                       fontsize=16, weight='bold', ha='center')
-        ax_features.text(0.5, 0.97, "Comparison to Average", 
-                       fontsize=14, ha='center')
-        
-        # Check if we have valid features
-        if features and len(features) > 0:
-            # Position for bars
-            y_pos = np.arange(len(features))
-            bar_height = 0.5
-            
-            # Create horizontal bars for deviations
-            for i, (feature, deviation) in enumerate(zip(features, deviations)):
-                # Color based on whether higher or lower than average
-                color = self.positive_color if deviation > 0 else self.negative_color
-                
-                # Create the horizontal bar
-                ax_features.barh(y_pos[i], deviation, height=bar_height, color=color, alpha=0.8)
-                
-                # Feature label on y-axis
-                ax_features.text(-5, y_pos[i], feature, va='center', ha='right', 
-                               fontsize=12, fontweight='bold')
-                
-                # Add percentage labels
-                label_pos = deviation + (1 if deviation >= 0 else -1)
-                ax_features.text(label_pos, y_pos[i], f"{deviation:.1f}% vs. avg", 
-                               va='center', ha='left' if deviation >= 0 else 'right',
-                               fontsize=11, fontweight='bold')
-                
-            # Set axis limits
-            max_dev = max([abs(d) for d in deviations]) * 1.2
-            ax_features.set_xlim(-max_dev, max_dev)
-            
-            # Add extra space for labels
-            ax_features.set_ylim(-0.5, len(features)-0.5)
-            
-            # Remove y-ticks
-            ax_features.set_yticks([])
-            
-            # Add a vertical line at 0
-            ax_features.axvline(x=0, color='gray', linestyle='-', alpha=0.5, linewidth=1)
-            
-            # Add legend
-            legend_elements = [
-                Patch(facecolor=self.positive_color, label='Higher than average', alpha=0.8),
-                Patch(facecolor=self.negative_color, label='Lower than average', alpha=0.8)
-            ]
-            ax_features.legend(handles=legend_elements, loc='lower center', fontsize=10, 
-                             frameon=True, framealpha=0.9, edgecolor='lightgray')
-            
-            # Add explanatory note
-            ax_features.text(0.5, -0.15, 
-                           "Shows how top conversion-driving features compare to average", 
-                           fontsize=9, style='italic', ha='center', transform=ax_features.transAxes)
-        else:
-            ax_features.text(0.5, 0.5, "Insufficient data for feature importance", 
-                           ha='center', fontsize=12, style='italic')
-        
-        #----- DIGITAL ENGAGEMENT PROFILE (RADAR CHART) -----#
-        ax_engagement = fig.add_subplot(gs[1, 1], polar=True)
-        
-        # Get engagement metrics for radar chart
-        engagement = profile_data.get('digital_engagement', {})
-        
-        # Define the metrics to display in the radar chart
-        radar_metrics = [
-            'Website Visits', 
-            'Pages/Visit', 
-            'Time on Site', 
-            'Email CTR', 
-            'Engagement Depth', 
-            'Social Propensity'
-        ]
-        
-        # Get values for these metrics (with safety checks)
-        radar_values = [
-            engagement.get('WebsiteVisits', 0),
-            engagement.get('PagesPerVisit', 0),
-            engagement.get('TimeOnSite', 0),
-            engagement.get('email_ctr', 0),
-            engagement.get('engagement_depth', 0),
-            engagement.get('social_propensity', 0)
-        ]
-        
-        # Normalize the values for display
-        max_values = {
-            'WebsiteVisits': 10,  # Example max values, adjust based on your data
-            'PagesPerVisit': 5,
-            'TimeOnSite': 10,
-            'email_ctr': 0.5,
-            'engagement_depth': 50,
-            'social_propensity': 2
-        }
-        
-        # Ensure we don't divide by zero
-        for key, value in max_values.items():
-            if value == 0:
-                max_values[key] = 1
-        
-        # Create mapping from radar metrics to internal keys
-        radar_to_key = {
-            'Website Visits': 'WebsiteVisits',
-            'Pages/Visit': 'PagesPerVisit',
-            'Time on Site': 'TimeOnSite',
-            'Email CTR': 'email_ctr',
-            'Engagement Depth': 'engagement_depth',
-            'Social Propensity': 'social_propensity'
-        }
-        
-        # Normalize the values
-        normalized_values = []
-        for i, metric in enumerate(radar_metrics):
-            key = radar_to_key.get(metric)
-            if key in max_values:
-                max_val = max_values[key]
-                val = radar_values[i]
-                normalized_values.append(min(val / max_val, 1) if max_val > 0 else 0)
-            else:
-                normalized_values.append(0)
-        
-        # Add the first value again to close the polygon
-        radar_metrics = np.append(radar_metrics, radar_metrics[0])
-        normalized_values = np.append(normalized_values, normalized_values[0])
-        
-        # Compute angle for each metric
-        angles = np.linspace(0, 2*np.pi, len(radar_metrics)-1, endpoint=False)
-        angles = np.append(angles, angles[0])  # Close the loop
-        
-        # Draw the radar chart
-        ax_engagement.plot(angles, normalized_values, 'o-', linewidth=2, color=self.main_color)
-        ax_engagement.fill(angles, normalized_values, alpha=0.25, color=self.main_color)
-        
-        # Set the labels
-        ax_engagement.set_thetagrids(angles * 180/np.pi, radar_metrics, fontsize=10)
-        
-        # Draw concentric circles
-        ax_engagement.set_ylim(0, 1)
-        ax_engagement.grid(True, alpha=0.3)
-        
-        # Add a title
-        plt.figtext(0.75, 0.72, "Digital Engagement Profile", fontsize=16, weight='bold', ha='center')
-        
-        #----- VALUE METRICS SECTION (TABLE) -----#
-        ax_value = fig.add_subplot(gs[2, 0])
-        ax_value.axis('off')
-        
-        # Add a title
-        ax_value.text(0.5, 1.1, "Value Metrics", fontsize=16, weight='bold', ha='center')
-        
-        # Create a table
-        value_data = [
-            ['Metric', 'Value'],
-            ['Conversion Rate', f"{conversion_rate:.1f}%"],
-            ['Previous Purchases', f"{profile_data.get('transaction_history', {}).get('PreviousPurchases', 0):.1f}"],
-            ['Loyalty Points', f"{profile_data.get('transaction_history', {}).get('LoyaltyPoints', 0):.0f}"]
-        ]
-        
-        # Create the table
-        table = ax_value.table(
-            cellText=value_data,
-            loc='center',
-            cellLoc='center',
-            colWidths=[0.5, 0.3],
-            bbox=[0.15, 0.15, 0.7, 0.7]
-        )
-        
-        # Style the table
-        table.auto_set_font_size(False)
-        table.set_fontsize(12)
-        table.scale(1, 1.5)
-        
-        # Style header row
-        for j in range(2):
-            table[(0, j)].set_facecolor('#EBF1F6')
-            table[(0, j)].set_text_props(weight='bold')
-        
-        #----- CHANNEL & CAMPAIGN PREFERENCES SECTION -----#
-        ax_pref = fig.add_subplot(gs[2, 1])
-        ax_pref.axis('off')
-        
-        # Left side - Channel Preferences
-        ax_pref.text(0.25, 1.1, "Channel Preferences", fontsize=16, weight='bold', ha='center')
-        
-        # Best channel info
-        ax_pref.text(0.05, 0.85, "Best Channel:", fontsize=12, weight='bold')
-        ax_pref.text(0.35, 0.85, f"{best_channel[0]}", fontsize=12, color=self.main_color, weight='bold')
-        ax_pref.text(0.35, 0.78, f"Conversion: {best_channel[1]*100:.1f}%", fontsize=10)
-        
-        # Right side - Campaign Preferences
-        ax_pref.text(0.75, 1.1, "Campaign Preferences", fontsize=16, weight='bold', ha='center')
-        
-        # Best campaign info
-        ax_pref.text(0.55, 0.85, "Best Campaign Type:", fontsize=12, weight='bold')
-        ax_pref.text(0.85, 0.85, f"{best_campaign[0]}", fontsize=12, color=self.main_color, weight='bold')
-        ax_pref.text(0.85, 0.78, f"Conversion: {best_campaign[1]*100:.1f}%", fontsize=10)
-        
-        # Add a divider line
-        ax_pref.axvline(x=0.5, ymin=0, ymax=0.9, color='lightgray', linewidth=1, alpha=0.7)
-        
-        # Adjust layout
-        plt.tight_layout(pad=1.0)
-        plt.subplots_adjust(wspace=0.1, hspace=0.2)
-        
-        # Save the profile card
-        plt.savefig(output_path, dpi=300, bbox_inches='tight')
-        plt.close(fig)
 
 
 def get_segment_profile_data(df: pd.DataFrame) -> Dict[int, Dict[str, Any]]:
@@ -906,24 +551,80 @@ def get_segment_profile_data(df: pd.DataFrame) -> Dict[int, Dict[str, Any]]:
 
 def main():
     """
-    Main function to run the entire behavioral profiling pipeline.
+    Main function to run the segment profiling pipeline.
     
-    This function loads the dataset, processes it, and returns profile data
-    for all customer segments without creating visualizations.
+    This function:
+    1. Parses command line arguments
+    2. Processes the input data
+    3. Generates segment profiles
+    4. Saves the profiles to a JSON file
     
-    Returns:
-        Dict[int, Dict[str, Any]]: Dictionary with profile data for each segment
+    Example usage:
+        python segment_profiler.py --input data.csv --output profiles.json
     """
-    # 1. Load data
-    df = pd.read_csv('/Users/cindy/Desktop/DSA3101-Project-3/Data/digital_marketing_campaign_dataset.csv')
+    import argparse
+    import json
+    import os
+    import sys
     
-    # 2. Process the data
-    processed_df = behavioral_data_processing(df)
+    # Add parent directory to sys.path if needed
+    parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if parent_dir not in sys.path:
+        sys.path.append(parent_dir)
     
-    # 3. Get segment profile data (without visualizations)
+    try:
+        from data_processing import behavioral_data_processing
+    except ImportError:
+        # If not found in parent directory, try the current directory
+        try:
+            import data_processing
+            behavioral_data_processing = data_processing.behavioral_data_processing
+        except ImportError:
+            raise ImportError("Could not import behavioral_data_processing. Please make sure data_processing.py is in the same directory or in the parent directory.")
+    
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description='Generate customer segment profiles.')
+    parser.add_argument('--input', type=str, default=None,
+                        help='Path to the input CSV file')
+    parser.add_argument('--output', type=str, default='profiles.json',
+                        help='Path where to save the profile JSON')
+    
+    args = parser.parse_args()
+    
+    # Process the data
+    print("Processing data...")
+    processed_df = behavioral_data_processing(args.input)
+    
+    # Get segment profile data
+    print("Generating segment profiles...")
     profile_data = get_segment_profile_data(processed_df)
     
+    # Save profile data to JSON
+    # Convert any non-serializable objects to string or simple types
+    serializable_data = {}
+    for segment, data in profile_data.items():
+        serializable_data[str(segment)] = {}
+        for key, value in data.items():
+            if isinstance(value, dict):
+                serializable_data[str(segment)][key] = {}
+                for k, v in value.items():
+                    if isinstance(v, dict):
+                        serializable_data[str(segment)][key][k] = {str(kk): str(vv) for kk, vv in v.items()}
+                    else:
+                        serializable_data[str(segment)][key][k] = str(v) if not isinstance(v, (int, float, str, bool, type(None))) else v
+            else:
+                serializable_data[str(segment)][key] = str(value) if not isinstance(value, (int, float, str, bool, type(None))) else value
+    
+    # Create directory if it doesn't exist
+    os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
+    
+    # Save to JSON
+    with open(args.output, 'w') as f:
+        json.dump(serializable_data, f, indent=4)
+    
+    print(f"Profile data saved to {args.output}")
     return profile_data
+
 
 if __name__ == "__main__":
     main()
