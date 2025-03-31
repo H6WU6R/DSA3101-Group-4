@@ -49,9 +49,7 @@ DSA3101-Group-Project
 │
 ├── src/
 │   ├── A1-Customer-Segmentation/
-│   │   ├── A1_main.py
-│   │   ├── A1_trainmodel.py
-│   │   └── A1_dataclean.py
+│   │   └── A1_main.py
 │   │
 │   ├── A2-Customer-Engagement/
 │   │   └── A2_main.py
