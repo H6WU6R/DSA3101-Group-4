@@ -212,7 +212,8 @@ docker build -t dsa3101-group4 .
 4. **Run Image in Container**
 
 ```
-docker run --name DSA3101-Group-4
+docker run --name DSA3101-Group-4 dsa3101-group4
+
 ```
 
 ## 4. Data Understanding
