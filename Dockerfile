@@ -2,8 +2,8 @@
 FROM python:3.10
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -18,5 +18,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Set the default command to run your application
-CMD ["python", "main.py"]
-
+CMD ["python", "src/main.py"]
