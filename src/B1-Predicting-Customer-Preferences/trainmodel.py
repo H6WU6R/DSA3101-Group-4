@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.sparse import csr_matrix, identity
+from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from lightfm import LightFM
 from lightfm.evaluation import precision_at_k
@@ -447,7 +448,62 @@ def main():
     print(df.iloc[5:10,:])
     # Save to CSV
     df.to_csv('recommendations.csv', index_label='UserID')
-    
+
+    # In the feature engineering notebook provided, we have also experimented with PCA and Polynomial Features with PCA
+    # However it is not used in the final code as the performance was not satisfying enough,
+    # the coded provided is for future execution.
+
+    X_expanded = df_imputed_original[expanded_features].copy()
+    scaler_exp = StandardScaler()
+    X_expanded_scaled = scaler_exp.fit_transform(X_expanded)
+
+    # Assume X_expanded_scaled is already computed (using StandardScaler on your expanded features)
+    n_total = X_expanded_scaled.shape[1] 
+
+    # In our experiment, best number of component is 22, Cumulative explained variance = 0.8923
+
+    """
+    Uncomment and run the loop below for finding number of components with 90% of variance explained.
+    for n in range(1, n_total + 1):
+        pca_temp = PCA(n_components=n, random_state=42)
+        pca_temp.fit(X_expanded_scaled)
+        cum_explained = np.sum(pca_temp.explained_variance_ratio_)
+        print(f"n_components = {n}: Cumulative explained variance = {cum_explained:.4f}")
+    """
+
+    pca_no_poly = PCA(n_components=22, random_state=42)  # Adjust n_components as needed.
+    X_pca = pca_no_poly.fit_transform(X_expanded_scaled)
+    pca_feature_names = [f'pca_no_poly_{i}' for i in range(X_pca.shape[1])]
+
+    df_pca_no_poly = pd.DataFrame(X_pca, columns=pca_feature_names, index=df_imputed_original.index)
+
+    final_feature_set = pca_feature_names
+
+    # Split the PCA-transformed data and binarized labels into train and test sets.
+    X_train_pca, X_test_pca, Y_train_bin, Y_test_bin = train_test_split(df_pca_no_poly, Y_bin, test_size=0.2, random_state=42)
+    """
+    Uncomment and run the code below for finding best parameters of the PCA model
+    print("\n--- Running grid search for PCA features (no polynomial interactions) ---")
+    best_params_pca, all_results_pca = grid_search_cv(final_feature_set, X_train_pca, Y_train_bin)
+    print(f"Best PCA params: {best_params_pca}")
+    """
+    best_params_pca = {'loss': 'warp', 'no_components': 32, 'learning_rate': 0.05, 'epochs': 30, 'user_alpha': 0.0001, 'item_alpha': 0.0001}
+
+    """
+    Uncomment and run the code below to see the recommendation made using pca
+    recommendation_pca = generate_lightfm_recommendations(X_train_pca, X_test_pca, Y_train_bin, 
+    final_feature_set, best_params_pca, label_cols)
+
+    print("\nFinal Model Metrics using PCA on expanded data (no polynomial interactions):")
+    for k, v in metrics_pca.items():
+        print(f"{k}: {v:.4f}")
+
+    print("\nTop 3 product recommendations for sample test users using PCA (no polynomial interactions):")
+    for uid in list(recommendations_pca.keys())[:5]:
+        print(f"User {uid}: {recommendations_pca[uid]}")
+    """
+
+    # Refer to the feature_engineering notebook in branch B1 for the training results of Polynomial features
 # Define a evaluation function to find 
 if __name__ == "__main__":
     main()
