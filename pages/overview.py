@@ -1,3 +1,4 @@
+# pages/overview.py
 from dash import dcc, html, callback, Input, Output
 from pages.topbar import top_bar
 import segmentation  # Ensure segmentation.global_dataset and segmentation.global_model are set
@@ -39,9 +40,9 @@ def update_overview(pathname):
             total_customers = len(segmentation.global_dataset)
         else:
             total_customers = "N/A"
-        # Get number of clusters from global model
-        if hasattr(segmentation, "global_model") and segmentation.global_model is not None:
-            n_clusters = segmentation.global_model.n_clusters
+        # Get number of clusters from global model (if available)
+        if hasattr(segmentation, "global_dataset") and segmentation.global_dataset is not None:
+            n_clusters = segmentation.global_dataset["Cluster_Label"].nunique()
         else:
             n_clusters = "N/A"
         
@@ -54,30 +55,48 @@ def update_overview(pathname):
         else:
             cluster_details = "No cluster details available."
         
-        # Create card for total customers
+        # Create the pie chart using the "Cluster_Label" column
+        if hasattr(segmentation, "global_dataset") and segmentation.global_dataset is not None:
+            df_labels = segmentation.global_dataset.copy()
+            if "Cluster_Label" in df_labels.columns:
+                cluster_counts = df_labels["Cluster_Label"].value_counts().sort_index().reset_index()
+                cluster_counts.columns = ["cluster", "count"]
+                fig_bar = px.bar(
+                    cluster_counts,
+                    x="cluster",
+                    y="count",
+                    title="Customer Distribution by Cluster",
+                    labels={"cluster": "Cluster", "count": "Number of Customers"},
+                    text="count"
+                )
+                fig_bar.update_traces(textposition='outside') 
+            else:
+                fig_bar = {}
+        else:
+            fig_bar = {}
+
+        # Card for total customers
         card_total = html.Div(
             [
-                html.P("Total number of customers:", style={'fontSize': '20px', 'margin': '0 0 10px 0'}),
-                html.H3(f"{total_customers}", style={'margin': '0'})
+                dcc.Graph(figure=fig_bar, config={'displayModeBar': False}, style={'height': '300px'})
             ],
             className="statistics-card",
             style={'width': '30%'}
         )
         
-        # Create the pie chart for current clusters
-        if hasattr(segmentation, "global_dataset") and segmentation.global_dataset is not None and segmentation.global_model is not None:
-            # Scale the global dataset
-            scaled_data, _, _ = segmentation.scale_data(segmentation.global_dataset, scaler=segmentation.global_scaler)
-            # Predict clusters for all customers
-            all_labels = segmentation.global_model.predict(scaled_data)
-            df_labels = pd.DataFrame({'cluster': all_labels})
-            cluster_counts = df_labels['cluster'].value_counts().sort_index().reset_index()
-            cluster_counts.columns = ['cluster', 'count']
-            fig = px.pie(cluster_counts, names='cluster', values='count')
+        # Create the pie chart using the "Cluster_Label" column
+        if hasattr(segmentation, "global_dataset") and segmentation.global_dataset is not None:
+            df_labels = segmentation.global_dataset.copy()
+            if "Cluster_Label" in df_labels.columns:
+                cluster_counts = df_labels["Cluster_Label"].value_counts().sort_index().reset_index()
+                cluster_counts.columns = ["cluster", "count"]
+                fig = px.pie(cluster_counts, names="cluster", values="count", title="Customer Distribution by Cluster")
+            else:
+                fig = {}
         else:
             fig = {}
 
-        # Create card for current clusters with the pie chart
+        # Card for current clusters with the pie chart
         card_clusters = html.Div(
             [
                 html.P("Current clusters:", style={'fontSize': '20px', 'margin': '0 0 10px 0'}),
@@ -88,27 +107,27 @@ def update_overview(pathname):
             style={'width': '30%'}
         )
         
-        # Wrap the two cards in a row
+        # Wrap the two cards in a row container
         row_cards = html.Div(
             [card_total, card_clusters],
             style={
                 'display': 'flex',
-                'flexWrap': 'wrap',
                 'justifyContent': 'center',
-                'gap': '20px'
+                'gap': '20px',
+                'flexWrap': 'wrap',
             }
         )
         
         # Create card for cluster details
         card_details = html.Div(
             [
-                html.P("Cluster details:", style={'fontSize': '20px', 'margin': '0 0 10px 0'}),
-                html.P(cluster_details, style={'whiteSpace': 'pre-line', 'fontSize': '16px', 'margin': '0'})
+                html.P(f"Total number of customers: {total_customers}", style={'fontSize': '20px'}),
+                html.P(f"Total number of clusters: {n_clusters}", style={'fontSize': '20px'})
             ],
             className="statistics-card",
             style={'margin': '20px auto'}
         )
         
         # Return the overall layout: two cards in a row and one card below
-        return html.Div([row_cards, card_details])
+        return html.Div([card_details, row_cards])
     return ""
