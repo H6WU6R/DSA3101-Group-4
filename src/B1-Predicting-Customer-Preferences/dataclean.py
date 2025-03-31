@@ -1,20 +1,22 @@
 import pandas as pd
 import json
 import csv
+import os
 
 # Load the datasets
 # Please update the file paths according to your local setup
 # Example:
 # cards = pd.read_csv('path_to_your_file/cards_data.csv')
 def main():
-    cards = pd.read_csv('../../data/raw/B1/cards_data.csv')
-    transactions_1 = pd.read_csv('../../data/raw/B1/transactions_part1.csv')
-    transactions_2 = pd.read_csv('../../data/raw/B1/transactions_part2.csv')
-    users = pd.read_csv('../../data/raw/B1/users_data.csv')
-
+    print("Start to load datasets\n")
+    cards = pd.read_csv('../data/raw/B1/cards_data.csv')
+    transactions_1 = pd.read_csv( '../data/raw/B1/transactions_part1.csv')
+    transactions_2 = pd.read_csv('../data/raw/B1/transactions_part2.csv')
+    users = pd.read_csv( '../data/raw/B1/users_data.csv')
+    print("All datasets are loaded successfully!\n")
     # Merge the transactions data
     transactions = pd.concat([transactions_1, transactions_2], ignore_index=True)
-
+    print("Data Cleaning starts\n")
     # Clean the cards data
     # Convert 'credit_limit' to numeric and remove '$' sign
     cards['credit_limit']= cards['credit_limit'].replace({'\$': ''}, regex=True).astype(float)
@@ -62,7 +64,10 @@ def main():
     tran_df = tran_df[tran_df['errors'].isna()]
 
     # Load merchant code json file
-    with open("../../data/raw/B1/mcc_codes.json", "r") as f:
+    json_path = '../data/raw/B1/mcc_codes.json'
+
+# Load the JSON file
+    with open(json_path, 'r') as f:
         data = json.load(f)
 
     # Group similar merchant codes into one category
@@ -123,7 +128,7 @@ def main():
     #     writer.writerows(csv_rows)
 
     # Read the CSV file into a DataFrame
-    output = pd.read_csv("../../data/processed/B1/output.csv")
+    output = pd.read_csv("../data/processed/B1/output.csv")
 
     # Merge the transactions DataFrame with the output DataFrame
     merged_trans = pd.merge(tran_df, output, left_on='mcc', right_on='Code', how='left')
@@ -146,7 +151,7 @@ def main():
     # Uncomment and Export the final DataFrame to a CSV file
     #final.to_csv("../../data/processed/B1/final_data.csv", index=False)
 
-    print("Final dataset for recommendation done!")
+    print("Final dataset for recommendation done!\n")
 
 if __name__ == "__main__":
     main()

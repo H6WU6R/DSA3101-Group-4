@@ -5,10 +5,11 @@ from lightfm import LightFM
 from lightfm.evaluation import precision_at_k
 from sklearn.model_selection import train_test_split, KFold
 import itertools
+import os
 import pandas as pd
 
 def main():
-
+    BASE_DIR = os.path.dirname(os.path.dirname(__file__))  
     """  
         Computes the top-3 accuracy for a recommender system model.
         This metric evaluates how often the true purchased items for each user 
@@ -223,7 +224,7 @@ def main():
         return best_params, grid_results
 
     # Load imputed data
-    df_imputed_original = pd.read_csv("../../data/processed/B1/imputed_data.csv")
+    df_imputed_original = pd.read_csv("../data/processed/B1/imputed_data_with_label.csv")
 
     # List of target columns of imputation
     target_cols = ['Automotive & Transportation Services', 'Clothing & Fashion',
@@ -267,7 +268,7 @@ def main():
     # best_params_expand, all_results_expand = grid_search_cv(expanded_features, X_train_full, Y_train_bin)
     # print(f"Best params for expanded features: {best_params_expand}")
 
-    print('best parameters for base features are {loss: warp, no_components: 16, learning_rate: 0.05, epochs: 50, user_alpha: 1e-05, item_alpha: 1e-05, top3_accuracy: 0.81969, precision@3: 0.67498}')
+    print('best parameters for base features are {loss: warp, no_components: 16, learning_rate: 0.05, epochs: 50, user_alpha: 1e-05, item_alpha: 1e-05, top3_accuracy: 0.81969, precision@3: 0.67498}\n')
     print('best parameters for expanded features are {loss: warp, no_components: 64, learning_rate: 0.05, epochs: 50, user_alpha: 1e-05, item_alpha: 1e-04, top3_accuracy: 0.88757, precision@3: 0.72313}')
 
     best_params = {'loss': 'warp', 'no_components': 64, 'learning_rate': 0.05, 'epochs': 50, 'user_alpha': 1e-05, 'item_alpha': 0.0001}
@@ -353,8 +354,9 @@ def main():
         }, top3_recommendations
     metrics, recommendations = evaluate_lightfm_model(X_train_full, X_test, Y_train_bin, Y_test_bin, 
                                                     expanded_features, best_params, label_cols)
-    print("-------------------------- Test set results --------------------------\n")
-    print("\nFinal Model Metrics (using base features):")
+    print("\n")
+    print("---Test set results---")
+    print("\nFinal Model Metrics (using expanded features):")
     for k, v in metrics.items():
         print(f"{k}: {v:.4f}")
     print("\nTop 3 product recommendations for sample test users:")
@@ -434,7 +436,7 @@ def main():
     # Since we do not have new user data, we will be using test set data as example
     recommendations_for_new_users = generate_lightfm_recommendations(X_train_full, X_test, Y_train_bin,
                                                     expanded_features, best_params, label_cols)
-    print("-------------------------- New User Recommendation results --------------------------\n")
+    print("\n--- New User Recommendation results ---\n")
     cleaned_dict = {
     user_id: [label.replace('Label_', '') for label in labels]
     for user_id, labels in recommendations_for_new_users.items()}
@@ -442,7 +444,7 @@ def main():
     # Convert to DataFrame
     df = pd.DataFrame.from_dict(cleaned_dict, orient='index')
     df.columns = ['Top1', 'Top2', 'Top3']
-    print(df.head())
+    print(df.iloc[5:10,:])
     # Save to CSV
     df.to_csv('recommendations.csv', index_label='UserID')
     

@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import os
 from sklearn.impute import KNNImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -7,7 +8,7 @@ from sklearn.metrics import mean_squared_error
 
 def main():
     # Load finalized csv files
-    final = pd.read_csv("../../data/processed/B1/final_data.csv")
+    final = pd.read_csv("../data/processed/B1/final_data.csv")
 
     # For customers without spending transaction data, use KNNImputer to compute its missing values.
     # We start with finding the best K, you may refer to branch B1 for detailed approach to find 
@@ -76,7 +77,7 @@ def main():
     cols_for_impute = feature_cols + target_cols
     df_impute = final[cols_for_impute].copy()
 
-    print("Best n is found to be 5 using elbow method.")
+    print("Best n is found to be 5 using elbow method.\n")
     # Select the best n_neighbors (with the lowest MSE)
     best_n = 5
 
@@ -96,7 +97,7 @@ def main():
     # Inverse-transform the imputed scaled data.
     df_imputed_original_array = scaler.inverse_transform(df_imputed_scaled)
     df_imputed_original = pd.DataFrame(df_imputed_original_array, columns=df_impute.columns, index=df_impute.index)
-    print("Data imputation is done.")
+    print("Data imputation is done.\n")
 
     # Label Construction
     # Joint features are considered for label construction, while purchase behavior (e.g., spending in categories like 
@@ -265,7 +266,12 @@ def main():
     df_imputed_original['Label_Savings_Investment_Plans'] = df_imputed_original.apply(label_savings_investment_plans, axis=1)
     df_imputed_original['Label_Wealth_Management_Savings'] = df_imputed_original.apply(label_wealth_management_savings, axis=1)
 
-    print("Label construction is done.")
+    # Save data to processed folder
+    #save_path = os.path.join(BASE_DIR, 'data/processed/B1/imputed_data_with_label.csv')
+
+    # Uncomment the line to save the file
+    # df_imputed_original.to_csv(save_path, index=False)
+    print("Label construction is done.\n")
 
 if __name__ == "__main__":
     main()
