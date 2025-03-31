@@ -1,7 +1,11 @@
-import sys, os
-# Add pages and src folders to system path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'pages'))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+import sys
+import os
+
+# Add the project root to the Python path
+project_root = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, project_root)
+sys.path.insert(0, os.path.join(project_root, 'pages'))
+sys.path.insert(0, os.path.join(project_root, 'src'))
 
 import dash
 from dash import dcc, html
@@ -12,14 +16,36 @@ from overview import overview_layout
 from extract import extract_layout, register_callbacks as register_extract_callbacks
 from individual_dashboard import individual_dashboard_layout
 
+# Update width constant to be full screen
+CONTENT_WIDTH = '100%'
+
 app = dash.Dash(__name__, assets_folder='Resources', suppress_callback_exceptions=True)
 server = app.server
 app.title = "Customer Segmentation App"
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
-], style={'margin': '0', 'padding': '0'})
+    html.Div(
+        style={
+            'width': '100%',
+            'minHeight': '100vh',
+            'margin': '0',
+            'padding': '0',
+            'backgroundColor': 'var(--body--background-color)',  # Match background color
+            'display': 'flex',
+            'justifyContent': 'center'  # Center the content horizontally
+        },
+        children=html.Div(
+            id='page-content',
+            style={
+                'width': CONTENT_WIDTH,
+                'padding': '0 40px',
+                'boxSizing': 'border-box',
+                'backgroundColor': 'var(--body--background-color)'  # Match background color
+            }
+        )
+    )
+])
 
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
