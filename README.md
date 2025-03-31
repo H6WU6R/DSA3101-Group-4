@@ -216,13 +216,23 @@ docker run --name DSA3101-Project-4 -w /app/src dsa3101-group4 python main.py
 ## 4. Data Understanding
 ### 4.1 Data Acquisition
 
-Based on our tasks of understanding and segmenting bank customer needs, thus personalizing and optimising bank marketing campaigns, we have researched and identified 4 relevant datasets from Kaggle. For customer segmentation, engagement, behavioral analysis and campaign cost-effectiveness evaluation, we used [digital_marketing_campaign_dataset](https://www.kaggle.com/datasets/rabieelkharoua/predict-conversion-in-digital-marketing-dataset); for predicting customer preferenes we are using [financial transactions dataset](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets); for measuring campaign ROI we are using [transactions_and_customer_insights](https://www.kaggle.com/datasets/rishikumarrajvansh/marketing-insights-for-e-commerce-company?select=CustomersData.xlsx); for devising customer retention strategies we are using [bank customer churn data](https://www.kaggle.com/datasets/radheshyamkollipara/bank-customer-churn)
+To better understand and segment bank customer needs—thereby personalizing and optimizing marketing campaigns—we have identified and utilized four relevant datasets from Kaggle. 
+- For customer segmentation, engagement, behavioral analysis and campaign cost-effectiveness evaluation, we used [digital_marketing_campaign_dataset](https://www.kaggle.com/datasets/rabieelkharoua/predict-conversion-in-digital-marketing-dataset).
+- To predict customer preferences, we are using the [financial transactions dataset](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets).
+- For measuring campaign ROI, we rely on the [transactions_and_customer_insights](https://www.kaggle.com/datasets/rishikumarrajvansh/marketing-insights-for-e-commerce-company?select=CustomersData.xlsx).
+- Finally, to support customer retention strategy development, we are leveraging the [bank customer churn data](https://www.kaggle.com/datasets/radheshyamkollipara/bank-customer-churn)。
 
 ### 4.2 Data Preparation and Feature Engineering
 
-For each dataset, we have conducted feature engineering based on the requirements of the tasks. This involves selecting, modifying, or creating new variables to better represent the underlying patterns in the data. Please refer to ?? for a detailed documentation of these processes.
+For each dataset, we conducted tailored feature engineering based on the specific requirements of the associated tasks.  This involves selecting, modifying, or creating new variables to better represent the underlying patterns in the data. Please refer to ?? for a detailed documentation of these processes.
+Please refer to [??] for detailed documentation of the processing pipelines and transformations used.
 
 #### 4.2.1 Digital Marketing Campaign Dataset
+1. Data Loading: Imported dataset using `pd.read_csv()`.
+2. Column Dropping: Removed `AdvertisingPlatform`, `AdvertisingTool`, and `CustomerID` to retain only relevant features.
+3. Categorical Encoding: Applied one-hot encoding to `Gender`, `CampaignChannel`, and `CampaignType`.
+4. Feature Scaling: Standardized all features using `StandardScaler` for model compatibility.
+
 
 #### 4.2.2 Financial Transactions Dataset
 
