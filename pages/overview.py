@@ -1,12 +1,13 @@
 # pages/overview.py
-from dash import dcc, html, callback, Input, Output
+from dash import html, dcc, callback, Input, Output
 from pages.topbar import top_bar
-import segmentation  # Ensure segmentation.global_dataset and segmentation.global_model are set
 import plotly.express as px
-import pandas as pd
 import plotly.graph_objects as go
+import pandas as pd
 import json
 import ast
+from overview_pages import overview_tabs_layout  # Modified import statement
+from src import segmentation  # Add this import
 
 # Theme Colors
 BACKGROUND_COLOR = "#FFFFFF"
@@ -213,12 +214,23 @@ overview_layout = html.Div(
     },
     children=[
         top_bar("overview"),
-        html.H1("Cluster Overview", style={'marginBottom': '20px'}, className="card-like"),
-        html.Div(id="overview-summary"),  # Add this back to show the original charts
-        html.H2("Cluster Profile Analysis", style={'marginTop': '40px', 'marginBottom': '20px'}),
-        create_profile_visualizations()
+        overview_tabs_layout
     ]
 )
+
+@callback(
+    Output('overview-tabs-content', 'children'),
+    [Input('overview-tabs', 'value')]
+)
+def render_content(tab):
+    if tab == 'tab-summary':
+        return html.Div([
+            html.Div(id="overview-summary")
+        ])
+    elif tab == 'tab-profiles':
+        return html.Div([
+            create_profile_visualizations()
+        ])
 
 # Import the A1 dataset
 try:
@@ -323,3 +335,28 @@ def update_overview(pathname):
                    style={'fontSize': '18px', 'color': TEXT_COLOR})
         ])
     return ""
+
+from dash import html, dcc
+
+overview_tabs_layout = html.Div([
+    dcc.Tabs(
+        id='overview-tabs',
+        value='tab-summary',
+        className='custom-tabs',
+        children=[
+            dcc.Tab(
+                label='Customer Summary',
+                value='tab-summary',
+                className='custom-tab',
+                selected_className='custom-tab--selected'
+            ),
+            dcc.Tab(
+                label='Cluster Profiles',
+                value='tab-profiles',
+                className='custom-tab',
+                selected_className='custom-tab--selected'
+            ),
+        ]
+    ),
+    html.Div(id='overview-tabs-content')
+])

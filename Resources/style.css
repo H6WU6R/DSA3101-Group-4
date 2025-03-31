@@ -35,4 +35,46 @@
     font-size: 16px;
     color: #3c6454; /* TEXT_COLOR */
   }
-  
+
+/* Custom Tabs Styling */
+.custom-tabs {
+    border-bottom: none;
+    padding-left: 0px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.custom-tab {
+    color: #3c6454 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 16px;
+    border-bottom: none !important;
+    background-color: #FFFFFF !important;
+    padding: 12px !important;
+    font-family: "Arial", sans-serif;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.custom-tab:hover {
+    cursor: pointer;
+}
+
+.custom-tab--selected {
+    color: #FFFFFF !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    background-color: #acd42c !important;
+}
+
+/* Tab content transition */
+#overview-tabs-content {
+    transition: opacity 0.3s ease;
+    padding-top: 20px;
+}
