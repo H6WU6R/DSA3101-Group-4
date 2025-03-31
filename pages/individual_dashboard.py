@@ -23,7 +23,7 @@ individual_dashboard_layout = html.Div(
     },
     children=[
         top_bar("individual"),
-        html.H1("Individual Dashboard", style={'marginBottom': '20px'}),
+        html.H1("Individual Dashboard", style={'marginBottom': '20px'}, className="card-like"),
         html.P(
             "Select a customer to view detailed segmentation information and receive a personalized marketing recommendation:",
             style={'fontSize': '18px'}
