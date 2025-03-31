@@ -1,121 +1,58 @@
-# segmentation.py
-
-import base64
-import io
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import MiniBatchKMeans
 from sklearn.decomposition import PCA
 from scipy.stats import skew
+import pickle
 
-# Global variables to hold our scaler and clustering model
 global_scaler = None
 global_model = None
 global_numeric_columns = None
-
-# Define marketing recommendations mapping (example text)
 marketing_recs = {
-    0: "High spenders: Target with premium offers and loyalty programs.",
-    1: "Moderate spenders: Use personalized discount codes to boost engagement.",
-    2: "Low spenders: Encourage increased usage with introductory promotions.",
-    3: "Frequent cash advance users: Provide financial advice and repayment incentives.",
-    4: "Occasional users: Use re-engagement campaigns to drive usage."
+    0: "Focus on digital marketing campaigns with emphasis on social media engagement.",
+    1: "Develop loyalty programs and personalized email marketing strategies.",
+    2: "Implement targeted promotional offers and cross-selling opportunities.",
+    3: "Create brand awareness campaigns and introductory offers.",
+    4: "Design retention programs with premium customer service support."
 }
 
-def fill_missing_and_engineer_features(df):
-    """Handle missing values, drop unwanted columns, and create new features."""
-    numeric_cols = df.select_dtypes(include=[np.number]).columns
-    for col in numeric_cols:
-        if df[col].isnull().sum() > 0:
-            min_val = df[col].min()
-            df[col].fillna(min_val, inplace=True)
+def preprocess_data(df_original, required_columns=None):
+    """
+    Preprocess the input DataFrame by:
+      1. Dropping specified columns,
+      2. Handling missing values,
+      3. One-hot encoding categorical columns
     
-    if 'CREDIT_LIMIT' in df.columns:
-        df['BALANCE_UTILIZATION'] = df['BALANCE'] / df['CREDIT_LIMIT']
-        df.drop(columns=['CREDIT_LIMIT'], inplace=True)
+    Returns:
+      tuple: (df_encoded, None, None)
+    """
+    # Step 1: Drop specified columns
+    df_drop = df_original.drop(columns=['AdvertisingPlatform', 'AdvertisingTool', 'CustomerID'])
     
-    if 'CUST_ID' in df.columns:
-        df.drop(columns=['CUST_ID'], inplace=True)
+    # Step 2: Handle missing values
+    # For numeric columns, fill NaN with median
+    numeric_columns = df_drop.select_dtypes(include=['int64', 'float64']).columns
+    df_drop[numeric_columns] = df_drop[numeric_columns].fillna(df_drop[numeric_columns].median())
     
-    df['ONEOFF_PURCHASE_RATIO'] = np.where(df['PURCHASES'] != 0,
-                                           df['ONEOFF_PURCHASES'] / df['PURCHASES'], 0)
+    # For categorical columns, fill NaN with mode (most frequent value)
+    categorical_columns = ['Gender', 'CampaignChannel', 'CampaignType']
+    for col in categorical_columns:
+        df_drop[col] = df_drop[col].fillna(df_drop[col].mode()[0])
     
-    df['INSTALLMENT_PURCHASE_RATIO'] = np.where(df['PURCHASES'] != 0,
-                                                df['INSTALLMENTS_PURCHASES'] / df['PURCHASES'], 0)
+    # Step 3: One-hot encode categorical columns
+    df_encoded = pd.get_dummies(df_drop, columns=categorical_columns, drop_first=False)
     
-    df['ADVANCE_RATIO'] = np.where((df['PURCHASES'] + df['CASH_ADVANCE']) != 0,
-                                   df['CASH_ADVANCE'] / (df['PURCHASES'] + df['CASH_ADVANCE']),
-                                   0)
+    # Ensure the encoded dataframe has the same columns as the required columns
+    if required_columns is not None:
+        missing_cols = set(required_columns) - set(df_encoded.columns)
+        for col in missing_cols:
+            df_encoded[col] = 0
+        # Ensure columns are in the same order
+        df_encoded = df_encoded[required_columns]
     
-    df['PAYMENT_GAP'] = df['PAYMENTS'] - df['MINIMUM_PAYMENTS']
-    df['PAYMENT_RATIO'] = np.where(df['MINIMUM_PAYMENTS'] != 0,
-                                   df['PAYMENTS'] / df['MINIMUM_PAYMENTS'], 0)
-    
-    df['PURCHASES_PER_TRX'] = np.where(df['PURCHASES_TRX'] != 0,
-                                       df['PURCHASES'] / df['PURCHASES_TRX'], 0)
-    
-    df['ADVANCE_PER_TRX'] = np.where(df['CASH_ADVANCE_TRX'] != 0,
-                                     df['CASH_ADVANCE'] / df['CASH_ADVANCE_TRX'], 0)
-    
-    df['ONEOFF_PURCHASE_FREQ_RATIO'] = np.where(df['PURCHASES_FREQUENCY'] != 0,
-                                                df['ONEOFF_PURCHASES_FREQUENCY'] / df['PURCHASES_FREQUENCY'], 0)
-    
-    df['INSTALLMENT_PURCHASE_FREQ_RATIO'] = np.where(df['PURCHASES_FREQUENCY'] != 0,
-                                                     df['PURCHASES_INSTALLMENTS_FREQUENCY'] / df['PURCHASES_FREQUENCY'], 0)
-    
-    df['ADVANCE_FREQ_RATIO'] = np.where(df['PURCHASES_FREQUENCY'] != 0,
-                                        df['CASH_ADVANCE_FREQUENCY'] / df['PURCHASES_FREQUENCY'], 0)
-    return df
-
-def apply_log_transform_selectively(df):
-    """For each numeric column, if |skew| > 1 then apply log1p transform."""
-    numeric_cols = df.select_dtypes(include=[np.number]).columns
-    skewness_values = df[numeric_cols].apply(lambda x: skew(x.dropna()))
-    
-    for col in numeric_cols:
-        if abs(skewness_values[col]) > 1:
-            if df[col].min() <= 0:
-                shift_val = abs(df[col].min()) + 1e-5
-                df[col] = df[col] + shift_val
-            df[col] = np.log1p(df[col])
-    
-    new_skew = df[numeric_cols].apply(lambda x: skew(x.dropna()))
-    return df
-
-def preprocess_data(df):
-    """Apply full preprocessing: missing value handling, feature engineering, and log transform."""
-    df = fill_missing_and_engineer_features(df)
-    df = apply_log_transform_selectively(df)
-    return df
-
-def scale_data(df, scaler=None):
-    """Scale numeric data using StandardScaler."""
-    numeric_cols = df.select_dtypes(include=[np.number]).columns
-    data = df[numeric_cols]
-    if scaler is None:
-        from sklearn.preprocessing import StandardScaler
-        scaler = StandardScaler()
-        scaled = scaler.fit_transform(data)
-    else:
-        scaled = scaler.transform(data)
-    return scaled, scaler, numeric_cols
-
-def generate_cluster_summary(labels):
-    """Generate a summary string for cluster assignment (if needed)."""
-    return "Cluster assignment complete."
-
-def generate_marketing_recommendations(labels):
-    """Generate marketing recommendations based on predicted cluster."""
-    # For simplicity, if multiple rows, show recommendation for each.
-    recs = "Marketing Recommendations:\n"
-    for i, label in enumerate(labels):
-        rec = marketing_recs.get(label, "No recommendation available.")
-        recs += f"Data row {i+1}: Cluster {label} -> {rec}\n"
-    return recs
+    return df_encoded, None, None
 
 def parse_contents(contents, filename):
-    """Parse uploaded file contents and return a DataFrame."""
     import base64, io
     content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
@@ -129,19 +66,73 @@ def parse_contents(contents, filename):
         print(e)
         return None
 
-def initial_model_training():
-    global global_scaler, global_model, global_numeric_columns, global_dataset
-    initial_df = pd.read_csv('Data/Bank Customer Segmentation.csv')
-    initial_df = preprocess_data(initial_df)
-    initial_scaled, global_scaler, global_numeric_columns = scale_data(initial_df)
-    initial_clusters = 5  # Default number of clusters
-    from sklearn.cluster import MiniBatchKMeans
-    global_model = MiniBatchKMeans(n_clusters=initial_clusters, random_state=42, batch_size=100)
-    initial_labels = global_model.fit_predict(initial_scaled)
-    global_dataset = initial_df  # Store dataset for later use
-    return initial_df, initial_scaled, initial_labels
+def load_trained_models():
+    """
+    Load and return the saved KMeans model, PCA model, and scaler from pickle files.
+    
+    Returns:
+      tuple: (kmeans_model, pca_model, scaler)
+    """
+    with open('data/kmeans_model.pkl', 'rb') as f:
+        kmeans_model = pickle.load(f)
+    with open('data/pca_model.pkl', 'rb') as f:
+        pca_model = pickle.load(f)
+    with open('data/scaler.pkl', 'rb') as f:
+        scaler = pickle.load(f)
+    
+    global global_model, global_scaler
+    global_model = kmeans_model
+    global_scaler = scaler
+    return kmeans_model, pca_model, scaler
 
+def predict_clusters(new_df, preprocess_fn=preprocess_data):
+    """
+    Preprocess new data, load the trained models, and predict cluster labels.
+    """
+    try:
+        # Load saved models and scaler
+        kmeans_model, pca_model, scaler = load_trained_models()
+        
+        # Get the required columns from the scaler
+        required_columns = scaler.feature_names_in_
+        
+        # Make a copy of the input data to avoid modifications to original
+        new_df_copy = new_df.copy()
+        
+        # Debug print
+        print(f"Input data shape: {new_df_copy.shape}")
+        
+        # Preprocess the new data
+        df_encoded_new, _, _ = preprocess_fn(new_df_copy, required_columns=required_columns)
+        
+        # Use the loaded scaler to transform the new data
+        scaled_new = scaler.transform(df_encoded_new)
+        
+        # Apply PCA transformation
+        pca_new = pca_model.transform(scaled_new)
+        
+        # Predict clusters
+        labels = kmeans_model.predict(pca_new)
+        
+        return labels
+        
+    except Exception as e:
+        print(f"Error in predict_clusters: {str(e)}")
+        raise
 
 if __name__ == '__main__':
-    # For testing the segmentation module independently
-    initial_model_training()
+    # Test with sample data
+    test_data = pd.DataFrame({
+        'CustomerID': [1, 2, 3],
+        'Gender': ['M', 'F', 'M'],
+        'CampaignChannel': ['Email', 'Social', 'Email'],
+        'CampaignType': ['Awareness', 'Conversion', 'Awareness'],
+        'AdvertisingPlatform': ['Facebook', 'Instagram', 'Twitter'],
+        'AdvertisingTool': ['Video', 'Image', 'Text'],
+        # Add other required columns with sample data
+    })
+    
+    print("Test data shape:", test_data.shape)
+    labels = predict_clusters(test_data)
+    print("Predicted clusters:", labels)
+    print("Number of predictions:", len(labels))
