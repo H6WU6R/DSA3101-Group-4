@@ -75,7 +75,7 @@ DSA3101-Group-Project
 │   │   └── B1_dataclean.py
 │   │
 │   ├── B2-Campaign-Optimization/
-│   │   └── B2_main.md
+│   │   └── B2.md
 │   │
 │   ├── B3-Measuring-Campaign-ROI/
 │   │   ├── B3_main.py
