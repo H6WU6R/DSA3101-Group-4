@@ -22,6 +22,7 @@ extract_layout = html.Div(
         'textAlign': 'center'
     },
     children=[
+        dcc.Store(id='uploaded-data-store'),  # Add this line at the top of children
         top_bar("extract"),
         html.H1("Update Segmentation", style={'marginBottom': '20px'}, className="card-like"),
         # Wrap the upload prompt and dcc.Upload in a card-like container.
@@ -36,8 +37,8 @@ extract_layout = html.Div(
                         dcc.Upload(
                             id='upload-data',
                             children=html.Div([
-                                'Drag and Drop or ',
-                                html.A('Select a File', style={'color': PRIMARY_COLOR})
+                                'Drag and Drop or Select a File',
+                                html.A('', style={'color': PRIMARY_COLOR})
                             ]),
                             style={
                                 'height': '60px',
@@ -111,26 +112,36 @@ def register_callbacks(app):
         return ""
 
     @app.callback(
-        Output('output-div', 'children'),
+        [Output('output-div', 'children'),
+         Output('uploaded-data-store', 'data')],
         [Input('update-data-btn', 'n_clicks')],
         [State('upload-data', 'contents'),
          State('upload-data', 'filename')]
     )
     def update_segmentation(n_clicks, contents, filename):
-        if n_clicks == 0:
-            return "Please upload new user data (CSV) and click 'Start Predict' to see segmentation results."
+        if contents is None:
+            return "No new data uploaded.", None
         
-        if contents is not None:
-            new_df = segmentation.parse_contents(contents, filename)
-            if new_df is None:
-                return "Error reading uploaded file."
-        else:
-            return "No new data uploaded."
+        # Parse and process the data
+        new_df = segmentation.parse_contents(contents, filename)
+        if new_df is None:
+            return "Error reading uploaded file.", None
         
+        # Get predictions and add to dataframe
+        new_labels = segmentation.predict_clusters(new_df)
+        new_df['Cluster_Label'] = new_labels
+        
+        # Store the processed data
+        stored_data = new_df.to_dict('records')
+        
+        # Create visualizations
         # Get predictions for new data
         new_labels = segmentation.predict_clusters(new_df)
         
-        # Create DataFrame with cluster labels
+        # Add cluster labels to dataframe
+        new_df['Cluster_Label'] = new_labels
+        
+        # Create DataFrame with cluster labels for visualization
         cluster_counts = pd.Series(new_labels).value_counts().sort_index().reset_index()
         cluster_counts.columns = ["cluster", "count"]
         
@@ -158,8 +169,7 @@ def register_callbacks(app):
         summary_text = f"Total new customers analyzed: {len(new_labels)}\n\n"
         summary_text += "Cluster Distribution:\n"
         for _, row in cluster_counts.iterrows():
-            percentage = (row['count'] / len(new_labels)) * 100
-            summary_text += f"Cluster {row['cluster']}: {row['count']} customers ({percentage:.1f}%)\n"
+            summary_text += f"Cluster {row['cluster']}: {row['count']} customers\n"
         
         # Return layout with visualizations
         return html.Div([
@@ -167,7 +177,7 @@ def register_callbacks(app):
             html.Div(
                 children=[
                     html.P(summary_text, 
-                        style={'whiteSpace': 'pre-line', 'textAlign': 'center', 'marginBottom': '20px'}),
+                        style={'whiteSpace': 'pre-line', 'textAlign': 'center', 'marginBottom': '10px'}),
                 ],
                 className="statistics-card",
                 style={'marginBottom': '20px', 'padding': '20px', 'width': 'auto'}
@@ -194,7 +204,7 @@ def register_callbacks(app):
                 ],
                 style={'display': 'flex', 'justifyContent': 'center', 'alignItems': 'flex-start'}
             )
-        ])
+        ]), stored_data
 
 if __name__ == '__main__':
     from dash import Dash
