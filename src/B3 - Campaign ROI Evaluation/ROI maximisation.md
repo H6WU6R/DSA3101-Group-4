@@ -100,13 +100,7 @@ cluster_summary = grouped.groupby('cluster').agg({
 })
 print(cluster_summary)
 ```
-T  monetary_value  frequency     recency  predicted_1yr_clv
-cluster                                                                     
-0        222.16875      109.529478  17.589063  155.722656        1765.395226
-1          7.00000      192.121672  39.333333    6.833333      159200.772094
-2         12.40000      153.763760  25.400000   11.933333       82903.317123
-3          1.50000      143.872156  20.500000    1.500000      339078.861420
-4         39.91954      153.823798  21.712644   39.551724       26879.368558
+<img width="590" alt="Screenshot 2025-03-31 at 13 04 48" src="https://github.com/user-attachments/assets/b8e2dfe0-30db-4bba-800b-91a82a6f45d8" />
 
 From the statistical and graphical distribution of customer segments, we can see their is a generally good distinction across segments, though each segment can have a bit of variability. Let us interpret the segmentation results below.
 
