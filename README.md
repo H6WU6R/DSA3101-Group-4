@@ -241,10 +241,60 @@ This section contains a list of processed datasets for each of the CSV files sta
   |:---|:---|:---:|:---|:---:|
   | |  |           |             |          |
   
-  2. 
+  2.`cards_data.csv` 
   | Field Name | Description | Data Type | Allowed Values | Example |
-  |:---|:---:|:---|:---|:---:|
-  |            |           |           |             |          |
+  |:---|:---|:---|:---|:---:|
+  | `id`|Unique identifier for the card record| int64| Positive integer| 1001|
+| `client_id`| Identifier linking the card to a customer| int64| Positive integer| 17490|
+| `card_brand`       | Brand of the card (e.g., Visa, MasterCard)                         | object    | Visa, MasterCard, Amex, Discover| Visa |
+| `card_type`        | Type of card issued (credit, debit, prepaid)                       | object    | Credit, Debit, Debit (Prepaid)| Credit             |
+| `card_number`      | card number for each card| int64    | Positive integer              | 4336733185475861 |
+| `expires`          | Expiration date of the card                                        | object    | Valid date in MM/YYYY format  | 02/2020     |
+| `cvv`              | Card Verification Value (security code)                           | int64     | 3-digit number| 123                  |
+| `has_chip`         | Indicates whether the card is equipped with a chip             | object      | YES, NO| YES |
+| `num_cards_issued` | Total number of cards issued to the customer                        | int64     | Non-negative integer | 2   |
+| `credit_limit`     | Maximum credit available on the card for credit card, deposit amount for debit and prepaid card      | float64   | Positive number                      | 5000.00              |
+| `acct_open_date`   | Date the card account was opened                                   | object    | Valid date in MM/YYYY format    | 04/2014  |
+| `year_pin_last_changed` | Year when the card PIN was last updated                        | int64     | Positive integer| 2008 |
+| `card_on_dark_web` | Indicator if the card details were found on the dark web             | object    | YES, NO | YES|
+
+
+3.`transactions_part1.csv` and `transactions_part2.csv`
+  | Field Name | Description | Data Type | Allowed Values | Example |
+  |:---|:---|:---|:---|:---:|
+  | `id`           | Unique identifier for the transaction                              | int64     | Positive integer                         | 7475327               |
+| `date`         | Timestamp when the transaction occurred                             | object    | Valid date/time format | "2010-01-01 00:01:00"  |
+| `client_id`    | Identifier of the customer who made the transactions| int64     | Positive integer| 561|
+| `card_id`      | Identifier for the card used in the transaction                        | int64     | Positive integer| 2972|
+| `amount`       | Transaction amount in US dollar                                 | object   | Positive and negative numbers with dollar sign | $200.00            |
+| `use_chip`     | Indicates if the transaction used chip authentication                  | object      | Swipe Transaction, Online Transaction, Chip Transaction | Swipe Transaction|
+| `merchant_id`  | Unique identifier for the merchant involved                           | int64     | Positive integer                         | 61195|
+| `merchant_city`| City where the merchant is located or "ONLINE" | object    | String city names| Canton|
+| `merchant_state`| State or region of the merchant | object    | String state abbreviation name | NY|
+| `zip`| Merchant’s ZIP or postal code| float64    | Valid ZIP code format                    | 47805.0 |
+| `mcc` | Merchant Category Code representing the business type                  | int64     | Standard MCC (4 digits) | 5411                  |
+| `errors`       | Error codes or messages related to the transaction (if applicable)       | object    | Strings indicating the error status or null| Insufficient Balance |
+
+
+4.`users_data.csv`
+  | Field Name | Description | Data Type | Allowed Values | Example |
+  |:---|:---|:---|:---|:---:|
+  | `id`             | Unique identifier for the user                                      | int64     | Positive integer | 825                |
+| `current_age`    | Age of the customer at the time of data collection                    | int64     | Positive integer                          | 53                  |
+| `retirement_age` | Expected or actual retirement age of the customer                      | int64     | Positive integer | 67                 |
+| `birth_year`     | Year when the customer was born | int64     | Four-digit year                           | 1966                 |
+| `birth_month`    | Month when the customer was born (numeric or abbreviated)               | int64    | Positive integer        | 7                    |
+| `gender`         | Gender of the customer                                               | object    | Male, Female        | Female             |
+| `address`        | Residential address of the customer                                  | object    | String of addresses| "9620 Valley Stream Drive" |
+| `latitude`       | Latitude coordinate of the customer's address                        | float64   | -90 to 90                                  | 41.55            |
+| `longitude`      | Longitude coordinate of the customer's address                       | float64   | -180 to 180                                | -122.64|
+| `per_capita_income`| Per capita income of the customer                                   | object   | Positive number with dollar sign | $26790|
+| `yearly_income`  | Annual income of the customer                                         | object   | Positive number with dollar sign| $59696|
+| `total_debt`     | Total debt owed by the customer                                       | object   | Non-negative number Positive number with dollar sign| $222735|
+| `credit_score`   | Credit score of the customer                                          | int64     | Positive integer| 772 |
+| `num_credit_cards`| Number of credit cards owned by the customer | int64     | Non-negative integer | 3 |
+
+
 
   3. `clv_predictions.csv`
 
