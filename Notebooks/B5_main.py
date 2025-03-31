@@ -46,7 +46,8 @@ def data_preprocessing(churn_path, seg_path):
                     how='inner'
                 )
     test=test.drop_duplicates()
-
+    print("Merge customer churn dataset with segmentation dataset.")
+    
     # Spliting label
     X_train=train.drop(["Exited", "Income_bin"], axis=1)
     y_train=train["Exited"].astype("category")
@@ -64,6 +65,7 @@ def data_preprocessing(churn_path, seg_path):
     # Using SMOTE to solve imbalanced data
     smote = SMOTE(random_state=42)
     X_train, y_train = smote.fit_resample(X_train, y_train)
+    print("Use SMOTE to solve the problem of imbalanced data")
     
     return X_train, X_test, y_train, y_test
 
@@ -111,7 +113,7 @@ def model_evaluation(models, X_test, y_test, scaler):
     results_df = pd.DataFrame(results, columns=['Model', 'Accuracy', 'ROC-AUC','F1 Score'])
     print(results_df)
     best_model = results_df.loc[results_df['Accuracy'].idxmax()]
-    print(f"Best Model: {best_model['Model']} with Accuracy: {best_model['Accuracy']}")
+    print(f"Best model for customer churn prediction: {best_model['Model']} with accuracy: {best_model['Accuracy']}")
 
 
 def main():
