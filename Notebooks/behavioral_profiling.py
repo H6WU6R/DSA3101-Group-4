@@ -904,7 +904,7 @@ def get_segment_profile_data(df: pd.DataFrame) -> Dict[int, Dict[str, Any]]:
     return profile_cards
 
 
-def run_main():
+def main():
     """
     Main function to run the entire behavioral profiling pipeline.
     
@@ -925,7 +925,5 @@ def run_main():
     
     return profile_data
 
-
-
-profile_data = run_main()
-print(profile_data) 
+if __name__ == "__main__":
+    main()
