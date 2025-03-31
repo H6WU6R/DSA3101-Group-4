@@ -1,5 +1,8 @@
-from dash import dcc, html
+from dash import dcc, html, callback, Input, Output, State
 from pages.topbar import top_bar
+import segmentation  # Import segmentation module functions from src
+import plotly.express as px
+import pandas as pd
 
 # Theme Colors
 BACKGROUND_COLOR = "#FFFFFF"
@@ -20,34 +23,51 @@ extract_layout = html.Div(
     },
     children=[
         top_bar("extract"),
-        html.H1("Data Extraction", style={'marginBottom': '20px'}),
+        html.H1("Update Segmentation", style={'marginBottom': '20px'}, className="card-like"),
         # Wrap the upload prompt and dcc.Upload in a card-like container.
         html.Div(
             children=[
-                html.P(
-                    "Upload new user data (CSV) to predict clusters for new customers:",
-                    style={'fontSize': '18px'}
-                ),
-                dcc.Upload(
-                    id='upload-data',
-                    children=html.Div([
-                        'Drag and Drop or ',
-                        html.A('Select a File', style={'color': PRIMARY_COLOR})
-                    ]),
-                    style={
-                        'height': '60px',
-                        'lineHeight': '60px',
-                        'borderWidth': '1px',
-                        'borderStyle': 'dashed',
-                        'borderRadius': '12px',
-                        'margin': '20px auto',
-                        'backgroundColor': "#ced897",
-                        'color': TEXT_COLOR
-                    },
-                    multiple=False
+                html.Div(
+                    children=[
+                        html.P(
+                            "Upload new user data (CSV) to predict clusters for new customers:",
+                            style={'fontSize': '18px'}
+                        ),
+                        dcc.Upload(
+                            id='upload-data',
+                            children=html.Div([
+                                'Drag and Drop or ',
+                                html.A('Select a File', style={'color': PRIMARY_COLOR})
+                            ]),
+                            style={
+                                'height': '60px',
+                                'lineHeight': '60px',
+                                'borderWidth': '1px',
+                                'borderStyle': 'dashed',
+                                'borderRadius': '12px',
+                                'margin': '20px auto',
+                                'backgroundColor': "#ced897",
+                                'borderColor': '#ced897',
+                                'color': TEXT_COLOR,
+                                'width': '80%',
+                                'cursor': 'pointer',
+                            },
+                            multiple=False
+                        ),
+                        # Add new div for file information
+                        html.Div(
+                            id='file-info',
+                            style={
+                                'marginTop': '10px',
+                                'fontSize': '14px',
+                                'color': TEXT_COLOR
+                            }
+                        )
+                    ],
+                    className="statistics-card",
+                    style={'marginBottom': '20px', 'marginTop': '20px', 'borderRadius': '12px'}
                 )
-            ],
-            className="card-like"  # This class should be defined in your CSS file.
+            ]
         ),
         html.Br(),
         html.Button("Start Predict", id="update-data-btn", n_clicks=0, style={
@@ -57,7 +77,7 @@ extract_layout = html.Div(
             'padding': '10px 20px',
             'fontSize': '16px',
             'borderRadius': '5px',
-            'marginTop': '20px'
+            'cursor': 'pointer',
         }),
         html.Br(),
         html.Div(id="output-div", style={
@@ -71,7 +91,25 @@ extract_layout = html.Div(
 
 def register_callbacks(app):
     from dash.dependencies import Input, Output, State
-    import segmentation  # Import segmentation logic from src
+    from datetime import datetime
+    import plotly.express as px
+    import pandas as pd
+
+    # Add new callback for file info
+    @app.callback(
+        Output('file-info', 'children'),
+        [Input('upload-data', 'contents')],
+        [State('upload-data', 'filename')]
+    )
+    def update_file_info(contents, filename):
+        if contents is not None:
+            upload_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            return [
+                html.P(f"Uploaded file: {filename}", style={'margin': '5px'}),
+                html.P(f"Upload time: {upload_time}", style={'margin': '5px'})
+            ]
+        return ""
+
     @app.callback(
         Output('output-div', 'children'),
         [Input('update-data-btn', 'n_clicks')],
@@ -80,24 +118,87 @@ def register_callbacks(app):
     )
     def update_segmentation(n_clicks, contents, filename):
         if n_clicks == 0:
-            return "Please upload new user data (CSV) and click 'Update Data' to see its segmentation and marketing recommendation."
+            return "Please upload new user data (CSV) and click 'Start Predict' to see segmentation results."
+        
         if contents is not None:
             new_df = segmentation.parse_contents(contents, filename)
             if new_df is None:
                 return "Error reading uploaded file."
         else:
-            new_df = segmentation.initial_model_training()[0].copy()
-        new_df = segmentation.preprocess_data(new_df)
-        new_scaled, segmentation.global_scaler, _ = segmentation.scale_data(new_df, scaler=segmentation.global_scaler)
-        segmentation.global_model.partial_fit(new_scaled)
-        new_labels = segmentation.global_model.predict(new_scaled)
-        output_text = ""
-        for i, label in enumerate(new_labels):
-            rec = segmentation.marketing_recs.get(label, "No recommendation available.")
-            output_text += f"Data row {i+1} belongs to Cluster {label}.\nRecommendation: {rec}\n\n"
-        return output_text
+            return "No new data uploaded."
+        
+        # Get predictions for new data
+        new_labels = segmentation.predict_clusters(new_df)
+        
+        # Create DataFrame with cluster labels
+        cluster_counts = pd.Series(new_labels).value_counts().sort_index().reset_index()
+        cluster_counts.columns = ["cluster", "count"]
+        
+        # Create bar chart
+        fig_bar = px.bar(
+            cluster_counts,
+            x="cluster",
+            y="count",
+            title="New Customer Distribution by Cluster",
+            labels={"cluster": "Cluster", "count": "Number of Customers"},
+            text="count"
+        )
+        fig_bar.update_traces(textposition='outside')
+        
+        # Create pie chart
+        fig_pie = px.pie(
+            cluster_counts,
+            values="count",
+            names="cluster",
+            title="Cluster Distribution (%)",
+            hole=0.3
+        )
+        
+        # Generate text summary
+        summary_text = f"Total new customers analyzed: {len(new_labels)}\n\n"
+        summary_text += "Cluster Distribution:\n"
+        for _, row in cluster_counts.iterrows():
+            percentage = (row['count'] / len(new_labels)) * 100
+            summary_text += f"Cluster {row['cluster']}: {row['count']} customers ({percentage:.1f}%)\n"
+        
+        # Return layout with visualizations
+        return html.Div([
+            # Summary card at the top
+            html.Div(
+                children=[
+                    html.P(summary_text, 
+                        style={'whiteSpace': 'pre-line', 'textAlign': 'center', 'marginBottom': '20px'}),
+                ],
+                className="statistics-card",
+                style={'marginBottom': '20px', 'padding': '20px', 'width': 'auto'}
+            ),
+            # Container for charts side by side
+            html.Div(
+                children=[
+                    # Bar chart
+                    html.Div(
+                        children=[
+                            dcc.Graph(figure=fig_bar, config={'displayModeBar': False}),
+                        ],
+                        className="statistics-card",
+                        style={'width': '30%', 'display': 'inline-block', 'marginRight': '2%'}
+                    ),
+                    # Pie chart
+                    html.Div(
+                        children=[
+                            dcc.Graph(figure=fig_pie, config={'displayModeBar': False}),
+                        ],
+                        className="statistics-card",
+                        style={'width': '30%', 'display': 'inline-block'}
+                    ),
+                ],
+                style={'display': 'flex', 'justifyContent': 'center', 'alignItems': 'flex-start'}
+            )
+        ])
 
 if __name__ == '__main__':
     from dash import Dash
     test_app = Dash(__name__, assets_folder='../Resources', suppress_callback_exceptions=True)
     register_callbacks(test_app)
+    test_app.layout = extract_layout
+    test_app.run_server(debug=True)
