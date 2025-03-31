@@ -16,11 +16,10 @@ def top_bar(current_page):
         'backgroundColor': BUTTON_COLOR,
         'color': 'white',
         'border': 'none',
-        'padding': '10px 15px',
+        'padding': '10px 10px',
         'fontSize': '14px',
         'borderRadius': '5px',
         'textDecoration': 'none',
-        'marginLeft': '10px',
         'cursor': 'pointer'
     }
     active_style = base_style.copy()
@@ -33,7 +32,7 @@ def top_bar(current_page):
     return html.Div(
         style={
             'width': '100%',
-            'padding': '10px 20px',
+            'padding': '0 10px',
             'backgroundColor': BACKGROUND_COLOR,
             'display': 'flex',
             'justifyContent': 'space-between',
@@ -41,31 +40,32 @@ def top_bar(current_page):
             'position': 'fixed',
             'top': '0',
             'left': '0',
+            'height': '70px',
             'zIndex': '1000',
             'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'
         },
         children=[
             html.Div(
-                style={'display': 'flex', 'alignItems': 'center'},
+                style={'display': 'flex', 'alignItems': 'center', 'width': '250px'},
                 children=[
                     html.Img(
                         src="/assets/App Logo.webp",
                         style={'width': '50px', 'height': '50px', 'borderRadius': '50%', 'marginRight': '10px'}
                     ),
-                    html.H2("Customer Segmentation App", style={'margin': '0', 'color': TEXT_COLOR, 'fontSize': '20px'})
+                    html.H1("Customer Segmentation", style={'margin': '0', 'color': TEXT_COLOR, 'fontSize': '16px'})
                 ]
             ),
             html.Div(
-                style={'flex': '1', 'textAlign': 'right', 'marginRight': '20px', 'color': TEXT_COLOR},
+                style={'flex': '1', 'textAlign': 'center', 'color': TEXT_COLOR, 'fontSize': '16px', 'marginLeft': '25px'},
                 children=[
-                    html.H2("DSA3101 Group 4", style={'margin': '0', 'fontSize': '16px'})
+                    html.H3("DSA3101 Group 4", style={'margin': '0'})
                 ]
             ),
             html.Div(
-                style={'display': 'flex', 'alignItems': 'center'},
+                style={'display': 'flex', 'alignItems': 'center', 'gap': '10px', 'marginRight': '15px'},
                 children=[
                     nav_button("Overview", "/overview", "overview"),
-                    nav_button("Extract", "/extract", "extract"),
+                    nav_button("Update", "/extract", "extract"),
                     nav_button("Individual", "/individual", "individual")
                 ]
             )
