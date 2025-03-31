@@ -152,7 +152,28 @@ def register_callbacks(app):
             y="count",
             title="New Customer Distribution by Cluster",
             labels={"cluster": "Cluster", "count": "Number of Customers"},
-            text="count"
+            text="count",
+            color_discrete_sequence=['#6c904c']  # Match overview.py color
+        )
+        
+        # Update bar chart layout
+        fig_bar.update_layout(
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            xaxis=dict(
+                showgrid=False,
+                showline=True,
+                linecolor='#3c6454'
+            ),
+            yaxis=dict(
+                showgrid=True,
+                gridcolor='rgba(60,100,84,0.1)',
+                showline=True,
+                linecolor='#3c6454'
+            ),
+            title_x=0.5,
+            font=dict(color=TEXT_COLOR),
+            margin=dict(t=40, b=40, l=40, r=40)
         )
         fig_bar.update_traces(textposition='outside')
         
@@ -162,7 +183,17 @@ def register_callbacks(app):
             values="count",
             names="cluster",
             title="Cluster Distribution (%)",
-            hole=0.3
+            hole=0.3,
+            color_discrete_sequence=['#6c904c', '#acd42c', '#3c6454', '#ced897']  # Match overview.py colors
+        )
+        
+        # Update pie chart layout
+        fig_pie.update_layout(
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font=dict(color=TEXT_COLOR),
+            title_x=0.5,
+            margin=dict(t=40, b=40, l=40, r=40)
         )
         
         # Generate text summary
@@ -211,4 +242,4 @@ if __name__ == '__main__':
     test_app = Dash(__name__, assets_folder='../Resources', suppress_callback_exceptions=True)
     register_callbacks(test_app)
     test_app.layout = extract_layout
-    test_app.run_server(debug=True)
+    test_app.run_server(debug=True)  # Fixed the incomplete line
