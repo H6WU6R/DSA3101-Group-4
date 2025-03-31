@@ -87,20 +87,36 @@ def update_cluster_profile(selected_cluster):
     
     # Engagement Spider Chart
     patterns = profile['engagement_patterns']
-    values = [float(v.strip('%').strip(' min')) for v in patterns.values()]
-    
+    # Convert values and normalize them to 0-1 scale
+    raw_values = [float(v.strip('%').strip(' min')) for v in patterns.values()]
+    max_val = max(raw_values)
+    min_val = min(raw_values)
+    normalized_values = [(v - min_val) / (max_val - min_val) if max_val != min_val else 0.5 for v in raw_values]
+
     fig_engagement = go.Figure()
     fig_engagement.add_trace(go.Scatterpolar(
-        r=values,
+        r=normalized_values,
         theta=list(patterns.keys()),
         fill='toself',
-        name=f'Cluster {selected_cluster}'
+        name=f'Cluster {selected_cluster}',
+        line=dict(color=PRIMARY_COLOR)
     ))
-    
+
     fig_engagement.update_layout(
-        polar=dict(radialaxis=dict(visible=True, range=[0, max(values)])),
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0, 1],  # Set fixed range for normalized values
+                tickformat='.0%',  # Format as percentage
+                ticktext=['0%', '25%', '50%', '75%', '100%'],
+                tickvals=[0, 0.25, 0.5, 0.75, 1]
+            )
+        ),
+        showlegend=True,
         title='Engagement Patterns',
-        showlegend=True
+        paper_bgcolor='rgba(0,0,0,0)',  # Transparent surrounding
+        font=dict(color=TEXT_COLOR),
+        title_x=0.5  # Center title
     )
     
     # Channel Distribution Pie Chart
@@ -111,21 +127,53 @@ def update_cluster_profile(selected_cluster):
         title='Channel Distribution',
         color_discrete_sequence=['#6c904c', '#acd42c', '#3c6454', '#ced897', '#d6dcb0']
     )
-    
+    fig_channels.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(color=TEXT_COLOR),
+        title_x=0.5,
+        margin=dict(t=40, b=20, l=20, r=20)
+    )
+
+    # Campaign Distribution Pie Chart
+    campaign_data = {
+        'Promotional': 35,
+        'Seasonal': 25,
+        'Product Launch': 20,
+        'Loyalty': 20
+    }
+    fig_campaigns = px.pie(
+        values=list(campaign_data.values()),
+        names=list(campaign_data.keys()),
+        title='Campaign Distribution',
+        color_discrete_sequence=['#6c904c', '#acd42c', '#3c6454', '#ced897']
+    )
+    fig_campaigns.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(color=TEXT_COLOR),
+        title_x=0.5,
+        margin=dict(t=40, b=20, l=20, r=20)
+    )
+
+    # Update the cluster summary card
     return html.Div([
         # Cluster Summary Card
         html.Div([
             html.H3(f"Cluster {selected_cluster} Summary", 
                    style={'color': TEXT_COLOR, 'marginBottom': '15px'}),
             html.P(f"Size: {profile['size']['count']} customers ({profile['size']['percentage']})"),
-            html.P(f"Best Channel: {profile['channel_preferences']['best_channel']}"),
+            html.P(f"Best Channel: {profile['channel_preferences']['best_channel']} "
+                  f"({profile['channel_preferences']['best_channel_conversion']})",),
+            html.P(f"Best Campaign: {profile.get('campaign_preferences', {}).get('best_campaign', 'N/A')} "
+                  f"({profile.get('campaign_preferences', {}).get('best_campaign_conversion', 'N/A')})",),
             html.P(f"Conversion Rate: {profile['value_metrics']['conversion_rate']}")
         ], className="statistics-card", 
            style={'margin': '20px auto', 'maxWidth': '500px', 'padding': '20px'}),
         
         # Visualizations Grid
         html.Div([
-            # First row
+            # First row - Features and Engagement
             html.Div([
                 html.Div([
                     dcc.Graph(figure=fig_features, config={'displayModeBar': False})
@@ -135,14 +183,18 @@ def update_cluster_profile(selected_cluster):
                     dcc.Graph(figure=fig_engagement, config={'displayModeBar': False})
                 ], className="statistics-card", 
                    style={'width': '45%', 'display': 'inline-block', 'margin': '10px'})
-            ], style={'display': 'flex', 'justifyContent': 'center'}),
+            ], style={'display': 'flex', 'justifyContent': 'center', 'marginBottom': '20px'}),
             
-            # Second row
+            # Second row - Channel and Campaign Distribution
             html.Div([
                 html.Div([
                     dcc.Graph(figure=fig_channels, config={'displayModeBar': False})
                 ], className="statistics-card", 
-                   style={'width': '45%', 'margin': '20px auto'})
+                   style={'width': '45%', 'display': 'inline-block', 'margin': '10px'}),
+                html.Div([
+                    dcc.Graph(figure=fig_campaigns, config={'displayModeBar': False})
+                ], className="statistics-card", 
+                   style={'width': '45%', 'display': 'inline-block', 'margin': '10px'})
             ], style={'display': 'flex', 'justifyContent': 'center'})
         ])
     ])
