@@ -33,7 +33,7 @@ def create_profile_visualizations():
                     for k in profiles.keys()
                 ],
                 value='0',  # Default to first cluster
-                style={'width': '200px', 'margin': '20px auto'}
+                style={'width': '200px', 'margin': '20px auto', 'borderRadius': '16px'},
             )
         ]),
         
@@ -137,15 +137,10 @@ def update_cluster_profile(selected_cluster):
     )
 
     # Campaign Distribution Pie Chart
-    campaign_data = {
-        'Promotional': 35,
-        'Seasonal': 25,
-        'Product Launch': 20,
-        'Loyalty': 20
-    }
+    campaigns = profile['campaign_preferences']['distribution']
     fig_campaigns = px.pie(
-        values=list(campaign_data.values()),
-        names=list(campaign_data.keys()),
+        values=list(campaigns.values()),
+        names=list(campaigns.keys()),
         title='Campaign Distribution',
         color_discrete_sequence=['#6c904c', '#acd42c', '#3c6454', '#ced897']
     )
@@ -266,23 +261,25 @@ def update_overview(pathname):
                 color_discrete_sequence=['#6c904c']
             )
             
-            # Update layout to remove background and customize appearance
+            # Update bar chart layout
             fig_bar.update_layout(
-                plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
-                paper_bgcolor='rgba(0,0,0,0)',  # Transparent surrounding
+                height=600,  # Increased height
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
                 xaxis=dict(
-                    showgrid=False,  # Remove x-axis gridlines
-                    showline=True,   # Show x-axis line
-                    linecolor='#3c6454'  # Match text color
+                    showgrid=False,
+                    showline=True,
+                    linecolor='#3c6454'
                 ),
                 yaxis=dict(
-                    showgrid=True,   # Keep y-axis gridlines
-                    gridcolor='rgba(60,100,84,0.1)',  # Light gridlines
-                    showline=True,   # Show y-axis line
-                    linecolor='#3c6454'  # Match text color
+                    showgrid=True,
+                    gridcolor='rgba(60,100,84,0.1)',
+                    showline=True,
+                    linecolor='#3c6454'
                 ),
-                title_x=0.5,  # Center the title
-                font=dict(color=TEXT_COLOR)  # Match text color
+                title_x=0.5,
+                font=dict(color=TEXT_COLOR),
+                margin=dict(t=40, b=40, l=40, r=40)
             )
             fig_bar.update_traces(textposition='outside')  # Move text labels outside bars
             
@@ -294,7 +291,17 @@ def update_overview(pathname):
                 color_discrete_sequence=['#6c904c', '#acd42c', '#3c6454', '#ced897']
             )
             
-            # Summary cards
+            # Update pie chart layout
+            fig_pie.update_layout(
+                height=600,  # Increased height
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font=dict(color=TEXT_COLOR),
+                title_x=0.5,
+                margin=dict(t=40, b=40, l=40, r=40)
+            )
+            
+            # Summary section with improved layout
             summary_section = html.Div([
                 # Summary card
                 html.Div(
@@ -313,18 +320,28 @@ def update_overview(pathname):
                     html.Div([
                         dcc.Graph(figure=fig_bar, config={'displayModeBar': False})
                     ], className="statistics-card", 
-                       style={'width': '40%', 'display': 'inline-block', 'margin': '10px'}),
+                       style={
+                           'width': '48%',
+                           'margin': '0 10px',
+                           'display': 'inline-block',
+                           'verticalAlign': 'top'
+                       }),
                     
                     html.Div([
                         dcc.Graph(figure=fig_pie, config={'displayModeBar': False})
                     ], className="statistics-card",
-                       style={'width': '40%', 'display': 'inline-block', 'margin': '10px'})
+                       style={
+                           'width': '48%',
+                           'margin': '0 10px',
+                           'display': 'inline-block',
+                           'verticalAlign': 'top'
+                       })
                 ], style={
+                    'width': '100%',
                     'display': 'flex',
                     'justifyContent': 'center',
-                    'flexWrap': 'wrap',
-                    'gap': '20px',
-                    'marginTop': '20px'
+                    'alignItems': 'flex-start',
+                    'margin': '20px 0'
                 })
             ])
             
