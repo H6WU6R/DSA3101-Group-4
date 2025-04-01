@@ -33,7 +33,7 @@ def behavioral_data_processing(file_path=None):
     """
     
     if file_path is None:
-        file_path = '/Users/cindy/Desktop/DSA3101-Project-3/Data/A1-segmented_df.csv'
+        file_path = '/Users/cindy/Desktop/DSA3101-Project-3/src/A1-Customer-Segmentation/A1-segmented_df.csv'
     
     df = pd.read_csv(file_path)
     
@@ -71,3 +71,4 @@ def behavioral_data_processing(file_path=None):
         )
     
     return df
+
