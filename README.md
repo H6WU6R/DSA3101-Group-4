@@ -196,13 +196,28 @@ pip install -r requirements.txt
 
 ### 2.4 GPG Decryption & Sensitive Data Encryption Workflow  
 
-This project securely processes sensitive data by:
--   **Decrypting `.gpg` files** using GnuPG.
--   **Encrypting sensitive columns** (e.g. `card_number` and `cvv`) in CSV files using symmetric encryption (Fernet).
+In this setup, you have a dedicated Python file (`Decry-Encryptor.py`) that performs the following tasks:
 
-The decrypted CSV files are overwritten with the encrypted version if any sensitive columns are found.
+-  **Decryption:**  
+   It scans the `data/raw` folder for all encrypted files (with a `.gpg` extension) and decrypts them using a GPG passphrase.
 
-### Install `GnuPG`
+-  **Sensitive Data Encryption:**  
+   If a decrypted file is a CSV containing sensitive columns (like `card_number` and `cvv`), the script encrypts these columns using Fernet encryption (from the `cryptography` library) and then overwrites the CSV with the processed data.
+
+This file is meant to be run **before** you execute your main application (i.e. before `main.py` in your `src/` folder). This ensures that the raw data in `data/raw` is decrypted and sensitive columns are secured, the main application can access the encrypted raw data for training.  
+
+#### **Purpose of the Process**
+
+- **Data Security:**  
+  The decryption step ensures that even if the encrypted raw data files are uploaded to GitHub, they remain secure and are only decrypted at runtime. This ensures the data security in the process of sharing and accessing.
+  
+- **Sensitive Data Protection:**  
+  Once decrypted, the script automatically encrypts sensitive columns (such as card numbers and CVVs) using the Fernet encryption method. This protects sensitive customer information before it is used by the analytic modules.
+
+
+---
+
+1. **Install `GnuPG`**
 
 GnuPG is required for decrypting the `.gpg` files.  
 
@@ -214,20 +229,41 @@ GnuPG is required for decrypting the `.gpg` files.
   ```bash
   brew install gnupg
   ```
+- **Using Ubuntu/Debian**:
+  ```bash
+  sudo apt-get install gnupg
+   ```
+  
 #### Windows
 - **Using the Gpg4win Installer:**  
   1. Download the installer from [https://www.gpg4win.org/download.html](https://www.gpg4win.org/download.html).
   2. Run the installer and follow the prompts.
+ 
+
+
+2. **Run the Pre-processing Script:**
+    
+   From the project root directory, run:
+   
+   ```bash
+   python -m src.Decry-Encryptor   
+   ```
+   This step will decrypt all encrypted files in `data/raw/` and process any CSV files to secure sensitive columns.
+
+#### Security Note
+
+- For demo purposes, the GPG passphrase and Fernet encryption key are hardcoded in the `Decry-Encryptor.py` script. **For production, use secure methods (such as environment variables) to handle sensitive credentials.**
+
 
 ### 2.5 Run the program
 
-2. **Run the main program**
+1. **Run the main program**
 
 ```bash
 python -m src.main
 ```
 
-3. **Deactivate your virtual environment**
+2. **Deactivate your virtual environment**
 
 ```bash
 deactivate
