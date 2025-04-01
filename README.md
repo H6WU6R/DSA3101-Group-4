@@ -65,7 +65,6 @@ DSA3101-Group-Project
 │   │   └── A4_dataclean.py
 │   │
 │   ├── A5-Segmentation-Updates/
-│   │   ├── A5_main.py
 │   │   ├── app.py                        # Main Dash application entry point
 │   │   ├── assets/                       # Static assets for styling and images
 │   │   │   ├── App Logo.webp             # Application logo
