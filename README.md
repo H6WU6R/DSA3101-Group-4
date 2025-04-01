@@ -196,6 +196,17 @@ deactivate
 ## 3. Deployment
 ### 3.1 Web Application
 
+We used Dash to create a web application, which consists of the following:
+
+- **Interactive Visualizations**  
+  All the important visualizations designed in segmentation are integrated into the web application, allowing users to explore customer segmentation, behavioral patterns, and campaign performance interactively.
+
+- **Executive Dashboard**  
+  An executive dashboard is provided to track the performance of customer segmentation and marketing campaigns, based on our chosen set of features.  
+
+- **User Interface for Individual Customer Analysis**  
+  An interface for users to analyze individual customer profiles, including personalized recommendations and behavioral insights.  
+
 ### 3.2 Docker Instructions
 
 To build and run the necessary Docker containers, follow the steps below:
