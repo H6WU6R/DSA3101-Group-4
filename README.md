@@ -271,7 +271,11 @@ Please refer to [??] for detailed documentation of the processing pipelines and 
   2. Carry out feature engineering by computing essential features for predicting customer lifetime value, including Recency, Frequency, Monetary_value, T.
      
 #### 4.2.4 Bank Customer Churn Dataset
-
+1. Dropped columns that are not relevant, have privacy issues, or are perfectly correlated with our label `Exited`: `RowNumber`, `CustomerId`,`Surname`, and `Complain`.
+2. Created a new feature called `Income_bin` from `EstimatedSalary`, which assign customers to their corresponding income interval. Then, merged with `digital_marketing_campaign_dataset.csv` after segmentation on `Age`, `Gender`, and `Income_bin`.
+3. Applied Ordinal Ecoding to transform categorical features: `Gender`,`Geography`, `Card Type`.
+4. Used SMOTE to synthesize a more balanced traning data
+   
 ### 4.3 Data Dictionaries
 This section contains a list of processed datasets for each of the CSV files stated in Section 4.2, in order of appearance.
    1. `digital_marketing_campaign_dataset.csv`
