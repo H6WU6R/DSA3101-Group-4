@@ -1,0 +1,80 @@
+:root {
+    --primary-color: #acd42c;
+    --button-color: #6c904c;
+    --body--background-color: #eff1f3;
+    --body-text-color: #3c6454;
+    --header-text-color: #3c6454;
+  }
+
+.card-like {
+    display: inline-block;        /* allow auto-sizing by content */
+    width: auto;                  /* ensure no forced width */
+    white-space: nowrap;          /* prevent wrapping if you want a single line */
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #acd42c;
+    font-weight: 700;
+    color: #FFFFFF; /* TEXT_COLOR */
+}
+
+/* statistics-card.css */
+.statistics-card {
+    display: inline-block;        /* allow auto-sizing by content */
+    width: auto;  
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .statistics-card h3,
+  .statistics-card p {
+    margin: 0 0 0 0;
+    font-size: 16px;
+    color: #3c6454; /* TEXT_COLOR */
+  }
+
+/* Custom Tabs Styling */
+.custom-tabs {
+    border-bottom: none;
+    padding-left: 0px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.custom-tab {
+    color: #3c6454 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 16px;
+    border-bottom: none !important;
+    background-color: #FFFFFF !important;
+    padding: 12px !important;
+    font-family: "Arial", sans-serif;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.custom-tab:hover {
+    cursor: pointer;
+}
+
+.custom-tab--selected {
+    color: #FFFFFF !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    background-color: #acd42c !important;
+}
+
+/* Tab content transition */
+#overview-tabs-content {
+    transition: opacity 0.3s ease;
+    padding-top: 20px;
+}
