@@ -120,7 +120,10 @@ DSA3101-Group-Project
 ├── docs/
 │   └── README.md
 │
-├── database.py
+├── database
+│   ├── populate_db.py
+│   ├── access_database.py
+│   └── README.md
 ├── requirements.txt
 ├── Dockerfile
 ├── api.py
