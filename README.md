@@ -237,23 +237,12 @@ This integration allows the application to deliver more accurate and intelligent
 
 ### Technical Details and How to Use
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/H6WU6R/DSA3101-Group-4.git
-   cd DSA3101-Group-4/src/A5_Segmentation_Updates
-   ```
-
-2. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run the Application**
+1. **Run the Application**
    ```bash
    python app.py
    ```
 
-4. **Access the Webapp**
+2. **Access the Webapp**
    Open your web browser and navigate to `http://127.0.0.1:8050/`
 
 ### File Structure
