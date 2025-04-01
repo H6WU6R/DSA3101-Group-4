@@ -235,9 +235,13 @@ Please refer to [??] for detailed documentation of the processing pipelines and 
 
 
 #### 4.2.2 Financial Transactions Dataset
-
+1. Carry out data cleaning on `cards_data.csv`, convert `credit_limit` to numeric value by removing \$ in the beginning. Unnecessary columns like `card_number`, `cvv` and etc have been dropped to reduce dimensionality. Data aggregation has been done to show each customer's total credit limit, debit and prepaid savings. Resultant dataset saved temporarily as `cards_new`.
+2. Carry out data cleaning on `transactions_part1.csv` and `transactions_part2.csv`, convert `amount` to numeric value by removing \$ in the beginning, convert `date` to datetime data types. Erroneous transactions are removed.
+3. Carry out data cleaning on `users_data.csv`, change gender to binary representation, drop unnecessary columns like `address` and `per_capita_income`. Columns like `per_capita_income`, `yearly_income`, `total_debt` are converted to numeric value by removing \$ in the beginning. Merge with `cards_new`, using correlation matrix to remove columns that are positively (i.e. `id` and `client_id`) or negatively (i.e. `current_age` and `birth_year`) related. Resultant dataset saved temporarily as `final_cards`.
+4. All 3 datasets are merged and saved as `final_data.csv`.
+5. Manual grouping of mcc codes have been done and each mcc is assigned with a category, the data is saved as `output.csv`. This dataset is then joined with `final_data.csv`, to illustrate how much a user spend in each category. KNNImputer is used to compute the missing values of the spending use demographic data. Thereafter, we had come out with our own set of label construction rules, constructing ordinal label for each financial product that we have derived from the datasets. Resultant dataset saved as `imputed_data_with_label.csv`.
 #### 4.2.3 Transactions and Customer Insights Dataset
-  1. Carry out data cleaning on Online_Transactions.csv to ensure unique rows of transactions and appropriate data type. Only relevant columns are kept. Join on CustomersData.xlsx by CustomerID, the resultant dataset is saved as clv_prediction.csv
+  1. Carry out data cleaning on `Online_Transactions.csv` to ensure unique rows of transactions and appropriate data type. Only relevant columns are kept. Join on `CustomersData.xlsx` by CustomerID, the resultant dataset is saved as `clv_prediction.csv`
   2. Carry out feature engineering by computing essential features for predicting customer lifetime value, including Recency, Frequency, Monetary_value, T.
      
 #### 4.2.4 Bank Customer Churn Dataset
@@ -369,4 +373,7 @@ This section contains a list of processed datasets for each of the CSV files sta
 | Satisfaction Score | Customer satisfaction score (1-5)                        | int64     | 1, 2, 3, 4, 5               | 2                |
 | Card Type          | Type of credit card held                                 | object    | DIAMOND, GOLD, SILVER, PLATINUM | DIAMOND       |
 | Point Earned       | Reward points earned by the customer                     | int64     | Positive integer            | 464              |
+
+  8. `mcc_code.json`
+     - A dictionary with its key being the merchant industry code, the value being the name of the corresponding industry.
 
