@@ -189,7 +189,7 @@ def main():
     # Remove the 'client_id' column from the final DataFrame
     final.drop(columns=['client_id','id'], inplace=True)
     # Uncomment and Export the final DataFrame to a CSV file
-    #final.to_csv("./data/processed/B1/final_data.csv", index=False)
+    final.to_csv("./data/processed/final_data.csv", index=False)
 
     print("Final dataset for recommendation done!\n")
 
