@@ -207,23 +207,67 @@ deactivate
 ## 3. Deployment
 ### 3.1 Web Application
 
-We used Dash to create a web application, which consists of the following:
+Based on the content of the files from the `src/A5_Segmentation_Updates` directory, here is the updated section for the README file of your webapp:
 
-- **Interactive Visualizations**  
-  All the important visualizations designed in segmentation are integrated into the web application, allowing users to explore customer segmentation, behavioral patterns, and campaign performance interactively.
+---
 
-- **Executive Dashboard**  
-  An executive dashboard is provided to track the performance of customer segmentation and marketing campaigns, based on our chosen set of features.  
+### 3.1 Web Application
 
-- **User Interface for Individual Customer Analysis**  
-  An interface for users to analyze individual customer profiles, including personalized recommendations and behavioral insights.
+We used Dash to create a robust and interactive web application with the following features:
 
-- **Integration with Google AI API**  
-  The web application leverages Google AI API to enhance its capabilities, including:
-  - **Natural Language Processing (NLP)**: Used for analyzing customer profile and extracting insights.
-  - **Prediction Models**: Used to improve segmentation accuracy and provide real-time recommendations.
+- #### Interactive Visualizations
+  All the significant visualizations designed in the segmentation process are integrated into the web application, allowing users to explore customer segmentation, behavioral patterns, and campaign performance interactively. These visualizations include bar charts, pie charts, and other graphical representations that provide clear insights into the data.
+
+- #### Executive Dashboard
+  An executive dashboard is provided to track the performance of customer segmentation and marketing campaigns. This dashboard offers an overview of key metrics, helping executives make informed decisions based on the chosen set of features.
+
+- #### User Interface for Individual Customer Analysis
+  The web application includes an interface for users to analyze individual customer profiles. This interface provides personalized recommendations and behavioral insights, enabling targeted marketing strategies and enhancing customer engagement.
+
+- #### Data Upload and Segmentation Updates
+  Users can upload new customer data (in CSV format) to the application to predict clusters for new customers. The application provides an easy-to-use interface for uploading data, viewing file information, and starting the prediction process. It also handles data preprocessing and integrates the results seamlessly into the segmentation model.
+
+- #### Integration with AI Models
+  The web application leverages AI models to enhance its capabilities, including:
+
+  - Analyzing customer profiles and extracting insights.
+  - Improving segmentation accuracy and provide real-time recommendations.
 
 This integration allows the application to deliver more accurate and intelligent insights, improving the overall user experience.
+
+### Technical Details and How to Use
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/H6WU6R/DSA3101-Group-4.git
+   cd DSA3101-Group-4/src/A5_Segmentation_Updates
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Run the Application**
+   ```bash
+   python app.py
+   ```
+
+4. **Access the Webapp**
+   Open your web browser and navigate to `http://127.0.0.1:8050/`
+
+### File Structure
+
+- `app.py`: Main application file setting up the Dash app and routing.
+- `pages/`: Contains different pages of the web application:
+  - `home.py`: The home page with an overview and start button.
+  - `extract.py`: Page for uploading new customer data and updating segmentation.
+  - `overview.py`: Provides an overview layout with visualizations and data loading for customer segmentation.
+  - `individual_dashboard.py`: Provides the layout and callbacks for the individual dashboard page.
+- `src/`: Contains the source code for various functionalities:
+  - `segmentation.py`: Functions for data preprocessing and segmentation.
+  - `prompts.py`: System and user prompts for generating marketing recommendations.
+- `assets/style.css`: Custom CSS for styling the web application.
 
 ### 3.2 Docker Instructions
 
