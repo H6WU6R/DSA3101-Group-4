@@ -235,7 +235,7 @@ We used Dash to create a robust and interactive web application with the followi
 
 This integration allows the application to deliver more accurate and intelligent insights, improving the overall user experience.
 
-### Technical Details and How to Use
+#### Technical Details and How to Use
 
 1. **Run the Application**
    ```bash
@@ -245,7 +245,7 @@ This integration allows the application to deliver more accurate and intelligent
 2. **Access the Webapp**
    Open your web browser and navigate to `http://127.0.0.1:8050/`
 
-### File Structure
+#### File Structure
 
 - `app.py`: Main application file setting up the Dash app and routing.
 - `pages/`: Contains different pages of the web application:
