@@ -1,9 +1,9 @@
-from dataclean import main as clean_main
-from data_Imputation_and_label_construction import main as label_main
-from trainmodel import main as train_main
+from B1_Predicting_Customer_Preferences.dataclean import main as clean_main
+from B1_Predicting_Customer_Preferences.data_Imputation_and_label_construction import main as label_main
+from B1_Predicting_Customer_Preferences.trainmodel import main as train_main
 
 
-if __name__ == "__main__":
+def main():
     print("----- Running data cleaning for recommendation system -----\n")
     clean_main()
     
@@ -15,3 +15,6 @@ if __name__ == "__main__":
     
     
     print("\nAll recommendation functions executed successfully!")
+
+if __name__ == "__main__":
+    main()

@@ -224,7 +224,7 @@ def main():
         return best_params, grid_results
 
     # Load imputed data
-    df_imputed_original = pd.read_csv("./data/processed/B1/imputed_data_with_label.csv")
+    df_imputed_original = pd.read_csv("./data/processed/imputed_data_with_label.csv")
 
     # List of target columns of imputation
     target_cols = ['Automotive & Transportation Services', 'Clothing & Fashion',
@@ -450,7 +450,7 @@ def main():
     df.columns = ['Top1', 'Top2', 'Top3']
     print(df.iloc[5:10,:])
     # Save to CSV
-    df.to_csv('recommendations.csv', index_label='UserID')
+    df.to_csv('src/B1_Predicting_Customer_Preferences/recommendations.csv', index_label='UserID')
 
     # In the feature engineering notebook provided, we have also experimented with PCA and Polynomial Features with PCA
     # However it is not used in the final code as the performance was not satisfying enough,

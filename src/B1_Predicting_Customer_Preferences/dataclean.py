@@ -9,10 +9,10 @@ import os
 # cards = pd.read_csv('path_to_your_file/cards_data.csv')
 def main():
     print("Start to load datasets\n")
-    cards = pd.read_csv('../data/raw/B1/cards_data.csv')
-    transactions_1 = pd.read_csv( '../data/raw/B1/transactions_part1.csv')
-    transactions_2 = pd.read_csv('../data/raw/B1/transactions_part2.csv')
-    users = pd.read_csv( '../data/raw/B1/users_data.csv')
+    cards = pd.read_csv('./data/raw/cards_data.csv')
+    transactions_1 = pd.read_csv( './data/raw/transactions_part1.csv')
+    transactions_2 = pd.read_csv('./data/raw/transactions_part2.csv')
+    users = pd.read_csv( './data/raw/users_data.csv')
     print("All datasets are loaded successfully!\n")
     # Merge the transactions data
     transactions = pd.concat([transactions_1, transactions_2], ignore_index=True)
@@ -169,7 +169,7 @@ def main():
     #     writer.writerows(csv_rows)
 
     # Read the CSV file into a DataFrame
-    output = pd.read_csv("./data/processed/B1/output.csv")
+    output = pd.read_csv("./data/processed/output.csv")
 
     # Merge the transactions DataFrame with the output DataFrame
     merged_trans = pd.merge(tran_df, output, left_on='mcc', right_on='Code', how='left')
