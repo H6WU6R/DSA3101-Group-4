@@ -132,3 +132,6 @@ python populate_db.py
 
 This will populate the `DSA3101Bank` database with all raw data under `data/raw` folder, creating table accordingly, i.e. `a1_digital_marketing_campaign`.
 
+  
+## Access Data From Database
+`access_database.ipynb` provides an example how you can access data from this database afterwards.
