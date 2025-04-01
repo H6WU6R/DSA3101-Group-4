@@ -205,7 +205,14 @@ We used Dash to create a web application, which consists of the following:
   An executive dashboard is provided to track the performance of customer segmentation and marketing campaigns, based on our chosen set of features.  
 
 - **User Interface for Individual Customer Analysis**  
-  An interface for users to analyze individual customer profiles, including personalized recommendations and behavioral insights.  
+  An interface for users to analyze individual customer profiles, including personalized recommendations and behavioral insights.
+
+- **Integration with Google AI API**  
+  The web application leverages Google AI API to enhance its capabilities, including:
+  - **Natural Language Processing (NLP)**: Used for analyzing customer profile and extracting insights.
+  - **Prediction Models**: Used to improve segmentation accuracy and provide real-time recommendations.
+
+This integration allows the application to deliver more accurate and intelligent insights, improving the overall user experience.
 
 ### 3.2 Docker Instructions
 
