@@ -4,6 +4,8 @@ import dash
 from pages.topbar import top_bar
 from src.recommendation import query_llm
 from dash import callback_context
+from src.prompts import USER_PROMPT  # Add this import at the top with other imports
+import json
 
 # Theme Colors
 BACKGROUND_COLOR = "#d6dcb0"
@@ -35,7 +37,7 @@ individual_dashboard_layout = html.Div(
             id='customer-dropdown',
             options=[],  # Will be populated from uploaded data
             placeholder="Select a customer",
-            style={'width': '40%', 'margin': 'auto'}
+            style={'width': '40%', 'margin': 'auto', 'borderRadius': '16px'}
         ),
         html.Br(),
         # Card to display predicted cluster immediately upon selection
@@ -122,7 +124,7 @@ def update_predicted_cluster(selected_customer, data):
                 html.P(f"Gender: {customer_data.get('Gender', 'N/A')}"),
                 html.P(f"Campaign Channel: {customer_data.get('CampaignChannel', 'N/A')}"),
                 html.P(f"Campaign Type: {customer_data.get('CampaignType', 'N/A')}")
-            ], style={'marginTop': '10px', 'textAlign': 'left'})
+            ], style={'marginTop': '10px', 'textAlign': 'center'})
         ])
     except Exception as e:
         return f"Error retrieving customer data: {str(e)}"
@@ -133,37 +135,40 @@ def update_predicted_cluster(selected_customer, data):
     [State('uploaded-data-store', 'data')]
 )
 def update_recommendation(selected_customer, data):
-    if selected_customer is None:
-        return ""
-    
     if not data:
         return "No data available. Please upload data in the Extract page first."
     
     try:
         df = pd.DataFrame(data)
         customer_data = df[df['CustomerID'] == selected_customer].iloc[0]
-        cluster = customer_data.get('Cluster_Label', 'N/A')
         
-        # Build a more detailed prompt using actual customer data
-        prompt_text = (
-            f"Customer {selected_customer} Profile:\n"
-            f"- Cluster: {cluster}\n"
-            f"- Gender: {customer_data.get('Gender', 'N/A')}\n"
-            f"- Previous Campaign Channel: {customer_data.get('CampaignChannel', 'N/A')}\n"
-            f"- Previous Campaign Type: {customer_data.get('CampaignType', 'N/A')}\n\n"
-            "Based on this customer's profile and cluster characteristics, provide a detailed, "
-            "personalized marketing recommendation. Include specific suggestions for:\n"
-            "1. Optimal marketing channels\n"
-            "2. Campaign type and messaging approach\n"
-            "3. Engagement tracking metrics\n"
-            "4. Campaign performance optimization strategies"
-        )
+        customer_profile = {
+            "cluster": int(customer_data.get('Cluster_Label', -1)),
+            "gender": str(customer_data.get('Gender', 'N/A')),
+            "campaign_channel": str(customer_data.get('CampaignChannel', 'N/A')),
+            "campaign_type": str(customer_data.get('CampaignType', 'N/A'))
+        }
         
-        recommendation = query_llm(prompt_text)
+        recommendation = query_llm(f"{USER_PROMPT}\n\nCustomer Profile:\n{json.dumps(customer_profile, indent=2)}")
+        
         return html.Div([
             html.H3("Marketing Recommendation", 
                     style={'color': PRIMARY_COLOR, 'marginBottom': '15px'}),
-            html.P(recommendation)
+            dcc.Markdown(
+                recommendation,
+                dangerously_allow_html=True,
+                style={
+                    'whiteSpace': 'pre-wrap',
+                    'fontSize': '16px',
+                    'lineHeight': '1.5',
+                    'padding': '20px',
+                    'backgroundColor': '#ffffff',
+                    'borderRadius': '8px',
+                    'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+                    'textAlign': 'left'  # Added for better markdown readability
+                }
+            )
         ])
     except Exception as e:
+        print(f"Recommendation error details: {str(e)}")
         return f"Error generating recommendation: {str(e)}"

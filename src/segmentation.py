@@ -99,9 +99,6 @@ def predict_clusters(new_df, preprocess_fn=preprocess_data):
         # Make a copy of the input data to avoid modifications to original
         new_df_copy = new_df.copy()
         
-        # Debug print
-        print(f"Input data shape: {new_df_copy.shape}")
-        
         # Preprocess the new data
         df_encoded_new, _, _ = preprocess_fn(new_df_copy, required_columns=required_columns)
         
