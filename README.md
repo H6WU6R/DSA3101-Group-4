@@ -194,13 +194,40 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-8. **Run the main program**
+### 2.4 GPG Decryption & Sensitive Data Encryption Workflow  
+
+This project securely processes sensitive data by:
+-   **Decrypting `.gpg` files** using GnuPG.
+-   **Encrypting sensitive columns** (e.g. `card_number` and `cvv`) in CSV files using symmetric encryption (Fernet).
+
+The decrypted CSV files are overwritten with the encrypted version if any sensitive columns are found.
+
+### Install `GnuPG`
+
+GnuPG is required for decrypting the `.gpg` files.  
+
+#### macOS
+- **Using Homebrew:**
+  
+  Open Terminal and run:
+  
+  ```bash
+  brew install gnupg
+  ```
+#### Windows
+- **Using the Gpg4win Installer:**  
+  1. Download the installer from [https://www.gpg4win.org/download.html](https://www.gpg4win.org/download.html).
+  2. Run the installer and follow the prompts.
+
+### 2.5 Run the program
+
+2. **Run the main program**
 
 ```bash
 python -m src.main
 ```
 
-9. **Deactivate your virtual environment**
+3. **Deactivate your virtual environment**
 
 ```bash
 deactivate
