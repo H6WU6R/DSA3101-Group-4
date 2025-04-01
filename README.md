@@ -66,8 +66,24 @@ DSA3101-Group-Project
 │   │
 │   ├── A5-Segmentation-Updates/
 │   │   ├── A5_main.py
-│   │   ├── A5_trainmodel.py
-│   │   └── A5_dataclean.py
+│   │   ├── app.py                        # Main Dash application entry point
+│   │   ├── assets/                       # Static assets for styling and images
+│   │   │   ├── App Logo.webp             # Application logo
+│   │   │   ├── Color.jpg                 # Background or color reference image
+│   │   │   └── style.css                 # Custom CSS for styling the application
+│   │   ├── pages/                        # Dashboard page components
+│   │   │   ├── extract.py                # Data upload and processing interface
+│   │   │   ├── home.py                   # Landing page with navigation
+│   │   │   ├── individual_dashboard.py   # Individual customer analysis view
+│   │   │   ├── nav.py                    # Navigation bar component
+│   │   │   ├── overview_pages.py         # Additional overview page components
+│   │   │   ├── overview.py               # Segmentation overview and analytics
+│   │   │   └── topbar.py                 # Top bar UI component
+│   │   └── src/                          # Core functionality
+│   │       ├── __init__.py               # Package initialization
+│   │       ├── prompts.py                # System prompts and templates
+│   │       ├── recommendation.py         # Recommendation engine
+│   │       └── segmentation.py           # Segmentation model and logic
 │   │
 │   ├── B1-Predicting-Customer-Preferences/
 │   │   ├── B1_main.py
