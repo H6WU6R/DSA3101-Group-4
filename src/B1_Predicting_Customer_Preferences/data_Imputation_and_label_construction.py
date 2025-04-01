@@ -8,7 +8,7 @@ from sklearn.metrics import mean_squared_error
 
 def main():
     # Load finalized csv files
-    final = pd.read_csv("./data/processed/B1/final_data.csv")
+    final = pd.read_csv("./data/processed/final_data.csv")
 
     # For customers without spending transaction data, use KNNImputer to compute its missing values.
     # We start with finding the best K, you may refer to branch B1 for detailed approach to find 
@@ -101,7 +101,7 @@ def main():
     print("Data imputation is done.\n")
 
     # Save imputed data
-    #df_imputed_original.to_csv('./data/processed/imputed_data.csv', index=False)
+    df_imputed_original.to_csv('./data/processed/imputed_data.csv', index=False)
 
     """
     Label Construction
@@ -312,10 +312,10 @@ def main():
     df_imputed_original['Label_Retention_Efforts'] = df_imputed_original.apply(label_retention_efforts, axis=1)
 
     # Save data to processed folder
-    #save_path = './data/processed/B1/imputed_data_with_label.csv'
+    save_path = './data/processed/imputed_data_with_label.csv'
 
     # Uncomment the line to save the file
-    # df_imputed_original.to_csv(save_path, index=False)
+    df_imputed_original.to_csv(save_path, index=False)
     print("Label construction is done.\n")
 
 if __name__ == "__main__":
