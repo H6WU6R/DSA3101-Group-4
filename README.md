@@ -259,15 +259,15 @@ Please refer to [??] for detailed documentation of the processing pipelines and 
 3. Categorical Encoding: Applied one-hot encoding to `Gender`, `CampaignChannel`, and `CampaignType`.
 4. Feature Scaling: Standardized all features using `StandardScaler` for model compatibility.
 5. Feature Engineering:
-  - **Email Click-Through Rate (CTR)**  
-    - **Formula**: Email Clicks ÷ Email Opens  
-    - **Purpose**: Measures the effectiveness of email campaigns by tracking how often recipients click on links. 
-  - **Website Engagement Depth**  
-    - **Formula**: Pages per Visit × Time on Site  
-    - **Purpose**: Quantifies how deeply a user interacts with the site, reflecting both the number of pages viewed and the total time spent.
-  - **Social Sharing Propensity**  
-    - **Formula**: Social Shares ÷ Website Visits  
-    - **Purpose**: Captures the customer’s tendency to share or repost content, indicating the potential for viral or word-of-mouth engagement.
+  - `Email Click-Through Rate (CTR)`  
+    - Formula: Email Clicks ÷ Email Opens  
+    - Purpose: Measures the effectiveness of email campaigns by tracking how often recipients click on links. 
+  - `Website Engagement Depth`
+    - Formula: Pages per Visit × Time on Site  
+    - Purpose: Quantifies how deeply a user interacts with the site, reflecting both the number of pages viewed and the total time spent.
+  - `Social Sharing Propensity` 
+    - Formula: Social Shares ÷ Website Visits  
+    - Purpose: Captures the customer’s tendency to share or repost content, indicating the potential for viral or word-of-mouth engagement.
 
 
 #### 4.2.2 Financial Transactions Dataset
