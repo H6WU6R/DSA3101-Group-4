@@ -237,12 +237,17 @@ This integration allows the application to deliver more accurate and intelligent
 
 #### Technical Details and How to Use
 
-1. **Run the Application**
+1. **Set working directory**
+   ```bash
+   cd DSA3101-Group-4/src/A5_Segmentation_Updates
+   ```
+
+2. **Run the Application**
    ```bash
    python app.py
    ```
 
-2. **Access the Webapp**
+3. **Access the Webapp**
    Open your web browser and navigate to `http://127.0.0.1:8050/`
 
 #### File Structure
