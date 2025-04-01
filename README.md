@@ -1,5 +1,8 @@
 # DSA3101-Group-4: Machine Learning for Personalized Marketing Campaigns in Banking
 
+# About the Project
+![Uploading 5139B858-8C12-4404-8F86-4604A1AE56FD.png…]()
+
 - [Project-3: Machine Learning for Personalized Marketing Campaigns in Banking](#project-3-machine-learning-for-personalized-marketing-campaigns-in-banking)
   - [1. Project Overview](#1-project-overview)
   - [2. Technical Implementation](#2-technical-implementation)
