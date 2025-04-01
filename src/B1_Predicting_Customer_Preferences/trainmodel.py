@@ -10,7 +10,6 @@ import os
 import pandas as pd
 
 def main():
-    BASE_DIR = os.path.dirname(os.path.dirname(__file__))  
     """  
         Computes the top-3 accuracy for a recommender system model.
         This metric evaluates how often the true purchased items for each user 
@@ -225,7 +224,7 @@ def main():
         return best_params, grid_results
 
     # Load imputed data
-    df_imputed_original = pd.read_csv("../data/processed/B1/imputed_data_with_label.csv")
+    df_imputed_original = pd.read_csv("./data/processed/B1/imputed_data_with_label.csv")
 
     # List of target columns of imputation
     target_cols = ['Automotive & Transportation Services', 'Clothing & Fashion',
@@ -239,16 +238,17 @@ def main():
         'Telecommunications & Media', 'Utilities & Home Services']
 
     # List of feature columns used for imputation
-    feature_cols = ['current_age', 'retirement_age', 'birth_month', 'gender',
-        'latitude', 'longitude', 'yearly_income', 'total_debt', 'credit_score',
-        'num_credit_cards', 'Credit', 'Debit', 'Debit (Prepaid)']
+    feature_cols = ["current_age", "retirement_age", "birth_month", "gender", "yearly_income", "total_debt",
+        "credit_score", "Credit_limit", "Debit_limit", "Debit (Prepaid)_limit", "Credit_expires", "Debit_expires",
+        "Debit (Prepaid)_expires", "has_chip", "num_credit_cards"]
+
 
     # Binarize the ordinal labels: define a "positive" interaction if label >= 2.
     label_cols = ['Label_Rewards_Credit_Card', 'Label_Insurance_Solutions',
-                'Label_Digital_Financing', 'Label_Home_Improvement_Loan',
-                'Label_Auto_Vehicle_Financing', 'Label_Commodity_Investment_Services',
-                'Label_Travel_Rewards_Card', 'Label_Savings_Investment_Plans',
-                'Label_Wealth_Management_Savings']
+                           'Label_Digital_Financing', 'Label_Home_Improvement_Loan',
+                           'Label_Auto_Vehicle_Financing', 'Label_Commodity_Investment_Services',
+                           'Label_Travel_Rewards_Card', 'Label_Savings_Investment_Plans',
+                           'Label_Wealth_Management_Savings','Label_Card_Upgrade','Label_Retention_Efforts']
     Y = df_imputed_original[label_cols].copy()
     Y_bin = (Y >= 2).astype(int)
 
@@ -269,10 +269,11 @@ def main():
     # best_params_expand, all_results_expand = grid_search_cv(expanded_features, X_train_full, Y_train_bin)
     # print(f"Best params for expanded features: {best_params_expand}")
 
-    print('best parameters for base features are {loss: warp, no_components: 16, learning_rate: 0.05, epochs: 50, user_alpha: 1e-05, item_alpha: 1e-05, top3_accuracy: 0.81969, precision@3: 0.67498}\n')
-    print('best parameters for expanded features are {loss: warp, no_components: 64, learning_rate: 0.05, epochs: 50, user_alpha: 1e-05, item_alpha: 1e-04, top3_accuracy: 0.88757, precision@3: 0.72313}')
+    print('best parameters for base features are {loss: warp, no_components: 32, learning_rate: 0.05, epochs: 30, user_alpha: 0.0001, item_alpha: 0.0001}\n')
+    print('best parameters for expanded features are {loss: warp, no_components: 64, learning_rate: 0.05, epochs: 50, user_alpha: 0.0001, item_alpha: 0.0001}\n')
 
-    best_params = {'loss': 'warp', 'no_components': 64, 'learning_rate': 0.05, 'epochs': 50, 'user_alpha': 1e-05, 'item_alpha': 0.0001}
+    best_params = {'loss': 'warp', 'no_components': 64, 'learning_rate': 0.05, 'epochs': 50, 'user_alpha': 0.0001, 'item_alpha': 0.0001}
+    
     # Run the function below to test for test set data accuracy, it is not needed in the production-use but for 
     # fine tuning as more customer data is collected.
     def evaluate_lightfm_model(X_train_full, X_test, Y_train_bin, Y_test_bin, feature_set, best_params, label_cols):
@@ -353,6 +354,8 @@ def main():
             'precision@3': final_precision,
             'custom_top3_accuracy': custom_top3_accuracy
         }, top3_recommendations
+    
+    # Expanded features shows better performance, use that as an example
     metrics, recommendations = evaluate_lightfm_model(X_train_full, X_test, Y_train_bin, Y_test_bin, 
                                                     expanded_features, best_params, label_cols)
     print("\n")
@@ -460,7 +463,7 @@ def main():
     # Assume X_expanded_scaled is already computed (using StandardScaler on your expanded features)
     n_total = X_expanded_scaled.shape[1] 
 
-    # In our experiment, best number of component is 22, Cumulative explained variance = 0.8923
+    # In our experiment, best number of component is 23, Cumulative explained variance = 0.8923
 
     """
     Uncomment and run the loop below for finding number of components with 90% of variance explained.
@@ -471,7 +474,7 @@ def main():
         print(f"n_components = {n}: Cumulative explained variance = {cum_explained:.4f}")
     """
 
-    pca_no_poly = PCA(n_components=22, random_state=42)  # Adjust n_components as needed.
+    pca_no_poly = PCA(n_components=23, random_state=42)  # Adjust n_components as needed.
     X_pca = pca_no_poly.fit_transform(X_expanded_scaled)
     pca_feature_names = [f'pca_no_poly_{i}' for i in range(X_pca.shape[1])]
 
@@ -503,7 +506,9 @@ def main():
         print(f"User {uid}: {recommendations_pca[uid]}")
     """
 
-    # Refer to the feature_engineering notebook in branch B1 for the training results of Polynomial features
+    """
+    Refer to the feature_engineering notebook in branch B1 for the training results of Polynomial features"
+    """
 # Define a evaluation function to find 
 if __name__ == "__main__":
     main()
