@@ -8,7 +8,7 @@ from sklearn.metrics import mean_squared_error
 
 def main():
     # Load finalized csv files
-    final = pd.read_csv("../data/processed/B1/final_data.csv")
+    final = pd.read_csv("./data/processed/B1/final_data.csv")
 
     # For customers without spending transaction data, use KNNImputer to compute its missing values.
     # We start with finding the best K, you may refer to branch B1 for detailed approach to find 
@@ -68,18 +68,18 @@ def main():
         'Telecommunications & Media', 'Utilities & Home Services']
 
     # List of feature columns used for imputation
-    feature_cols = ['current_age', 'retirement_age', 'birth_month', 'gender',
-        'latitude', 'longitude', 'yearly_income', 'total_debt', 'credit_score',
-        'num_credit_cards', 'Credit', 'Debit', 'Debit (Prepaid)']
+    feature_cols = ["current_age", "retirement_age", "birth_month", "gender", "yearly_income", "total_debt",
+    "credit_score", "Credit_limit", "Debit_limit", "Debit (Prepaid)_limit", "Credit_expires", "Debit_expires",
+    "Debit (Prepaid)_expires", "has_chip", "num_credit_cards"]
 
     # Create a working DataFrame with both feature and target columns.
     # (Assuming you have a DataFrame called 'final' already loaded.)
     cols_for_impute = feature_cols + target_cols
     df_impute = final[cols_for_impute].copy()
 
-    print("Best n is found to be 5 using elbow method.\n")
+    print("Best n is found to be 6 using elbow method.\n")
     # Select the best n_neighbors (with the lowest MSE)
-    best_n = 5
+    best_n = 6
 
     # Build final pipeline and impute missing values using the best n_neighbors.
     pipeline_final = Pipeline([
@@ -97,9 +97,16 @@ def main():
     # Inverse-transform the imputed scaled data.
     df_imputed_original_array = scaler.inverse_transform(df_imputed_scaled)
     df_imputed_original = pd.DataFrame(df_imputed_original_array, columns=df_impute.columns, index=df_impute.index)
+    df_imputed_original[target_cols] = df_imputed_original[target_cols].round(2)
     print("Data imputation is done.\n")
 
-    # Label Construction
+    # Save imputed data
+    #df_imputed_original.to_csv('./data/processed/imputed_data.csv', index=False)
+
+    """
+    Label Construction
+    """
+
     # Joint features are considered for label construction, while purchase behavior (e.g., spending in categories like 
     # restaurants, utilities, or digital goods) gives insight into interests and lifestyle, it doesn't tell the full 
     # story about a customer's financial capacity, needs, or creditworthiness — all of which are critical for 
@@ -108,9 +115,11 @@ def main():
     income_median = df_imputed_original['yearly_income'].median()
     num_cards_median = df_imputed_original['num_credit_cards'].median()
     credit_upper = df_imputed_original['credit_score'].quantile(0.75)
-    income_80 = df_imputed_original['yearly_income'].quantile(0.80)
+    credit_limit_upper = df_imputed_original['Credit_limit'].quantile(0.75)
+    debit_lower = df_imputed_original['Debit_limit'].quantile(0.25)
+    income_80 = df_imputed_original['yearly_income'].quantile(0.80)  
 
-    # Define relevant spending categories and compute their 75th percentile values
+    # For each spending category used in the rules, compute its 75th percentile.
     spending_categories = [
         'Retail Stores', 'Restaurants & Eating Places', 'Clothing & Fashion', 
         'Movies & Theaters', 'Sports & Recreational Activities', 'Freight & Trucking', 
@@ -120,7 +129,7 @@ def main():
         'Rail & Bus Transport', 'Hotels & Accommodation', 'Legal & Financial Services'
     ]
     spending_upper = {cat: df_imputed_original[cat].quantile(0.75) for cat in spending_categories}
-
+    
     # 1. Rewards Credit Card:
     #    Conditions: (a) any spending category (Retail, Restaurants, Fashion, Movies, Sports) above its upper quantile,
     #                (b) credit score above upper quantile,
@@ -233,11 +242,11 @@ def main():
     #                (c) years until retirement <= 15.
     def label_savings_investment_plans(row):
         score = 0
-        if row['Debit'] >= 1.5 * row['Credit']:  # (a)
+        if row['Debit_limit'] >= 1.5 * row['Credit_limit']:
             score += 1
-        if row['total_debt'] < 0.5 * row['yearly_income']:  # (b)
+        if row['total_debt'] < 0.5 * row['yearly_income']:
             score += 1
-        if row['retirement_age'] - row['current_age'] <= 15:  # (c)
+        if row['retirement_age'] - row['current_age'] <= 15:
             score += 1
         return min(score, 3)
 
@@ -254,6 +263,40 @@ def main():
         if row['credit_score'] >= credit_upper:  # (c)
             score += 1
         return min(score, 3)
+    
+    # 10. Label Card Upgrade:
+    #    Conditions:
+    #      (a) if has_chip is 0, give 1 credit,
+    #      (b) if Credit_expires is after 2022, give 1 credit,
+    #      (c) if Credit_limit > credit_limit_upper, give 1 credit.
+    def label_card_upgrade(row):
+        score = 0
+        if row['has_chip'] == 0:
+            score += 1
+        if (row['Credit_expires'] > 2021 or 
+            row['Debit_expires'] > 2021 or 
+            row['Debit (Prepaid)_expires'] > 2021):
+            score += 1
+        if row['Credit_limit'] > credit_limit_upper:
+            score += 1
+        return min(score, 3)
+
+    # 11. Label Retention Efforts:
+    #    Conditions:
+    #      (a) if any of Credit_expires, Debit_expires, or Debit (Prepaid)_expires is greater than 2021, give 1 credit,
+    #      (b) if num_cards_issued is less than or equal to 2, give 1 credit,
+    #      (c) if Debit_limit is less than debit_lower, give 1 credit.
+    def label_retention_efforts(row):
+        score = 0
+        if (row['Credit_expires'] > 2021 or 
+            row['Debit_expires'] > 2021 or 
+            row['Debit (Prepaid)_expires'] > 2021):
+            score += 1
+        if row['num_credit_cards'] <= 2:
+            score += 1
+        if row['Debit_limit'] < debit_lower:
+            score += 1
+        return min(score, 3)
 
     # Apply label functions to construct new label columns.
     df_imputed_original['Label_Rewards_Credit_Card'] = df_imputed_original.apply(label_rewards_credit_card, axis=1)
@@ -265,9 +308,11 @@ def main():
     df_imputed_original['Label_Travel_Rewards_Card'] = df_imputed_original.apply(label_travel_rewards_card, axis=1)
     df_imputed_original['Label_Savings_Investment_Plans'] = df_imputed_original.apply(label_savings_investment_plans, axis=1)
     df_imputed_original['Label_Wealth_Management_Savings'] = df_imputed_original.apply(label_wealth_management_savings, axis=1)
+    df_imputed_original['Label_Card_Upgrade'] = df_imputed_original.apply(label_card_upgrade, axis=1)
+    df_imputed_original['Label_Retention_Efforts'] = df_imputed_original.apply(label_retention_efforts, axis=1)
 
     # Save data to processed folder
-    #save_path = os.path.join(BASE_DIR, 'data/processed/B1/imputed_data_with_label.csv')
+    #save_path = './data/processed/B1/imputed_data_with_label.csv'
 
     # Uncomment the line to save the file
     # df_imputed_original.to_csv(save_path, index=False)
