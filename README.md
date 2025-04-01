@@ -111,11 +111,19 @@ DSA3101-Group-Project
 │
 ├── data/
 │   ├── raw/
-│   │   ├── Data1.csv
-│   │   └── Data2.csv
-│   │
-│   └── processed/
-│       └── (processed files)
+│   │   ├── B1/
+│   │   │    ├── cards_data.csv
+│   │   │    ├── mcc_codes.json
+│   │   │    ├── transactions_part1.csv
+│   │   │    ├── users_data.csv
+│   │   │    └── transactions_part2.csv
+│   │   │  
+│   │   ├── B3/
+│   │   │    ├── CustomersData.xlsx
+│   │   │    └── Online_Sales.csv
+│   │   │  
+│   │   ├── Customer-Churn-Records.csv
+│   │   └── digital_marketing_campaign_dataset.csv
 │
 ├── docs/
 │   └── README.md
