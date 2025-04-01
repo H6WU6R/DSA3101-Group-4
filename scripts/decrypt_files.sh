@@ -7,7 +7,7 @@
 #   ./decrypt_files.sh
 #   ./decrypt_files.sh "YourSecurePassphrase"
 
-DATA_DIR="data"
+DATA_DIR="data/raw"
 
 # 1. Ensure the data directory exists.
 if [ ! -d "$DATA_DIR" ]; then
