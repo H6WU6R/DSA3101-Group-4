@@ -219,25 +219,25 @@ This file is meant to be run **before** you execute your main application (i.e. 
 
 1. **Install `GnuPG`**
 
-GnuPG is required for decrypting the `.gpg` files.  
+  GnuPG is required for decrypting the `.gpg` files.  
 
-#### macOS
-- **Using Homebrew:**
+  #### macOS
+  - **Using Homebrew:**
   
-  Open Terminal and run:
+    Open Terminal and run:
   
-  ```bash
-  brew install gnupg
-  ```
-- **Using Ubuntu/Debian**:
-  ```bash
-  sudo apt-get install gnupg
-   ```
+    ```bash
+    brew install gnupg
+    ```
+  - **Using Ubuntu/Debian**:
+    ```bash
+    sudo apt-get install gnupg
+     ```
   
-#### Windows
-- **Using the Gpg4win Installer:**  
-  1. Download the installer from [https://www.gpg4win.org/download.html](https://www.gpg4win.org/download.html).
-  2. Run the installer and follow the prompts.
+  #### Windows
+  - **Using the Gpg4win Installer:**  
+    1. Download the installer from [https://www.gpg4win.org/download.html](https://www.gpg4win.org/download.html).
+    2. Run the installer and follow the prompts.
  
 
 
