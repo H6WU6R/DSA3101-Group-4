@@ -2,7 +2,7 @@ from A1_Customer_Segmentation.A1_main import main as A1_main
 from A2_Customer_Engagement.A2_main import main as A2_main
 from A3_Behavioral_Patterns_Analysis.A3_main import main as A3_main
 from A4_Campaign_Impact_Analysis.A4_main import main as A4_main
-from A5_Segmentation_Updates.A5_main import main as A5_main
+from A5_Segmentation_Updates.A5_main import app as A5_app
 from B1_Predicting_Customer_Preferences.B1_main import main as B1_main
 from B3_Measuring_Campaign_ROI.B3_main import main as B3_main
 from B4_Cost_Effectiveness_of_Campaigns.B4_main import main as B4_main
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     A4_main()
     
     print("-------------------------- Running A5: Segmentation Updates --------------------------\n")
-    # A5_main()
+    A5_app()
 
     print("-------------------------- Running B1: Predicting Customer Preferences --------------------------\n")
     B1_main()
