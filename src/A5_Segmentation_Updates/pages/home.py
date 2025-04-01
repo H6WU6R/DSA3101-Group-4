@@ -98,7 +98,7 @@ def start_segmentation(n_clicks):
     if n_clicks and n_clicks > 0:
         try:
             # Load pre-generated segmentation results
-            df_segmented = pd.read_csv("data/A1-segmented_df.csv")
+            df_segmented = pd.read_csv("src/A1_Customer_Segmentation/A1-segmented_df.csv")
             segmentation.global_dataset = df_segmented
         except Exception as e:
             print("Error reading segmented data:", e)

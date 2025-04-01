@@ -38,8 +38,6 @@ def preprocess_data(df_original):
     return df_encoded, df_scaled, scaler
 
 
-
-
 def optimize_clusters(df_scaled):
     """
     Find optimal PCA components and K-Means clusters by maximizing silhouette score.
@@ -151,8 +149,8 @@ def main():
     # 4. Get centroids
     centroids_df = get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k)
     
-    df_original['Cluster_Label'] = labels
-    df_original.to_csv('A1-segmented_df.csv', index=False)
+    # df_original['Cluster_Label'] = labels
+    df_original.to_csv('./A1_Customer_Segmentation/A1-segmented_df.csv', index=False)
 
     return df_original
 

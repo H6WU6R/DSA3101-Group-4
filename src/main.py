@@ -2,7 +2,7 @@ from A1_Customer_Segmentation.A1_main import main as A1_main
 from A2_Customer_Engagement.A2_main import main as A2_main
 from A3_Behavioral_Patterns_Analysis.A3_main import main as A3_main
 from A4_Campaign_Impact_Analysis.A4_main import main as A4_main
-from A5_Segmentation_Updates.app import run_server as A5_app
+from A5_Segmentation_Updates.app import main as A5_app
 from B1_Predicting_Customer_Preferences.B1_main import main as B1_main
 from B3_Measuring_Campaign_ROI.B3_main import main as B3_main
 from B4_Cost_Effectiveness_of_Campaigns.B4_main import main as B4_main

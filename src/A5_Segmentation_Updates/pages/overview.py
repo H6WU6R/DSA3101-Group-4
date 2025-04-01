@@ -229,7 +229,7 @@ def render_content(tab):
 
 # Import the A1 dataset
 try:
-    df = pd.read_csv('data/A1-segmented_df.csv')
+    df = pd.read_csv('./src/A1_Customer_Segmentation/A1-segmented_df.csv')
     segmentation.global_dataset = df
 except Exception as e:
     print(f"Error loading global dataset: {e}")
