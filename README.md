@@ -65,9 +65,24 @@ DSA3101-Group-Project
 │   │   └── A4_dataclean.py
 │   │
 │   ├── A5-Segmentation-Updates/
-│   │   ├── A5_main.py
-│   │   ├── A5_trainmodel.py
-│   │   └── A5_dataclean.py
+│   │   ├── app.py                        # Main Dash application entry point
+│   │   ├── assets/                       # Static assets for styling and images
+│   │   │   ├── App Logo.webp             # Application logo
+│   │   │   ├── Color.jpg                 # Background or color reference image
+│   │   │   └── style.css                 # Custom CSS for styling the application
+│   │   ├── pages/                        # Dashboard page components
+│   │   │   ├── extract.py                # Data upload and processing interface
+│   │   │   ├── home.py                   # Landing page with navigation
+│   │   │   ├── individual_dashboard.py   # Individual customer analysis view
+│   │   │   ├── nav.py                    # Navigation bar component
+│   │   │   ├── overview_pages.py         # Additional overview page components
+│   │   │   ├── overview.py               # Segmentation overview and analytics
+│   │   │   └── topbar.py                 # Top bar UI component
+│   │   └── src/                          # Core functionality
+│   │       ├── __init__.py               # Package initialization
+│   │       ├── prompts.py                # System prompts and templates
+│   │       ├── recommendation.py         # Recommendation engine
+│   │       └── segmentation.py           # Segmentation model and logic
 │   │
 │   ├── B1-Predicting-Customer-Preferences/
 │   │   ├── B1_main.py
@@ -96,16 +111,27 @@ DSA3101-Group-Project
 │
 ├── data/
 │   ├── raw/
-│   │   ├── Data1.csv
-│   │   └── Data2.csv
-│   │
-│   └── processed/
-│       └── (processed files)
+│   │   ├── B1/
+│   │   │    ├── cards_data.csv
+│   │   │    ├── mcc_codes.json
+│   │   │    ├── transactions_part1.csv
+│   │   │    ├── users_data.csv
+│   │   │    └── transactions_part2.csv
+│   │   │  
+│   │   ├── B3/
+│   │   │    ├── CustomersData.xlsx
+│   │   │    └── Online_Sales.csv
+│   │   │  
+│   │   ├── Customer-Churn-Records.csv
+│   │   └── digital_marketing_campaign_dataset.csv
 │
 ├── docs/
 │   └── README.md
 │
-├── database.py
+├── database
+│   ├── populate_db.py
+│   ├── access_database.py
+│   └── README.md
 ├── requirements.txt
 ├── Dockerfile
 ├── api.py
@@ -115,7 +141,7 @@ DSA3101-Group-Project
 
 To set up the project on a local machine, follow the steps below:
 
-1. **Ensure Python 3.13 is installed**.  
+1. **Ensure Python 3.10+ is installed**.  
    If not, you can visit the [Python website](https://www.python.org/) for instructions on installation.  
    Once installed, you can verify your version of Python by running the following in your terminal:
    
@@ -181,6 +207,24 @@ deactivate
 ## 3. Deployment
 ### 3.1 Web Application
 
+We used Dash to create a web application, which consists of the following:
+
+- **Interactive Visualizations**  
+  All the important visualizations designed in segmentation are integrated into the web application, allowing users to explore customer segmentation, behavioral patterns, and campaign performance interactively.
+
+- **Executive Dashboard**  
+  An executive dashboard is provided to track the performance of customer segmentation and marketing campaigns, based on our chosen set of features.  
+
+- **User Interface for Individual Customer Analysis**  
+  An interface for users to analyze individual customer profiles, including personalized recommendations and behavioral insights.
+
+- **Integration with Google AI API**  
+  The web application leverages Google AI API to enhance its capabilities, including:
+  - **Natural Language Processing (NLP)**: Used for analyzing customer profile and extracting insights.
+  - **Prediction Models**: Used to improve segmentation accuracy and provide real-time recommendations.
+
+This integration allows the application to deliver more accurate and intelligent insights, improving the overall user experience.
+
 ### 3.2 Docker Instructions
 
 To build and run the necessary Docker containers, follow the steps below:
@@ -232,6 +276,16 @@ Please refer to [??] for detailed documentation of the processing pipelines and 
 2. Column Dropping: Removed `AdvertisingPlatform`, `AdvertisingTool`, and `CustomerID` to retain only relevant features.
 3. Categorical Encoding: Applied one-hot encoding to `Gender`, `CampaignChannel`, and `CampaignType`.
 4. Feature Scaling: Standardized all features using `StandardScaler` for model compatibility.
+5. Feature Engineering:
+  - `email_ctr`  
+    - Formula: `EmailClicks` / `EmailOpens` 
+    - Purpose: Measures the effectiveness of email campaigns by tracking how often recipients click on links. 
+  - `engagement_depth`
+    - Formula: `PagesPerVisit` * `TimeOnSite`  
+    - Purpose: Quantifies how deeply a user interacts with the site, reflecting both the number of pages viewed and the total time spent.
+  - `social_propensity` 
+    - Formula: `SocialShares` / `WebsiteVisits`  
+    - Purpose: Captures the customer’s tendency to share or repost content, indicating the potential for viral or word-of-mouth engagement.
 
 
 #### 4.2.2 Financial Transactions Dataset
@@ -245,7 +299,11 @@ Please refer to [??] for detailed documentation of the processing pipelines and 
   2. Carry out feature engineering by computing essential features for predicting customer lifetime value, including Recency, Frequency, Monetary_value, T.
      
 #### 4.2.4 Bank Customer Churn Dataset
-
+1. Dropped columns that are not relevant, have privacy issues, or are perfectly correlated with our label `Exited`: `RowNumber`, `CustomerId`,`Surname`, and `Complain`.
+2. Created a new feature called `Income_bin` from `EstimatedSalary`, which assign customers to their corresponding income interval. Then, merged with `digital_marketing_campaign_dataset.csv` after segmentation on `Age`, `Gender`, and `Income_bin`.
+3. Applied Ordinal Ecoding to transform categorical features: `Gender`,`Geography`, `Card Type`.
+4. Used SMOTE to synthesize a more balanced traning data
+   
 ### 4.3 Data Dictionaries
 This section contains a list of processed datasets for each of the CSV files stated in Section 4.2, in order of appearance.
    1. `digital_marketing_campaign_dataset.csv`
