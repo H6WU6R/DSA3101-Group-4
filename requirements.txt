@@ -12,3 +12,4 @@ psycopg2==2.9.6
 lifetimes==0.11.3
 lightfm==1.17
 polars==1.26.0
+google-genai==1.8.0
