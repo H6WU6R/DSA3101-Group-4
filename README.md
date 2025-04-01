@@ -133,7 +133,7 @@ DSA3101-Group-Project
 
 To set up the project on a local machine, follow the steps below:
 
-1. **Ensure Python 3.13 is installed**.  
+1. **Ensure Python 3.10+ is installed**.  
    If not, you can visit the [Python website](https://www.python.org/) for instructions on installation.  
    Once installed, you can verify your version of Python by running the following in your terminal:
    
