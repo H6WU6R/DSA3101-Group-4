@@ -205,11 +205,6 @@ deactivate
 ```
 
 ## 3. Deployment
-### 3.1 Web Application
-
-Based on the content of the files from the `src/A5_Segmentation_Updates` directory, here is the updated section for the README file of your webapp:
-
----
 
 ### 3.1 Web Application
 
