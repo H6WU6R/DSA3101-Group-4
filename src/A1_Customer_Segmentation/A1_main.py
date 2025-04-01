@@ -27,7 +27,7 @@ def preprocess_data(df_original):
     # Step 2: One-hot encode categorical columns
     columns_to_encode = ['Gender', 'CampaignChannel', 'CampaignType']
     df_encoded = pd.get_dummies(df_drop, columns=columns_to_encode, drop_first=False)
-    df_encoded.to_csv('../../data/processed/A1-processed-df.csv', index=False)
+    df_encoded.to_csv('./data/processed/A1-processed-df.csv', index=False)
     # Step 3: Scale all features
     scaler = StandardScaler()
     df_scaled = scaler.fit_transform(df_encoded)
@@ -136,14 +136,11 @@ def get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k):
     print("Centroids DataFrame:")
     print(centroids_df)
 
-    
     return centroids_df
     
-
-
 def main():
     # 1. Load data
-    df_original = pd.read_csv('../../data/raw/digital_marketing_campaign_dataset.csv')
+    df_original = pd.read_csv('./data/raw/digital_marketing_campaign_dataset.csv')
 
     # 2. Preprocess data (need to modify preprocess_data to return 3 objects)
     df_encoded, df_scaled, scaler = preprocess_data(df_original)
@@ -159,4 +156,5 @@ def main():
 
     return df_original
 
-main()
+if __name__ == "__main__":
+    main()
