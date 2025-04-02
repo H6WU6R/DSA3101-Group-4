@@ -34,13 +34,13 @@ def main(db_name, db_credential):
     print("B1 Data Loading...")
 
     print("  cards_data loading...")
-    df = pd.read_csv(data_path+'B1/cards_data.csv')
+    df = pd.read_csv(data_path+'cards_data.csv')
     engine = create_engine(db_credential + db_name)
     table_name = 'b1_cards_data'
     df.to_sql(table_name, engine, if_exists='replace', index=False)
 
     print("  mcc_codes loading...")
-    with open(data_path+'B1/mcc_codes.json') as f:
+    with open(data_path+'mcc_codes.json') as f:
         data = json.load(f)
     df = pd.DataFrame(list(data.items()), columns=['code', 'description'])
     engine = create_engine(db_credential + db_name)
@@ -48,15 +48,15 @@ def main(db_name, db_credential):
     df.to_sql(table_name, engine, if_exists='replace', index=False)
 
     print("  transactions_data loading (this data is huge)...")
-    transactions_1 = pd.read_csv(data_path+'B1/transactions_part1.csv')
-    transactions_2 = pd.read_csv(data_path+'B1/transactions_part2.csv')
+    transactions_1 = pd.read_csv(data_path+'transactions_part1.csv')
+    transactions_2 = pd.read_csv(data_path+'transactions_part2.csv')
     df = pd.concat([transactions_1, transactions_2], ignore_index=True)
     engine = create_engine(db_credential + db_name)
     table_name = 'b1_transactions_data'
     df.to_sql(table_name, engine, if_exists='replace', index=False)
 
     print("  users_data loading...")
-    df = pd.read_csv(data_path+'B1/users_data.csv')
+    df = pd.read_csv(data_path+'users_data.csv')
     engine = create_engine(db_credential + db_name)
     table_name = 'b1_users_data'
     df.to_sql(table_name, engine, if_exists='replace', index=False)
@@ -70,11 +70,11 @@ def main(db_name, db_credential):
     # Connect to database
     engine = create_engine(db_credential + db_name)
 
-    df = pd.read_csv(data_path+'B3/Online_Sales.csv')
+    df = pd.read_csv(data_path+'Online_Sales.csv')
     table_name = 'b3_online_sales'
     df.to_sql(table_name, engine, if_exists='replace', index=False)
 
-    df = pd.read_excel(data_path+'B3/CustomersData.xlsx', header=0)
+    df = pd.read_excel(data_path+'CustomersData.xlsx', header=0)
     table_name = 'b3_customers_data'
     df.to_sql(table_name, engine, if_exists='replace', index=False)
 
