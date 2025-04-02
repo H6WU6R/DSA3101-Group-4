@@ -6,6 +6,46 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, mean_absolute_error, r2_score
 
+def save_cluster_distributions(data, features, save_dir="src/B3_Campaign_ROI_Evaluation"):
+    """To save the clustering and distribution results."""
+
+    os.makedirs(save_dir, exist_ok=True)
+
+    # Saving distribution of clusters
+    plt.figure(figsize=(10, 6))
+    data['cluster'].value_counts().sort_index().plot(
+        kind='bar',
+        color='skyblue',
+        edgecolor='black'
+    )
+    plt.title('Cluster Distribution')
+    plt.xlabel('Cluster')
+    plt.ylabel('Number of Customers')
+    plt.xticks(rotation=0)
+    plt.savefig(f"{save_dir}/cluster_distribution.png", bbox_inches='tight')
+    plt.close()
+
+    # Saving statistical distribution of features by cluster
+    fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+    fig.suptitle('Feature Distribution by Cluster', y=1.02)
+    axes = axes.flatten()
+
+    for i, feature in enumerate(features):
+        data.boxplot(
+            column=feature,
+            by='cluster',
+            ax=axes[i],
+            patch_artist=True,
+            boxprops=dict(facecolor='lightblue'),
+            medianprops=dict(color='red')
+        )
+        axes[i].set_title(f'{feature} Distribution')
+        axes[i].set_xlabel('')
+
+    plt.tight_layout()
+    plt.savefig(f"{save_dir}/feature_distributions.png", bbox_inches='tight')
+    plt.close()
+
 def preprocess_data(data):
     """Load and preprocess raw data."""
     
@@ -109,6 +149,21 @@ def main():
     # Model training
     kmeans = KMeans(n_clusters=best_k, random_state=42)
     Customer_train['cluster'] = kmeans.fit_predict(X_train)
+
+    # Clustering results
+    final_data = final_data.merge(
+        Customer_train[['CustomerID', 'cluster']],
+        on='CustomerID',
+        how='left'
+    )
+    plot_features = features + ['actual_3m_CLV']
+    
+    # Saving clustering results
+    save_cluster_distributions(
+        data=final_data,
+        features=plot_features,
+        save_dir='src/B3_Campaign_ROI_Evaluation'
+    )
     
     # Prediction
     cluster_means = Customer_train.groupby('cluster')['actual_3m_CLV'].mean().to_dict()
