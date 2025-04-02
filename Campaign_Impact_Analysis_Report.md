@@ -1,108 +1,122 @@
-# Campaign Impact Analysis: Architecture and Design Report
+# Campaign Impact Analysis
 
-## 1. Overview
+## 1. Introduction
 
-Modern marketing campaigns often rely on multiple metrics—click-through rates, website visits, time on site, email engagement, etc.—to gauge success. Evaluating these metrics individually can lead to fragmented insights. This project unifies various analyses into a structured framework, enabling data-driven decisions and more accurate campaign assessments.
+This report presents an analysis of digital marketing campaign data to identify key performance indicators (KPIs) that differentiate converters from non-converters. Our goal is to establish a framework for assessing customer engagement and conversion likelihood using both overall and cluster-specific metrics.
+
+## 2. Exploratory Data Analysis (EDA)
+
+### 2.1 Data Overview
+The dataset contains demographic, financial, and digital engagement variables:
+- **Demographics:** Age, Gender, Income
+- **Engagement Metrics:** ClickThroughRate, ConversionRate, WebsiteVisits, PagesPerVisit, TimeOnSite, SocialShares, EmailOpens, EmailClicks
+
+### 2.2 Graphical EDA
+We visualized the distribution of these variables using boxplots and count plots:
+- **Boxplots:** Showed that converters generally exhibit higher median values for engagement metrics such as ClickThroughRate, ConversionRate, WebsiteVisits, PagesPerVisit, TimeOnSite, EmailOpens, and EmailClicks.
+- **Count Plots:** For the Gender variable, the distribution revealed a higher count of female customers, though conversion rates appeared similar across genders.
+
+*Example Graph:*
+![EDA Graph](visualisations/EDA.png)
+
+### 2.3 Hypothesis Testing
+We performed two-sample t-tests and Mann-Whitney U tests on numeric variables, and a chi-square test on the categorical variable (Gender):
+
+- **Age & Income:**  
+  - p-values: ~0.88 (Age), ~0.21 (Income)  
+  - **Conclusion:** No significant difference between converters and non-converters.
+
+- **Engagement Metrics:**  
+  - p-values for ClickThroughRate, ConversionRate, WebsiteVisits, PagesPerVisit, TimeOnSite, EmailOpens, and EmailClicks were extremely low (p < 0.001).  
+  - **Conclusion:** Converters exhibit significantly higher digital engagement.
+
+- **SocialShares:**  
+  - p-value ~0.31  
+  - **Conclusion:** Not a strong predictor of conversion.
+
+- **Gender:**  
+  - Chi-square test p-value ~0.951  
+  - **Conclusion:** No significant association between Gender and conversion.
+
+## 3. KPI Threshold Selection
+
+### 3.1 Methods Used
+- **Youden's J Statistic:**  
+  For each KPI, we computed the ROC curve on a training set and selected the threshold that maximized Youden's J (i.e., sensitivity – (1 – specificity)). This method provides an optimal cutoff value that best discriminates converters from non-converters.
+
+- **Logistic Regression for Engagement Score:**  
+  A logistic regression model was trained on the key engagement metrics. The model's coefficients were used to compute an engagement score (log-odds) for each customer, which was then scaled to a range of 0 to 10. This score represents a continuous measure of a customer's likelihood to convert.
+
+### 3.2 Overall Thresholds (Population Level)
+Using the overall data, the following fixed thresholds were established:
+- **ClickThroughRate:** 0.097254  
+- **ConversionRate:** 0.049689  
+- **WebsiteVisits:** 11.0  
+- **PagesPerVisit:** 2.981618  
+- **TimeOnSite:** 4.989053  
+- **EmailOpens:** 6.0  
+- **EmailClicks:** 3.0  
+
+## 4. Engagement Scoring & Evaluation
+
+### 4.1 Engagement Score Computation
+The logistic regression model (trained on the KPI columns) yielded a continuous engagement score for each customer. After scaling, customers received a **Scaled Engagement Score** (0–10). This score correlated strongly with the overall KPI hit count, indicating that higher digital engagement is closely linked with conversion.
+
+### 4.2 KPI Hit Count Calculation
+- **Overall KPI Hit Count:**  
+  For each customer, we calculated the number of KPIs (based on the fixed overall thresholds) that were met. This was then used to compute the **Overall KPI Proportion**.
+
+- **Cluster-Specific KPI Hit Count:**  
+  The dataset was segmented into clusters (via prior segmentation). For each cluster, cluster-specific thresholds were determined (using Youden's J on a per-cluster basis). We then computed the number of KPIs met by each customer in their respective cluster.
+
+### 4.3 Results Summary
+- **Overall Analysis:**  
+  Converters, on average, met a higher proportion of overall KPIs compared to non-converters. For example, the mean Overall KPI Proportion was ~0.76 for converters versus ~0.57 for non-converters (t-test, p < 0.001).
+  *Example Graph:*
+![KPI Hit Count Comparison](visualisations/Overall%20KPI%20Hit%20Count%20vs%20Conversion.png)
+
+- **Cluster-Specific Analysis:**  
+  The cluster-specific thresholds were more variable. In some clusters, the thresholds were not meaningful due to small sample sizes or homogeneous behavior, leading to sparse threshold data.
+![Cluster-Specific KPI Hit Proportion Comparison](visualisations/Cluster%20KPI%20Hit%20Proportion%20vs%20Conversion.png)
+
+## 5. Business Insights & Recommendations
+
+### 5.1 Key Findings
+- **Engagement Metrics as Conversion Drivers:**  
+  Metrics like ClickThroughRate, ConversionRate, WebsiteVisits, PagesPerVisit, TimeOnSite, EmailOpens, and EmailClicks are significantly higher among converters, indicating that deeper and more frequent engagement drives conversion.
+
+- **Demographic Factors:**  
+  Age, Income, and Gender do not significantly differentiate converters from non-converters.
+
+- **Cluster Variability:**  
+  When segmented, certain clusters show different optimal thresholds for digital engagement. For example, high-value customers in one cluster may convert with only moderate engagement, whereas another segment might require significantly higher website dwell times.
+
+### 5.2 Actionable Strategies
+- **Segment-Specific Engagement Goals:**  
+  Tailor marketing campaigns based on cluster insights. For clusters with low overall engagement, focus on boosting digital interactions. For clusters where high engagement is already observed, refine content for deeper exploration.
+
+- **Revise Email Tactics:**  
+  In clusters where email engagement metrics (opens and clicks) do not discriminate well (e.g., clusters with infinite thresholds), consider testing alternative formats or channels.
+
+- **Enhance Website Experience:**  
+  For clusters where metrics like WebsiteVisits and PagesPerVisit are significant, optimize site navigation and content to encourage deeper browsing and longer time on site.
+
+- **Continuous Monitoring:**  
+  Regularly update the overall and cluster-specific thresholds as customer behavior evolves to maintain a dynamic and responsive marketing strategy.
+
+## 6. Visualizations
+- **Optimal KPI Thresholds by Cluster:**  
+  A bar plot was created to visualise the optimal KPI thresholds across clusters, highlighting where thresholds were computed and where data was sparse.
+  ![Cluster-Specific Thresholds](visualisations/Optimal%20KPI%20Thresholds%20by%20Cluster.png)
+
+- **KPI Hit Count vs. Engagement Score:**  
+  A scatter plot compared the overall KPI hit count to the scaled engagement score, demonstrating a strong correlation between digital engagement and conversion likelihood.
+  ![KPI Hit Count vs. Engagement Score](visualisations/KPI%20Hit%20Count%20vs%20Engagement%20Score.png)
 
 ---
 
-## 2. Data Exploration and Hypothesis Testing
+## Conclusion
 
-1. **Data Ingestion & Cleaning**  
-   - The dataset is loaded into a Pandas DataFrame (`df`), and key columns are identified (e.g., Age, Gender, Income, and multiple engagement metrics).
-
-2. **Exploratory Analysis**  
-   - **Boxplots**: For numeric variables (Age, Income, ClickThroughRate, etc.), boxplots show how their distributions differ between converters (Conversion = 1) and non-converters (Conversion = 0).  
-   - **Countplot**: For the categorical variable (Gender), a countplot is used to compare conversion counts across categories.
-
-3. **Hypothesis Testing**  
-   - **Numeric Variables**: Two-sample t-tests and Mann-Whitney U tests assess whether metrics like Age, Income, ClickThroughRate, etc., differ significantly between converters and non-converters.  
-   - **Categorical Variable (Gender)**: A chi-square test (and contingency table) checks whether Gender distribution differs significantly by conversion status.
-
-**Key Insight**: This step identifies which metrics show strong statistical differences (e.g., TimeOnSite, EmailOpens) and which do not (e.g., SocialShares, Gender).
+The analysis demonstrates that digital engagement metrics are robust indicators of conversion. While overall KPI thresholds offer a strong general framework, cluster-specific thresholds reveal nuances in customer behavior. These insights enable the design of targeted, segment-specific marketing strategies that can optimize campaign performance and drive higher conversion rates.
 
 ---
-
-## 3. KPI Threshold Selection Using Youden’s J
-
-For each KPI (e.g., ClickThroughRate, ConversionRate, WebsiteVisits, etc.), the following steps are performed:
-
-1. **Train/Test Split**  
-   - The data is split (70/30) into a training set (to derive thresholds) and a test set (to evaluate them).
-
-2. **ROC Curve on Training Set**  
-   - Each KPI is treated as a “score” to predict Conversion (0/1).  
-   - A ROC curve is generated by varying potential cutoffs.
-
-3. **Optimal Threshold via Youden’s J**  
-   - Youden’s J = (True Positive Rate) – (False Positive Rate) is computed for each cutoff.  
-   - The threshold that maximizes Youden’s J is chosen, balancing sensitivity and specificity.
-
-4. **Test Set Evaluation**  
-   - The chosen threshold is applied to the test set, and metrics like sensitivity, specificity, and F1 score are calculated.  
-   - This ensures thresholds generalize beyond the training data.
-
-**Result**: Each KPI now has a recommended cutoff that best separates converters from non-converters, according to Youden’s J.
-
----
-
-## 4. Logistic Regression for Conversion Probability
-
-1. **Model Training**  
-   - A logistic regression model is trained on multiple KPIs simultaneously (e.g., ClickThroughRate, WebsiteVisits, EmailOpens, etc.) to predict conversion probability.  
-   - The dataset is again split into training and test subsets, ensuring robust evaluation.
-
-2. **Optimal Probability Threshold**  
-   - The model outputs a probability of conversion for each test sample.  
-   - A ROC curve is generated, and Youden’s J is used to select the optimal probability threshold.  
-   - This threshold yields a binary prediction (converted vs. not converted) that maximizes sensitivity + specificity.
-
-3. **Model Evaluation**  
-   - Confusion matrix metrics (TP, FP, TN, FN), sensitivity, specificity, F1 score, and ROC-AUC are computed on the test set.  
-   - These metrics confirm how effectively the logistic regression weights (coefficients) capture the relationship between KPIs and conversion.
-
----
-
-## 5. Engagement Score Computation
-
-1. **Log-Odds Calculation**  
-   - For each observation, the logistic regression coefficients (weights) and intercept are combined with standardized KPI values to produce a log-odds “engagement_score.”
-
-2. **Scaling**  
-   - A MinMaxScaler transforms the log-odds engagement_score to a 0–10 scale (`scaled_engagement_score`), making it more interpretable and suitable for dashboards or reporting.
-
-3. **KPI Hit Count**  
-   - In parallel, thresholds for each KPI (from the Youden’s J analysis) are used to generate binary “met/not met” columns.  
-   - Summing these columns yields a `KPI_hit_count`, indicating how many thresholds each observation meets.  
-   - Comparing `KPI_hit_count` with `scaled_engagement_score` reveals a positive correlation, demonstrating that both methods capture similar aspects of engagement.
-
----
-
-## 6. Business Impact
-
-1. **Holistic View of Engagement**  
-   - Combining logistic regression for probability-based insights with threshold-based KPIs offers a nuanced perspective.  
-   - Marketers can see both the “big picture” aggregated engagement score and the number of individual KPI thresholds met.
-
-2. **Data-Driven Thresholds**  
-   - Youden’s J ensures each KPI cutoff is statistically justified, balancing sensitivity and specificity to maximize predictive performance.
-
-3. **Actionable Metrics**  
-   - **Aggregated Score (scaled 0–10)**: Provides a single, interpretable measure of campaign success or customer engagement.  
-   - **KPI Hit Count**: Identifies which specific KPIs are underperforming or excelling, guiding targeted interventions.
-
-4. **Flexible Implementation**  
-   - The framework adapts to changes in user behavior, as logistic regression can be retrained with new data and KPI thresholds recalculated for evolving campaign conditions.
-
----
-
-## 7. Conclusion
-
-By integrating:
-
-1. **Statistical Hypothesis Testing** (t-tests, Mann-Whitney, chi-square) for initial insights,  
-2. **Threshold Selection** via Youden’s J for each KPI,  
-3. **Logistic Regression** to generate a unified conversion probability, and  
-4. **Aggregated Engagement Scores** for simplified reporting,
-
-this campaign impact analysis pipeline delivers a comprehensive, data-driven strategy. It aligns multiple KPIs, captures both granular and aggregated views of customer engagement, and ultimately enables more precise, high-ROI marketing decisions.
