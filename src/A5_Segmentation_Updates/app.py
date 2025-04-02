@@ -1,6 +1,3 @@
-import sys
-import os
-
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
@@ -57,7 +54,9 @@ def display_page(pathname):
 
 register_extract_callbacks(app)
 
-def main(debug=True, **kwargs):
-    if __name__ == '__main__':
-        app.run_server(debug=True)
+def main(debug=False, **kwargs):
+    app.run_server(debug=debug, **kwargs)
+
+if __name__ == '__main__':
+    main(debug=False)
 
