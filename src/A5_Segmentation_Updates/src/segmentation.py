@@ -73,11 +73,11 @@ def load_trained_models():
     Returns:
       tuple: (kmeans_model, pca_model, scaler)
     """
-    with open('data/kmeans_model.pkl', 'rb') as f:
+    with open('./src/A1_Customer_Segmentation/kmeans_model.pkl', 'rb') as f:
         kmeans_model = pickle.load(f)
-    with open('data/pca_model.pkl', 'rb') as f:
+    with open('./src/A1_Customer_Segmentation/pca_model.pkl', 'rb') as f:
         pca_model = pickle.load(f)
-    with open('data/scaler.pkl', 'rb') as f:
+    with open('./src/A1_Customer_Segmentation/scaler.pkl', 'rb') as f:
         scaler = pickle.load(f)
     
     global global_model, global_scaler

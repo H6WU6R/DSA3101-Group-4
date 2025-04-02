@@ -16,7 +16,7 @@ PRIMARY_COLOR = "#acd42c"
 
 def load_cluster_profiles():
     """Load cluster profiles from JSON file"""
-    with open('data/profiles.json', 'r') as f:
+    with open('./src/A3_Behavioral_Patterns_Analysis/profiles.json', 'r') as f:
         return json.load(f)
 
 def create_profile_visualizations():
