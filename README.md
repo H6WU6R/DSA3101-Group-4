@@ -10,7 +10,7 @@
     - [2.3 Setup Instruction](#23-setup-instruction)
     - [2.4 GPG Decryption & Sensitive Data Encryption Workflow 5 Database](#24-gpg-decryption--sensitive-data-encryption-workflow-5-database)
     - [2.5 Database Instruction](#25-Database-instruction)
-    - [2.6 Setup Instruction](#26-Setup-Instruction)
+    - [2.6 Run the Prgram](#26-run-the-program)
   - [3. Deployment](#3-deployment)
     - [3.1 Web Application](#31-web-application)
     - [3.2 Docker Instructions](#32-docker-instructions)
@@ -279,7 +279,7 @@ This file is meant to be run **before** you execute your main application (i.e. 
 
 To populate the database, please refer to README.md inside the folder `database`.
 
-### 2.6 Run the program
+### 2.6 Run the Program
 
 1. **Run the main program**
 
