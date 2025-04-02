@@ -204,6 +204,10 @@ source venv/bin/activate
 7. **Install necessary packages**
 
 ```bash
+pip install --upgrade pip setuptools wheel
+```
+
+```bash
 pip install -r requirements.txt
 ```
 
