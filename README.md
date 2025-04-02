@@ -391,6 +391,7 @@ To better understand and segment bank customer needs—thereby personalizing and
 - For customer segmentation, engagement, behavioral analysis and campaign cost-effectiveness evaluation, we used [digital_marketing_campaign_dataset](https://www.kaggle.com/datasets/rabieelkharoua/predict-conversion-in-digital-marketing-dataset).
 - To predict customer preferences, we are using the [financial transactions dataset](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets).
 - For measuring campaign ROI, we rely on the [transactions_and_customer_insights](https://www.kaggle.com/datasets/rishikumarrajvansh/marketing-insights-for-e-commerce-company?select=CustomersData.xlsx).
+- For campaign cost-effectiveness analysis, we used [bank revenue dataset](https://www.jmp.com/en/academic/case-study-library/bank-revenue)
 - Finally, to support customer retention strategy development, we are leveraging the [bank customer churn data](https://www.kaggle.com/datasets/radheshyamkollipara/bank-customer-churn)。
 
 ### 4.2 Data Preparation and Feature Engineering
