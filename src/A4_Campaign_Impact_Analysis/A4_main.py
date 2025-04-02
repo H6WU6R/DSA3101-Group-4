@@ -109,10 +109,10 @@ def compute_overall_kpi_metrics_with_optimal_thresholds(df, optimal_thresholds):
 # ---------------------------
 def main():
     # File path (read-only; no local file modifications)
-    main_data_path = "../Data/digital_marketing_campaign_dataset.csv"
+    main_data_path = "./data/digital_marketing_campaign_dataset.csv"
     
     # 1. Load main dataset
-    df = load_data(main_data_path)
+    df = load_data('./data/raw/digital_marketing_campaign_dataset.csv')
     
     # 2. Define KPI columns (ensure these columns exist in your dataset)
     kpi_columns = [

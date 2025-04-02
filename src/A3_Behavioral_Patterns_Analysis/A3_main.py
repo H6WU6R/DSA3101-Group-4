@@ -48,7 +48,7 @@ def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description='Generate customer segment profiles and visualizations.')
     parser.add_argument('--input', type=str, 
-                        default='../src/A1_Customer_Segmentation/A1-segmented_df.csv',
+                        default='./src/A1_Customer_Segmentation/A1-segmented_df.csv',
                         help='Path to the input CSV file containing customer data')
     
     args = parser.parse_args()
