@@ -150,7 +150,7 @@ def main():
     # 4. Get centroids
     centroids_df = get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k)
     
-    # df_original['Cluster_Label'] = labels
+    df_original['Cluster_Label'] = labels
     # Save with relative path from main.py's location
     df_original.to_csv('./src/A1_Customer_Segmentation/A1-segmented_df.csv', index=False)
 
