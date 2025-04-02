@@ -90,7 +90,7 @@ def optimize_clusters(X):
 
 def main():
     # Data pipeline
-    df_original = pd.read_csv('./data/raw/B3/Online_Sales.csv')
+    df_original = pd.read_csv('./data/raw/Online_Sales.csv')
     data = preprocess_data(df_original)
     final_data = prepare_final_dataset(data)
     
