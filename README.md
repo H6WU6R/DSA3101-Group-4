@@ -98,7 +98,7 @@ DSA3101-Group-Project
 │   │   └── src/                          # Core functionality
 │   │       ├── __init__.py               # Package initialization
 │   │       ├── prompts.py                # System prompts and templates
-│   │       ├── recommendation.py         # Recommendation engine
+│   │       ├── recommendation.py         # Recommendation engine using LLM
 │   │       └── segmentation.py           # Segmentation model and logic
 │   │
 │   ├── B1-Predicting-Customer-Preferences/
@@ -334,8 +334,8 @@ We used Dash to create a robust and interactive web application with the followi
 - #### Data Upload and Segmentation Updates
   Users can upload new customer data (in CSV format) to the application to predict clusters for new customers. The application provides an easy-to-use interface for uploading data, viewing file information, and starting the prediction process. It also handles data preprocessing and integrates the results seamlessly into the segmentation model.
 
-- #### Integration with AI Models
-  The web application leverages AI models to enhance its capabilities, including:
+- #### Integration with LLM Models
+  The web application leverages LLM models to enhance its capabilities, including:
 
   - Analyzing customer profiles and extracting insights.
   - Improving segmentation accuracy and provide real-time recommendations.
@@ -359,16 +359,7 @@ This integration allows the application to deliver more accurate and intelligent
 
 #### File Structure
 
-- `app.py`: Main application file setting up the Dash app and routing.
-- `pages/`: Contains different pages of the web application:
-  - `home.py`: The home page with an overview and start button.
-  - `extract.py`: Page for uploading new customer data and updating segmentation.
-  - `overview.py`: Provides an overview layout with visualizations and data loading for customer segmentation.
-  - `individual_dashboard.py`: Provides the layout and callbacks for the individual dashboard page.
-- `src/`: Contains the source code for various functionalities:
-  - `segmentation.py`: Functions for data preprocessing and segmentation.
-  - `prompts.py`: System and user prompts for generating marketing recommendations.
-- `assets/style.css`: Custom CSS for styling the web application.
+Please refer to **2.2 Main Branch Repository Structure**
 
 ### 3.2 Docker Instructions
 
