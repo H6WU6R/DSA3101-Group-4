@@ -563,7 +563,7 @@ This section contains a list of processed datasets for each of the CSV files sta
 
   9. `bankrevenue.csv`
 
-      | Field Name      | Description                                     | Data Type  | Allowed Values                                    | Example     |
+| Field Name      | Description                                     | Data Type  | Allowed Values                                    | Example   |
 |:---------------|:-----------------------------------------------|:-----------|:-------------------------------------------------|:------------:|
 | Rev_Total      | Revenue total per customer                      | float64    | Positive numbers                                | 2.69        |
 | Bal_Total      | Total balance in the account                    | float64    | Positive numbers                                | 59140.00    |
