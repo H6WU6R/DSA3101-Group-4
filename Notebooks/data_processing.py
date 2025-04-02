@@ -4,7 +4,7 @@ import pandas as pd
 def load_data():
     # Load the marketing campaign dataset
     print("Loading data...")
-    marketing_df = pd.read_csv("C:\Users\ASUS\Downloads\test\data\bankrevenue.csv")
+    marketing_df = pd.read_csv("C:\Users\ASUS\Downloads\test\data\digital_marketing_campaign_dataset.csv")
     return marketing_df
 
 
