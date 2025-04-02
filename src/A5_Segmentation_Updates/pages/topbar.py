@@ -8,26 +8,39 @@ TEXT_COLOR = "#3c6454"
 
 def top_bar(current_page):
     """
-    Returns a top bar with the app logo and name on the left and
-    navigation buttons on the right. Highlights the current page.
-    current_page should be one of: "overview", "extract", "individual"
+    Returns a top bar with navigation buttons that have hover effects
     """
     base_style = {
         'backgroundColor': BUTTON_COLOR,
         'color': 'white',
         'border': 'none',
-        'padding': '10px 10px',
+        'padding': '10px 20px',
         'fontSize': '14px',
         'borderRadius': '5px',
         'textDecoration': 'none',
-        'cursor': 'pointer'
+        'cursor': 'pointer',
+        'transition': 'all 0.3s ease',  # Add smooth transition
+        'display': 'inline-block',  # Needed for transform
+        ':hover': {
+            'transform': 'translateY(-2px)',
+            'boxShadow': '0 5px 15px rgba(0,0,0,0.2)'
+        }
     }
+    
     active_style = base_style.copy()
     active_style['backgroundColor'] = PRIMARY_COLOR
     
     def nav_button(label, href, page_key):
-        style = active_style if current_page == page_key else base_style
-        return dcc.Link(label, href=href, style=style)
+        return html.Div(
+            [
+                dcc.Link(
+                    label, 
+                    href=href, 
+                    style=active_style if current_page == page_key else base_style,
+                    className='nav-button'  # Add class for CSS styling
+                )
+            ]
+        )
     
     return html.Div(
         style={
@@ -49,10 +62,10 @@ def top_bar(current_page):
                 style={'display': 'flex', 'alignItems': 'center', 'width': '250px'},
                 children=[
                     html.Img(
-                        src="/assets/App Logo.webp",
+                        src="/assets/App Logo.png",
                         style={'width': '50px', 'height': '50px', 'borderRadius': '50%', 'marginRight': '10px'}
                     ),
-                    html.H1("Customer Segmentation", style={'margin': '0', 'color': TEXT_COLOR, 'fontSize': '16px'})
+                    html.H1("Real-time Segmentation", style={'margin': '0', 'color': TEXT_COLOR, 'fontSize': '16px'})
                 ]
             ),
             html.Div(

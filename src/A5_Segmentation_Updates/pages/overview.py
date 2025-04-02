@@ -33,7 +33,15 @@ def create_profile_visualizations():
                     for k in profiles.keys()
                 ],
                 value='0',  # Default to first cluster
-                style={'width': '200px', 'margin': '20px auto', 'borderRadius': '16px'},
+                style={
+                    'width': '200px', 
+                    'margin': '20px auto', 
+                    'borderRadius': '16px',
+                    'transition': 'all 0.3s ease',  # Add transition
+                },
+                className='custom-dropdown',  # Add class for hover effects
+                searchable=False,  # Disable typing/searching
+                clearable=False   # Disable clearing the selection
             )
         ]),
         

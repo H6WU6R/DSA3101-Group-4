@@ -37,7 +37,15 @@ individual_dashboard_layout = html.Div(
             id='customer-dropdown',
             options=[],  # Will be populated from uploaded data
             placeholder="Select a customer",
-            style={'width': '40%', 'margin': 'auto', 'borderRadius': '16px'}
+            style={
+                'width': '40%', 
+                'margin': 'auto', 
+                'borderRadius': '16px',
+                'transition': 'all 0.3s ease'
+            },
+            className='custom-dropdown',
+            searchable=False,  # Disable typing/searching
+            clearable=False   # Prevent clearing selection
         ),
         html.Br(),
         # Card to display predicted cluster immediately upon selection

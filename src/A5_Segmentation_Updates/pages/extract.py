@@ -52,8 +52,10 @@ extract_layout = html.Div(
                                 'color': TEXT_COLOR,
                                 'width': '80%',
                                 'cursor': 'pointer',
+                                'transition': 'all 0.3s ease',  # Add transition
+                                'display': 'inline-block',  # Enable transform
                             },
-                            multiple=False
+                            className='upload-box'  # Add class for hover effects
                         ),
                         # Add new div for file information
                         html.Div(
@@ -71,15 +73,23 @@ extract_layout = html.Div(
             ]
         ),
         html.Br(),
-        html.Button("Start Predict", id="update-data-btn", n_clicks=0, style={
-            'backgroundColor': "#6c904c",
-            'color': 'white',
-            'border': 'none',
-            'padding': '10px 20px',
-            'fontSize': '16px',
-            'borderRadius': '5px',
-            'cursor': 'pointer',
-        }),
+        html.Button(
+            "Start Predict", 
+            id="update-data-btn", 
+            n_clicks=0, 
+            style={
+                'backgroundColor': "#6c904c",
+                'color': 'white',
+                'border': 'none',
+                'padding': '10px 20px',
+                'fontSize': '16px',
+                'borderRadius': '5px',
+                'cursor': 'pointer',
+                'transition': 'all 0.3s ease',  # Add smooth transition
+                'display': 'inline-block',  # Needed for transform
+            },
+            className='hover-button'  # Add class for hover effects
+        ),
         html.Br(),
         html.Div(id="output-div", style={
             'whiteSpace': 'pre-line',
