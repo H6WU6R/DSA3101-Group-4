@@ -529,22 +529,22 @@ This section contains a list of processed datasets for each of the CSV files sta
 |:-------------------|:------------------------------------------------------|:----------|:----------------------------|:----------------:|
 | `RowNumber`          | Unique identifier for the row                            | int64     | Positive integer            | 1                |
 | `CustomerId`         | Unique identifier for the customer                       | int64     | Positive integer            | 15634602         |
-| Surname            | Last name of the customer                                | object    | String                      | Hargrave         |
-| CreditScore        | Credit score of the customer                             | int64     | 300-850                     | 619              |
-| Geography          | Country of residence                                     | object    | France, Spain, Germany      | France           |
-| Gender             | Gender of the customer                                   | object    | Male, Female                | Female           |
-| Age                | Age of the customer                                      | int64     | Positive integer            | 42               |
-| Tenure             | Number of years as a customer                            | int64     | 0-10                        | 2                |
-| Balance            | Account balance                                          | float64   | Positive decimal or 0       | 0.0              |
-| NumOfProducts      | Number of bank products used                             | int64     | 1-4                         | 1                |
-| HasCrCard          | Indicates if the customer has a credit card              | int64     | 0 (No), 1 (Yes)             | 1                |
-| IsActiveMember     | Indicates if the customer is an active member            | int64     | 0 (No), 1 (Yes)             | 1                |
-| EstimatedSalary    | Estimated salary of the customer                         | float64   | Positive decimal            | 101348.88        |
-| Exited             | Indicates if the customer churned                        | int64     | 0 (No), 1 (Yes)             | 1                |
-| Complain           | Indicates if the customer has lodged a complaint         | int64     | 0 (No), 1 (Yes)             | 1                |
-| Satisfaction Score | Customer satisfaction score (1-5)                        | int64     | 1, 2, 3, 4, 5               | 2                |
-| Card Type          | Type of credit card held                                 | object    | DIAMOND, GOLD, SILVER, PLATINUM | DIAMOND       |
-| Point Earned       | Reward points earned by the customer                     | int64     | Positive integer            | 464              |
+| `Surname`            | Last name of the customer                                | object    | String                      | Hargrave         |
+| `CreditScore`        | Credit score of the customer                             | int64     | 300-850                     | 619              |
+| `Geography`          | Country of residence                                     | object    | France, Spain, Germany      | France           |
+| `Gender`             | Gender of the customer                                   | object    | Male, Female                | Female           |
+| `Age`                | Age of the customer                                      | int64     | Positive integer            | 42               |
+| `Tenure`             | Number of years as a customer                            | int64     | 0-10                        | 2                |
+| `Balance`            | Account balance                                          | float64   | Positive decimal or 0       | 0.0              |
+| `NumOfProducts`      | Number of bank products used                             | int64     | 1-4                         | 1                |
+| `HasCrCard`          | Indicates if the customer has a credit card              | int64     | 0 (No), 1 (Yes)             | 1                |
+| `IsActiveMember`     | Indicates if the customer is an active member            | int64     | 0 (No), 1 (Yes)             | 1                |
+| `EstimatedSalary`    | Estimated salary of the customer                         | float64   | Positive decimal            | 101348.88        |
+| `Exited`             | Indicates if the customer churned                        | int64     | 0 (No), 1 (Yes)             | 1                |
+| `Complain`           | Indicates if the customer has lodged a complaint         | int64     | 0 (No), 1 (Yes)             | 1                |
+| `Satisfaction Score` | Customer satisfaction score (1-5)                        | int64     | 1, 2, 3, 4, 5               | 2                |
+| `Card Type`          | Type of credit card held                                 | object    | DIAMOND, GOLD, SILVER, PLATINUM | DIAMOND       |
+| `Point Earned`       | Reward points earned by the customer                     | int64     | Positive integer            | 464              |
 
   8. `mcc_code.json`
      - A dictionary with its key being the merchant industry code, the value being the name of the corresponding industry.
