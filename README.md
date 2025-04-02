@@ -184,13 +184,21 @@ cd DSA3101-Group-4
 5. **Create virtual environment**
 
 ```bash
-python -m venv.
+python -m venv venv
 ```
 
 6. **Activate the virtual environment**
+   
+for windows:
 
 ```bash
 venv\Scripts\activate
+```
+
+for mac:
+
+```bash
+source venv/bin/activate
 ```
 
 7. **Install necessary packages**
