@@ -1,6 +1,8 @@
-<img src="src/A5_Segmentation_Updates/Resources/App%20Logo.png" alt="App Logo" width="200"/>
+<div align="center">
+  <img src="src/A5_Segmentation_Updates/Resources/App%20Logo.png" alt="App Logo" width="200"/>
   
-# DSA3101-Group-4
+  # DSA3101-Group-4
+</div>
 
 # About The Project
 
