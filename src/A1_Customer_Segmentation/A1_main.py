@@ -5,6 +5,7 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+import pickle
 
 
 
@@ -150,7 +151,16 @@ def main():
     centroids_df = get_cluster_centroids(pca_best, kmeans, scaler, df_encoded, best_k)
     
     # df_original['Cluster_Label'] = labels
-    df_original.to_csv('./A1_Customer_Segmentation/A1-segmented_df.csv', index=False)
+    # Save with relative path from main.py's location
+    df_original.to_csv('./src/A1_Customer_Segmentation/A1-segmented_df.csv', index=False)
+
+    # Save models with relative paths
+    with open('./src/A1_Customer_Segmentation/kmeans_model.pkl', 'wb') as f:
+        pickle.dump(kmeans, f)
+    with open('./src/A1_Customer_Segmentation/pca_model.pkl', 'wb') as f:
+        pickle.dump(pca_best, f)
+    with open('./src/A1_Customer_Segmentation/scaler.pkl', 'wb') as f:
+        pickle.dump(scaler, f)
 
     return df_original
 
