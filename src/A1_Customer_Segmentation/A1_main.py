@@ -64,7 +64,7 @@ def optimize_clusters(df_scaled):
     best_k = None
     best_scores = None
 
-    print("Loop over different numbers of PCA components and cluster number: ")
+    print("Loop over different numbers of PCA components and cluster number...this may take long")
     # Loop over different numbers of PCA components
     for n_components in pca_range:
         # Apply PCA with n_components

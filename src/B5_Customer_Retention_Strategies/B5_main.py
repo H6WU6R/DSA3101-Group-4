@@ -46,7 +46,7 @@ def data_preprocessing(churn_path, seg_path):
                     how='inner'
                 )
     test=test.drop_duplicates()
-    print("Merge customer churn dataset with segmentation dataset.")
+    print("Merging customer churn dataset with segmentation dataset...")
     
     # Spliting label
     X_train=train.drop(["Exited", "Income_bin"], axis=1)
@@ -65,7 +65,7 @@ def data_preprocessing(churn_path, seg_path):
     # Using SMOTE to solve imbalanced data
     smote = SMOTE(random_state=42)
     X_train, y_train = smote.fit_resample(X_train, y_train)
-    print("Use SMOTE to solve the problem of imbalanced data")
+    print("Using SMOTE to solve the problem of imbalanced data...this may take long")
     
     return X_train, X_test, y_train, y_test
 
