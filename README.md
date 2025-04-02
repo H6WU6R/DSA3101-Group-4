@@ -527,8 +527,8 @@ This section contains a list of processed datasets for each of the CSV files sta
 
 | Field Name          | Description                                              | Data Type | Allowed Values               | Example          |
 |:-------------------|:------------------------------------------------------|:----------|:----------------------------|:----------------:|
-| RowNumber          | Unique identifier for the row                            | int64     | Positive integer            | 1                |
-| CustomerId         | Unique identifier for the customer                       | int64     | Positive integer            | 15634602         |
+| `RowNumber`          | Unique identifier for the row                            | int64     | Positive integer            | 1                |
+| `CustomerId`         | Unique identifier for the customer                       | int64     | Positive integer            | 15634602         |
 | Surname            | Last name of the customer                                | object    | String                      | Hargrave         |
 | CreditScore        | Credit score of the customer                             | int64     | 300-850                     | 619              |
 | Geography          | Country of residence                                     | object    | France, Spain, Germany      | France           |
