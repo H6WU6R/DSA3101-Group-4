@@ -72,14 +72,14 @@ DSA3101-Group-Project
 │   │
 │   ├── A4-Campaign-Impact-Analysis/
 │       ├── A4_main.py
-        ├── Campaign_Impact_Analysis_Report.md
-        ├── Cluster Specific KPI analysis.md
-        └── visualisations
-            ├── Cluster KPI Hit Proportion vs Conversion.png
-            ├── EDA.png
-            ├── KPI Hit Count vs Engagement Score.png
-            ├── Optimal KPI Thresholds by Cluster.png
-            └──Overall KPI Hit Count vs Conversion.png 
+│       ├── Campaign_Impact_Analysis_Report.md
+│       ├── Cluster Specific KPI analysis.md
+│       └── visualisations
+│           ├── Cluster KPI Hit Proportion vs Conversion.png
+│           ├── EDA.png
+│           ├── KPI Hit Count vs Engagement Score.png
+│           ├── Optimal KPI Thresholds by Cluster.png
+│           └──Overall KPI Hit Count vs Conversion.png 
 │   │
 │   ├── A5-Segmentation-Updates/
 │   │   ├── app.py                        # Main Dash application entry point
