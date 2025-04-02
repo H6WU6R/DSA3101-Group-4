@@ -25,6 +25,7 @@ if __name__ == "__main__":
     A4_main()
     
     print("-------------------------- Running A5: Segmentation Updates --------------------------\n")
+    print("\n")
     A5_app()
 
     print("-------------------------- Running B1: Predicting Customer Preferences --------------------------\n")
