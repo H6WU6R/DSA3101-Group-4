@@ -5,17 +5,24 @@ FROM python:3.10
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+# Install GPG for decryption commands
+RUN apt-get update && apt-get install -y gnupg
+
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy all project files into the container
-COPY . .
+# Copy only requirements.txt first for caching
+COPY requirements.txt /app/
 
-# Install dependencies from requirements.txt
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose a port (if needed, e.g., for a web app)
+# Copy the rest of the project files into the container
+COPY . /app
+
+# Expose a port if needed (for example, if your app runs a server)
 EXPOSE 5000
 
-# Set the default command to run your application
-CMD ["python", "src/main.py"]
+# Final command: runs main.py from the src folder
+CMD ["bash", "-c", "python src/Decry-Encryptor.py && python src/main.py"]
+

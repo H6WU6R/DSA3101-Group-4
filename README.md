@@ -394,7 +394,7 @@ docker build -t dsa3101-group4 .
 4. **Run Image in Container**
 
 ```
-docker run --name DSA3101-Project-4 -w /app/src dsa3101-group4 python main.py
+docker run --name DSA3101-Project-4 dsa3101-group4
 ```
 
 ## 4. Data Understanding
