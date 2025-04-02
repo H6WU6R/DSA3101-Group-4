@@ -7,7 +7,7 @@
   - [2. Technical Implementation](#2-technical-implementation)
     - [2.1 Branch Usage Instruction](#21-branch-usage-instruction)
     - [2.2 Main Branch_Repository Structure](#22-main-branch-repository-structure)
-    - [2.3 Setup Instruction]()
+    - [2.3 Setup Instruction](#https://github.com/H6WU6R/DSA3101-Group-4/tree/main?tab=readme-ov-file#23-setup-instruction)
     - [2.4 GPG Decryption & Sensitive Data Encryption Workflow 5 Database](#24-GPG-Decryption_&_Sensitive_Data_Encryption_Workflow_5_Database)
     - [2.5 Database Instruction](#25-Database_instruction)
     - [2.6 Setup Instruction](#23-setup-instruction)
