@@ -165,7 +165,7 @@ DSA3101-Group-Project
 
 To set up the project on a local machine, follow the steps below:
 
-1. **Ensure Python 3.10+ is installed**.  
+1. **Ensure Python 3.11.X is installed (Preferably 3.11.4)**.  
    If not, you can visit the [Python website](https://www.python.org/) for instructions on installation.  
    Once installed, you can verify your version of Python by running the following in your terminal:
    
@@ -296,14 +296,8 @@ To populate the database, please refer to README.md inside the folder `database`
 
 1. **Run the main program**
 
-Set directory into src first:
-
 ```bash
-cd src
-```
-
-```bash
-python -m main
+python src/main.py 
 ```
 
 2. **Deactivate your virtual environment**
