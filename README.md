@@ -11,16 +11,17 @@
   - [2. Technical Implementation](#2-technical-implementation)
     - [2.1 Branch Usage Instruction](#21-branch-usage-instruction)
     - [2.2 Main Branch_Repository Structure](#22-main-branch-repository-structure)
-    - [2.3 Setup Instruction]()
-    - [2.4 GPG Decryption & Sensitive Data Encryption Workflow 5 Database](#24-GPG-Decryption_&_Sensitive_Data_Encryption_Workflow_5_Database)
-    - [2.5 Database Instruction](#25-Database_instruction)
-    - [2.6 Setup Instruction](#23-setup-instruction)
+    - [2.3 Setup Instruction](#23-setup-instruction)
+    - [2.4 GPG Decryption & Sensitive Data Encryption Workflow 5 Database](#24-gpg-decryption--sensitive-data-encryption-workflow-5-database)
+    - [2.5 Database Instruction](#25-Database-instruction)
+    - [2.6 Run the Prgram](#26-run-the-program)
   - [3. Deployment](#3-deployment)
     - [3.1 Web Application](#31-web-application)
     - [3.2 Docker Instructions](#32-docker-instructions)
   - [4. Data Understanding](#4-data-understanding)
     - [4.1 Data Preparation](#41-data-preparation)
     - [4.2 Data Dictionaries](#42-data-dictionaries)
+    - [4.3 Data Dictionaries]()
 
 ## 1. Project Overview
 
@@ -282,7 +283,7 @@ This file is meant to be run **before** you execute your main application (i.e. 
 
 To populate the database, please refer to README.md inside the folder `database`.
 
-### 2.6 Run the program
+### 2.6 Run the Program
 
 1. **Run the main program**
 
@@ -395,6 +396,7 @@ To better understand and segment bank customer needs—thereby personalizing and
 - For customer segmentation, engagement, behavioral analysis and campaign cost-effectiveness evaluation, we used [digital_marketing_campaign_dataset](https://www.kaggle.com/datasets/rabieelkharoua/predict-conversion-in-digital-marketing-dataset).
 - To predict customer preferences, we are using the [financial transactions dataset](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets).
 - For measuring campaign ROI, we rely on the [transactions_and_customer_insights](https://www.kaggle.com/datasets/rishikumarrajvansh/marketing-insights-for-e-commerce-company?select=CustomersData.xlsx).
+- For campaign cost-effectiveness analysis, we used [bank revenue dataset](https://www.jmp.com/en/academic/case-study-library/bank-revenue)
 - Finally, to support customer retention strategy development, we are leveraging the [bank customer churn data](https://www.kaggle.com/datasets/radheshyamkollipara/bank-customer-churn)。
 
 ### 4.2 Data Preparation and Feature Engineering
