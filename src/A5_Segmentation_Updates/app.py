@@ -58,8 +58,6 @@ def display_page(pathname):
 register_extract_callbacks(app)
 
 def main(debug=True, **kwargs):
-    app.run_server(debug=debug, **kwargs)
-
-if __name__ == '__main__':
-    main(debug=True)
+    if __name__ == '__main__':
+        app.run_server(debug=True)
 
