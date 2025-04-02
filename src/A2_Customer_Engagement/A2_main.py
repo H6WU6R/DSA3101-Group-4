@@ -11,7 +11,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 
 def load_data():
-    df = pd.read_csv("../../data/raw/digital_marketing_campaign_dataset.csv")
+    df = pd.read_csv("./data/raw/digital_marketing_campaign_dataset.csv")
     df_drop = df.drop(columns=['AdvertisingPlatform', 'AdvertisingTool', 'CustomerID'])
     return df_drop
 
