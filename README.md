@@ -1,4 +1,8 @@
-# DSA3101-Group-4: Machine Learning for Personalized Marketing Campaigns in Banking
+<div align="center">
+  <img src="src/A5_Segmentation_Updates/Resources/App%20Logo.png" alt="App Logo" width="200"/>
+  
+  # DSA3101-Group-4
+</div>
 
 # About The Project
 
