@@ -58,13 +58,12 @@ DSA3101-Group-Project
 │   │
 │   ├── A3-Behavioral-Patterns/
 │   │   ├── A3_main.py
-│   │   ├── A3_trainmodel.py
-│   │   └── A3_dataclean.py
+│   │   ├── data_processing.py
+│   │   ├──  segment_profier.py
+│   │   └── segment_visualizer.py
 │   │
 │   ├── A4-Campaign-Impact-Analysis/
-│   │   ├── A4_main.py
-│   │   ├── A4_trainmodel.py
-│   │   └── A4_dataclean.py
+│   │   └── A4_main.py
 │   │
 │   ├── A5-Segmentation-Updates/
 │   │   ├── app.py                        # Main Dash application entry point
@@ -88,26 +87,26 @@ DSA3101-Group-Project
 │   │
 │   ├── B1-Predicting-Customer-Preferences/
 │   │   ├── B1_main.py
-│   │   ├── B1_trainmodel.py
-│   │   └── B1_dataclean.py
+│   │   ├── data_Imputation_and_label_construction.py
+│   │   ├── dataclean.py
+│   │   └── trainmodel.py
 │   │
 │   ├── B2-Campaign-Optimization/
 │   │   └── B2.md
 │   │
 │   ├── B3-Measuring-Campaign-ROI/
 │   │   ├── B3_main.py
-│   │   ├── B3_trainmodel.py
-│   │   └── B3_dataclean.py
+│   │   └── B3.md
 │   │
 │   ├── B4-Cost-Effectiveness-of-Campaigns/
 │   │   ├── B4_main.py
-│   │   ├── B4_trainmodel.py
-│   │   └── B4_dataclean.py
+│   │   ├── data_preprocessing.py
+│   │   ├── clustering.py
+│   │   ├── reporting.py
+│   │   └── visualisation.py
 │   │
 │   ├── B5-Customer-Retention-Strategies/
-│   │   ├── B5_main.py
-│   │   ├── B5_trainmodel.py
-│   │   └── B5_dataclean.py
+│   │   └── B5_main.py
 │   │
 │   └── main.py
 │
@@ -385,16 +384,27 @@ Please refer to [??] for detailed documentation of the processing pipelines and 
     - Formula: `SocialShares` / `WebsiteVisits`  
     - Purpose: Captures the customer’s tendency to share or repost content, indicating the potential for viral or word-of-mouth engagement.
 
-
 #### 4.2.2 Financial Transactions Dataset
 1. Carry out data cleaning on `cards_data.csv`, convert `credit_limit` to numeric value by removing \$ in the beginning. Unnecessary columns like `card_number`, `cvv` and etc have been dropped to reduce dimensionality. Data aggregation has been done to show each customer's total credit limit, debit and prepaid savings. Resultant dataset saved temporarily as `cards_new`.
 2. Carry out data cleaning on `transactions_part1.csv` and `transactions_part2.csv`, convert `amount` to numeric value by removing \$ in the beginning, convert `date` to datetime data types. Erroneous transactions are removed.
 3. Carry out data cleaning on `users_data.csv`, change gender to binary representation, drop unnecessary columns like `address` and `per_capita_income`. Columns like `per_capita_income`, `yearly_income`, `total_debt` are converted to numeric value by removing \$ in the beginning. Merge with `cards_new`, using correlation matrix to remove columns that are positively (i.e. `id` and `client_id`) or negatively (i.e. `current_age` and `birth_year`) related. Resultant dataset saved temporarily as `final_cards`.
 4. All 3 datasets are merged and saved as `final_data.csv`.
 5. Manual grouping of mcc codes have been done and each mcc is assigned with a category, the data is saved as `output.csv`. This dataset is then joined with `final_data.csv`, to illustrate how much a user spend in each category. KNNImputer is used to compute the missing values of the spending use demographic data. Thereafter, we had come out with our own set of label construction rules, constructing ordinal label for each financial product that we have derived from the datasets. Resultant dataset saved as `imputed_data_with_label.csv`.
+
 #### 4.2.3 Transactions and Customer Insights Dataset
-  1. Carry out data cleaning on `Online_Transactions.csv` to ensure unique rows of transactions and appropriate data type. Only relevant columns are kept. Join on `CustomersData.xlsx` by CustomerID, the resultant dataset is saved as `clv_prediction.csv`
-  2. Carry out feature engineering by computing essential features for predicting customer lifetime value, including Recency, Frequency, Monetary_value, T.
+  1. Data cleaning on `Online_Transactions.csv` to ensure unique rows of transactions and appropriate data type. Only relevant columns are kept. Join on `CustomersData.xlsx` by CustomerID.
+  2. Feature engineering:
+     Group by CustomerID to compute the following features:
+       - `join_date`: date of customer's earliest purchase in a year
+       - `last_purchase_date`: date of customer's latest purchase in a year
+       - `frequency`: number of purchases made in a year
+       - `recency`: days from the last purchase date to the reference date
+       - `T`: days from the firt purchase date to the reference date
+       - `monetary_value`: average value of purchasses
+       - `purchase_cycle`: average cycle until next purchase
+       - `actual_6m_CLV`: actual CLV of a customer in 6 months(label)
+    The final dataset is saved as final_data
+  4. Train-test split with 0.8-0.2 train-test ratio.
      
 #### 4.2.4 Bank Customer Churn Dataset
 1. Dropped columns that are not relevant, have privacy issues, or are perfectly correlated with our label `Exited`: `RowNumber`, `CustomerId`,`Surname`, and `Complain`.
