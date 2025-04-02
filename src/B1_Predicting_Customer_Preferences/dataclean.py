@@ -105,7 +105,7 @@ def main():
     tran_df['amount'] = tran_df['amount'].replace({'\$': ''}, regex=True).astype(float)
 
     # Load merchant code json file
-    json_path = './data/raw/B1/mcc_codes.json'
+    json_path = './data/raw/mcc_codes.json'
 
     # Load the JSON file
     with open(json_path, 'r') as f:
