@@ -565,20 +565,20 @@ This section contains a list of processed datasets for each of the CSV files sta
 
 | Field Name      | Description                                     | Data Type  | Allowed Values                                    | Example   |
 |:---------------|:-----------------------------------------------|:-----------|:-------------------------------------------------|:------------:|
-| Rev_Total      | Revenue total per customer                      | float64    | Positive numbers                                | 2.69        |
-| Bal_Total      | Total balance in the account                    | float64    | Positive numbers                                | 59140.00    |
-| Offer          | Marketing offer received (binary)               | int64      | [0, 1]                                         | 0           |
-| AGE            | Customer age in years                           | int64      | 18-100                                         | 34          |
-| CHQ            | Has a chequing account (binary)                 | int64      | [0, 1]                                         | 1           |
-| CARD           | Has a credit card (binary)                      | int64      | [0, 1]                                         | 0           |
-| SAV1           | Has a savings account (binary)                  | int64      | [0, 1]                                         | 1           |
-| LOAN           | Has a personal loan (binary)                    | int64      | [0, 1]                                         | 0           |
-| MORT           | Has a mortgage (binary)                         | int64      | [0, 1]                                         | 1           |
-| INSUR          | Has insurance (binary)                          | int64      | [0, 1]                                         | 0           |
-| PENS           | Has a pension account (binary)                  | int64      | [0, 1]                                         | 1           |
-| Check          | Has a checking account (binary)                 | int64      | [0, 1]                                         | 1           |
-| CD             | Has a certificate of deposit (binary)           | int64      | [0, 1]                                         | 0           |
-| MM             | Has a money market account (binary)             | int64      | [0, 1]                                         | 1           |
-| Savings        | Has a savings account (binary)                  | int64      | [0, 1]                                         | 1           |
-| AccountAge     | Number of years as a customer                   | int64      | Positive integers                              | 5           |
+| `Rev_Total`     | Revenue total per customer                      | float64    | Positive numbers                                | 2.69        |
+| `Bal_Total`      | Total balance in the account                    | float64    | Positive numbers                                | 59140.00    |
+| `Offer`          | Marketing offer received (binary)               | int64      | [0, 1]                                         | 0           |
+| `AGE`            | Customer age in years                           | int64      | 18-100                                         | 34          |
+| `CHQ`            | Has a chequing account (binary)                 | int64      | [0, 1]                                         | 1           |
+| `CARD`           | Has a credit card (binary)                      | int64      | [0, 1]                                         | 0           |
+| `SAV1`           | Has a savings account (binary)                  | int64      | [0, 1]                                         | 1           |
+| `LOAN`           | Has a personal loan (binary)                    | int64      | [0, 1]                                         | 0           |
+| `MORT`           | Has a mortgage (binary)                         | int64      | [0, 1]                                         | 1           |
+| `INSUR`          | Has insurance (binary)                          | int64      | [0, 1]                                         | 0           |
+| `PENS`           | Has a pension account (binary)                  | int64      | [0, 1]                                         | 1           |
+| `Check`          | Has a checking account (binary)                 | int64      | [0, 1]                                         | 1           |
+| `CD`             | Has a certificate of deposit (binary)           | int64      | [0, 1]                                         | 0           |
+| `MM`             | Has a money market account (binary)             | int64      | [0, 1]                                         | 1           |
+| `Savings`        | Has a savings account (binary)                  | int64      | [0, 1]                                         | 1           |
+| `AccountAge`     | Number of years as a customer                   | int64      | Positive integers                              | 5           |
 
