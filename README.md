@@ -179,7 +179,8 @@ If you do not have Git installed, visit the [Git website](https://git-scm.com/) 
 git --version 
 ```
 
-3. **Clone the respository** You may do this using SSH:
+3. **Clone the respository**  
+You may do this using SSH:
 
 ```bash
 git clone git@github.com:H6WU6R/DSA3101-Group-4.git
