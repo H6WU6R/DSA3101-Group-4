@@ -112,20 +112,26 @@ DSA3101-Group-Project
 │
 ├── data/
 │   ├── raw/
-│   │   ├── B1/
-│   │   │    ├── cards_data.csv
-│   │   │    ├── mcc_codes.json
-│   │   │    ├── transactions_part1.csv
-│   │   │    ├── users_data.csv
-│   │   │    └── transactions_part2.csv
-│   │   │  
-│   │   ├── B3/
-│   │   │    ├── CustomersData.xlsx
-│   │   │    └── Online_Sales.csv
-│   │   │  
-│   │   ├── Customer-Churn-Records.csv
-│   │   └── digital_marketing_campaign_dataset.csv
-│
+│   │   ├── Customer-Churn-Records.csv.gpg
+│   │   ├── CustomersData.xlsx.gpg
+│   │   ├── mcc_codes.json.gpg
+│   │   ├── transactions_part1.csv.gpg
+│   │   ├── users_data.csv.gpg
+│   │   ├── transactions_part2.csv.gpg
+│   │   ├── cards_data.csv.gpg
+│   │   ├── Online_Sales.csv.gpg
+│   │   ├── bankrevenue.csv.gpg
+│   │   └── digital_marketing_campaign_dataset.csv.gpg
+│   │
+│   ├── processed/  
+│   │   ├── A1-processed-df.csv
+│   │   ├── final_data.csv
+│   │   ├── imputed_data.csv
+│   │   ├── imputed_data_with_label.csv
+│   │   ├── output.csv
+│   │   ├── B3_final_data.csv
+│   │   └── processed_data.csv
+│   │
 ├── docs/
 │   └── README.md
 │
