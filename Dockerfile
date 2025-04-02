@@ -21,7 +21,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 # Expose a port if needed (for example, if your app runs a server)
-# EXPOSE 5000
+EXPOSE 5000
 
 # Final command: runs main.py from the src folder
-CMD ["python", "src/main.py"]
+CMD ["bash", "-c", "python src/Decry-Encryptor.py && python src/main.py"]
+
