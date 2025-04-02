@@ -276,8 +276,14 @@ This file is meant to be run **before** you execute your main application (i.e. 
 
 1. **Run the main program**
 
+Set directory into src first:
+
 ```bash
-python -m src.main
+cd src
+```
+
+```bash
+python -m main
 ```
 
 2. **Deactivate your virtual environment**
