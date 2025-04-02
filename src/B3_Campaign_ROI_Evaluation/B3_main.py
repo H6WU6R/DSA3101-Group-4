@@ -26,6 +26,8 @@ def save_cluster_distributions(data, features, save_dir="src/B3_Campaign_ROI_Eva
     plt.savefig(f"{save_dir}/cluster_distribution.png", bbox_inches='tight')
     plt.close()
 
+    print(f"Distribution of clusters has been saved to：{os.path.abspath(save_dir)}")
+    
     # Saving statistical distribution of features by cluster
     fig, axes = plt.subplots(2, 3, figsize=(18, 12))
     fig.suptitle('Feature Distribution by Cluster', y=1.02)
@@ -47,6 +49,8 @@ def save_cluster_distributions(data, features, save_dir="src/B3_Campaign_ROI_Eva
     plt.savefig(f"{save_dir}/feature_distributions.png", bbox_inches='tight')
     plt.close()
 
+    print(f"Statistical distribution of features by cluster has been saved to：{os.path.abspath(save_dir)}")
+    
 def preprocess_data(data):
     """Load and preprocess raw data."""
     
@@ -103,7 +107,7 @@ def prepare_final_dataset(data, split_date='2019-07-01'):
     final_data = pd.merge(train_features, test_target, on='CustomerID', how='left').fillna(0)
     return final_data
 
-def optimize_clusters(X):
+def optimize_clusters(X, save_path="src/B3_Campaign_ROI_Evaluation/clustering_optimization.png"):
     """Determine optimal number of clusters using elbow method and silhouette scores."""
     wcss = []
     silhouette_scores = []
@@ -116,16 +120,22 @@ def optimize_clusters(X):
         wcss.append(kmeans.inertia_)
         silhouette_scores.append(silhouette_score(X, labels))
 
-    # Plot results
+    # Plot elbow method
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
     ax1.plot(K_range, wcss, marker='o')
     ax1.set_title('Elbow Method')
     ax1.set(xlabel='Number of Clusters', ylabel='WCSS')
-    
+
+    # Plot silhouette scores
     ax2.plot(K_range, silhouette_scores, marker='o', color='r')
     ax2.set_title('Silhouette Scores')
     ax2.set(xlabel='Number of Clusters', ylabel='Score')
-    
+
+    plt.tight_layout()
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print(f"Optimised clustering has been saved to：{os.path.abspath(save_path)}")
     return K_range[np.argmax(silhouette_scores)]
 
 def main():
