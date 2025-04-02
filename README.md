@@ -67,7 +67,7 @@ DSA3101-Group-Project
 │   ├── A3-Behavioral-Patterns/
 │   │   ├── A3_main.py
 │   │   ├── data_processing.py
-│   │   ├──  segment_profier.py
+│   │   ├── segment_profier.py
 │   │   └── segment_visualizer.py
 │   │
 │   ├── A4-Campaign-Impact-Analysis/
