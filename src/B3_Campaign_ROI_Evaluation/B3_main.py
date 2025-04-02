@@ -125,7 +125,6 @@ def optimize_clusters(X):
     ax2.set_title('Silhouette Scores')
     ax2.set(xlabel='Number of Clusters', ylabel='Score')
     
-    plt.show()
     return K_range[np.argmax(silhouette_scores)]
 
 def main():
