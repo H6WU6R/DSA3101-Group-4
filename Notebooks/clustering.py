@@ -47,7 +47,7 @@ def perform_clustering(marketing_df):
 def merge_bank_revenue(marketing_df, cluster_profiles):
     print("Merging bank revenue data...")
     # Load bank revenue data
-    bank_revenue_df = pd.read_csv('../data/bankrevenue.csv')
+    bank_revenue_df = pd.read_csv("C:\Users\ASUS\Downloads\test\data\bankrevenue.csv")
         
     # Merge bank revenue data with marketing_df
     marketing_df = marketing_df.merge(bank_revenue_df[['AGE', 'Rev_Total']], left_on='Age', right_on='AGE', how='left')
