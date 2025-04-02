@@ -117,7 +117,7 @@ def model_evaluation(models, X_test, y_test, scaler):
 
 
 def main():
-    X_train, X_test, y_train, y_test = data_preprocessing('data/Customer-Churn-Records.csv', 'data/segments0324.csv')
+    X_train, X_test, y_train, y_test = data_preprocessing('./data/raw/Customer-Churn-Records.csv', './src/A1_Customer_Segmentation/A1-segmented_df.csv')
     models, scaler = model_training(X_train, y_train)
     model_evaluation(models, X_test, y_test, scaler)
 
