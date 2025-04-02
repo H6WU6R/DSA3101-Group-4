@@ -562,6 +562,7 @@ This section contains a list of processed datasets for each of the CSV files sta
      - A dictionary with its key being the merchant industry code, the value being the name of the corresponding industry.
 
   9. `bankrevenue.csv`
+
       | Field Name      | Description                                     | Data Type  | Allowed Values                                    | Example     |
 |:---------------|:-----------------------------------------------|:-----------|:-------------------------------------------------|:------------:|
 | Rev_Total      | Revenue total per customer                      | float64    | Positive numbers                                | 2.69        |
