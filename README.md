@@ -10,7 +10,7 @@
     - [2.1 Branch Usage Instruction](#21-branch-usage-instruction)
     - [2.2 Main Branch_Repository Structure](#22-main-branch-repository-structure)
     - [2.3 Setup Instruction](#23-setup-instruction)
-    - [2.4 GPG Decryption & Sensitive Data Encryption Workflow 5 Database](#24-gpg-decryption--sensitive-data-encryption-workflow-5-database)
+    - [2.4 GPG Decryption & Sensitive Data Encryption Workflow](#24-gpg-decryption--sensitive-data-encryption-workflow)
     - [2.5 Database Instruction](#25-Database-instruction)
     - [2.6 Run the Program](#26-run-the-program)
   - [3. Deployment](#3-deployment)
