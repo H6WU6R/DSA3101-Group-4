@@ -98,7 +98,7 @@ DSA3101-Group-Project
 │   │   └── src/                          # Core functionality
 │   │       ├── __init__.py               # Package initialization
 │   │       ├── prompts.py                # System prompts and templates
-│   │       ├── recommendation.py         # Recommendation engine
+│   │       ├── recommendation.py         # Recommendation engine using LLM
 │   │       └── segmentation.py           # Segmentation model and logic
 │   │
 │   ├── B1-Predicting-Customer-Preferences/
@@ -169,9 +169,9 @@ To set up the project on a local machine, follow the steps below:
    If not, you can visit the [Python website](https://www.python.org/) for instructions on installation.  
    Once installed, you can verify your version of Python by running the following in your terminal:
    
-   ```bash
-   python --version
-   ```
+ ```bash
+ python --version
+ ```
 2. **Ensure Git is installed**
 If you do not have Git installed, visit the [Git website](https://git-scm.com/) for instructions on installation. Once installed, you can verify your version of Git by running the following in your terminal:
 
@@ -179,7 +179,9 @@ If you do not have Git installed, visit the [Git website](https://git-scm.com/) 
 git --version 
 ```
 
-3. **Clone the respository** You may do this using SSH:
+3. **Clone the respository**  
+  
+You may do this using SSH:
 
 ```bash
 git clone git@github.com:H6WU6R/DSA3101-Group-4.git
@@ -217,8 +219,15 @@ for mac:
 ```bash
 source venv/bin/activate
 ```
-
-7. **Install necessary packages**
+7. **Select the Python Interpreter in VS Code**
+     
+   If you are using VS Code:
+   - Open the Command Palette by pressing `Shift` + `Command` + `P`.
+   - Type and select `Python: Select Interpreter`.
+   - From the list, choose the interpreter located in your `.venv` directory (it should resemble `.venv/bin/python`).
+   - This ensures that VS Code uses the virtual environment's Python interpreter for your project.
+  
+9. **Install necessary packages**
 
 ```bash
 pip install --upgrade pip setuptools wheel
@@ -300,7 +309,7 @@ To populate the database, please refer to README.md inside the folder `database`
 python src/main.py 
 ```
 
-2. **Deactivate your virtual environment**
+2. **If you want to deactivate your virtual environment**
 
 ```bash
 deactivate
@@ -310,6 +319,7 @@ deactivate
 
 ### 3.1 Web Application
 
+(The Web Application is automatically called in `src/main.py`.)  
 We used Dash to create a robust and interactive web application with the following features:
 
 - #### Interactive Visualizations
@@ -324,8 +334,8 @@ We used Dash to create a robust and interactive web application with the followi
 - #### Data Upload and Segmentation Updates
   Users can upload new customer data (in CSV format) to the application to predict clusters for new customers. The application provides an easy-to-use interface for uploading data, viewing file information, and starting the prediction process. It also handles data preprocessing and integrates the results seamlessly into the segmentation model.
 
-- #### Integration with AI Models
-  The web application leverages AI models to enhance its capabilities, including:
+- #### Integration with LLM Models
+  The web application leverages LLM models to enhance its capabilities, including:
 
   - Analyzing customer profiles and extracting insights.
   - Improving segmentation accuracy and provide real-time recommendations.
@@ -349,16 +359,7 @@ This integration allows the application to deliver more accurate and intelligent
 
 #### File Structure
 
-- `app.py`: Main application file setting up the Dash app and routing.
-- `pages/`: Contains different pages of the web application:
-  - `home.py`: The home page with an overview and start button.
-  - `extract.py`: Page for uploading new customer data and updating segmentation.
-  - `overview.py`: Provides an overview layout with visualizations and data loading for customer segmentation.
-  - `individual_dashboard.py`: Provides the layout and callbacks for the individual dashboard page.
-- `src/`: Contains the source code for various functionalities:
-  - `segmentation.py`: Functions for data preprocessing and segmentation.
-  - `prompts.py`: System and user prompts for generating marketing recommendations.
-- `assets/style.css`: Custom CSS for styling the web application.
+Please refer to **2.2 Main Branch Repository Structure**
 
 ### 3.2 Docker Instructions
 
