@@ -1,10 +1,10 @@
 from dash import dcc, html, callback, Input, Output, State, ctx
 import pandas as pd
 import dash
-from pages.topbar import top_bar
-from src.recommendation import query_llm
+from A5_Segmentation_Updates.pages.topbar import top_bar
+from A5_Segmentation_Updates.src.recommendation import query_llm
 from dash import callback_context
-from src.prompts import USER_PROMPT  # Add this import at the top with other imports
+from A5_Segmentation_Updates.src.prompts import USER_PROMPT  # Add this import at the top with other imports
 import json
 
 # Theme Colors

@@ -1,6 +1,6 @@
 from dash import dcc, html, callback, Input, Output, State
-from pages.topbar import top_bar
-import segmentation  # Import segmentation module functions from src
+from A5_Segmentation_Updates.pages.topbar import top_bar
+from A5_Segmentation_Updates.src import segmentation  # Import segmentation module functions from src
 import plotly.express as px
 import pandas as pd
 

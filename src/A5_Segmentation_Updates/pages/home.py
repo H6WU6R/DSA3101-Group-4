@@ -1,6 +1,6 @@
 from dash import dcc, html, callback, Input, Output, no_update
 import pandas as pd
-import segmentation  # Make sure your segmentation module is available
+import A5_Segmentation_Updates.src.segmentation  # Make sure your segmentation module is available
 
 # Theme Colors
 PRIMARY_COLOR = "#acd42c"

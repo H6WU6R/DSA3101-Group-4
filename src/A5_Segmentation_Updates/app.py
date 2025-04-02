@@ -1,20 +1,14 @@
 import sys
 import os
 
-# Add the project root to the Python path
-project_root = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, project_root)
-sys.path.insert(0, os.path.join(project_root, 'pages'))
-sys.path.insert(0, os.path.join(project_root, 'src'))
-
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
 
-from home import home_layout
-from overview import overview_layout
-from extract import extract_layout, register_callbacks as register_extract_callbacks
-from individual_dashboard import individual_dashboard_layout
+from A5_Segmentation_Updates.pages.home import home_layout
+from A5_Segmentation_Updates.pages.overview import overview_layout
+from A5_Segmentation_Updates.pages.extract import extract_layout, register_callbacks as register_extract_callbacks
+from A5_Segmentation_Updates.pages.individual_dashboard import individual_dashboard_layout
 
 # Update width constant to be full screen
 CONTENT_WIDTH = '100%'

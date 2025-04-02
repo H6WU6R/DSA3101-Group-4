@@ -1,13 +1,13 @@
 # pages/overview.py
 from dash import html, dcc, callback, Input, Output
-from pages.topbar import top_bar
+from A5_Segmentation_Updates.pages.topbar import top_bar
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 import json
 import ast
-from overview_pages import overview_tabs_layout  # Modified import statement
-from src import segmentation  # Add this import
+from A5_Segmentation_Updates.pages.overview_pages import overview_tabs_layout  # Modified import statement
+from A5_Segmentation_Updates.src import segmentation  # Add this import
 
 # Theme Colors
 BACKGROUND_COLOR = "#FFFFFF"
