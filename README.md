@@ -319,6 +319,7 @@ deactivate
 
 ### 3.1 Web Application
 
+(The Web Application is automatically called in `src/main.py`.)  
 We used Dash to create a robust and interactive web application with the following features:
 
 - #### Interactive Visualizations
