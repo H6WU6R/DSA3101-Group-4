@@ -435,7 +435,13 @@ Please refer to [??] for detailed documentation of the processing pipelines and 
 2. Created a new feature called `Income_bin` from `EstimatedSalary`, which assign customers to their corresponding income interval. Then, merged with `digital_marketing_campaign_dataset.csv` after segmentation on `Age`, `Gender`, and `Income_bin`.
 3. Applied Ordinal Ecoding to transform categorical features: `Gender`,`Geography`, `Card Type`.
 4. Used SMOTE to synthesize a more balanced traning data
-   
+
+#### 4.2.5 Bank Revenue Dataset
+1. Only used 'Rev_Total' and 'AGE' column from the bankrevenue.csv dataset
+2. The dollar signs ($) and commas (,) are removed from the 'Rev_Total' column
+3. The cleaned column is then converted to a numeric type (either integer or float) to allow for numerical analysis
+4. Merged with Digital Marketing Campaign Dataset to introduce 'Rev_Total' into the latter for further analysis    
+
 ### 4.3 Data Dictionaries
 This section contains a list of processed datasets for each of the CSV files stated in Section 4.2, in order of appearance.
    1. `digital_marketing_campaign_dataset.csv`
