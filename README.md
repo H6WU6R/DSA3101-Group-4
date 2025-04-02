@@ -18,6 +18,7 @@
   - [3. Deployment](#3-deployment)
     - [3.1 Web Application](#31-web-application)
     - [3.2 Docker Instructions](#32-docker-instructions)
+    - [3.3 API Instructions](#33-api-instructions)
   - [4. Data Understanding](#4-data-understanding)
     - [4.1 Data Preparation](#41-data-preparation)
     - [4.2 Data Preparation and Feature Engineering](#42-data-preparation-and-feature-engineering)
@@ -392,6 +393,98 @@ docker build -t dsa3101-group4 .
 ```
 docker run --name DSA3101-Project-4 dsa3101-group4
 ```
+### 3.3 API Instructions
+
+#### Customer Analytics Module Runner API
+
+This Flask API allows you to trigger specific data processing and analytics modules in your customer analytics project, or run them all at once, through simple HTTP requests.
+
+The API wraps around individual modules in your data science pipeline (A1 to B5), enabling programmatic execution and integration with other services, dashboards, or workflows.
+
+Each module corresponds to a specific customer analytics task, such as segmentation, engagement analysis, campaign impact evaluation, etc.
+
+
+#### Available Endpoints
+
+- `POST /run_module/<module_name>`
+
+Run a specific module by its identifier (e.g., `A1`, `B3`).
+
+**Supported Modules**
+| Module | Description |
+|--------|-------------|
+| A1 | Customer Segmentation |
+| A2 | Customer Engagement |
+| A3 | Behavioral Patterns Analysis |
+| A4 | Campaign Impact Analysis |
+| A5 | Segmentation Updates (Dash App) |
+| B1 | Predicting Customer Preferences |
+| B3 | Campaign ROI Evaluation |
+| B4 | Cost Effectiveness of Campaigns |
+| B5 | Customer Retention Strategies |
+
+#### Example Request
+```bash
+curl -X POST http://localhost:5000/run_module/A1
+```
+
+#### Example Response
+```json
+{
+  "status": "success",
+  "module": "A1",
+  "message": "Successfully executed module A1",
+  "result": null
+}
+```
+
+---
+
+- `POST /run_all`
+
+Executes **all available modules sequentially**. Useful for full pipeline automation.
+
+#### Example Request
+```bash
+curl -X POST http://localhost:5000/run_all
+```
+
+#### Example Response
+```json
+{
+  "status": "success",
+  "results": {
+    "A1": { "status": "success", "result": null },
+    "A2": { "status": "success", "result": null },
+    "A3": { "status": "success", "result": null },
+    ...
+    "B5": { "status": "success", "result": null }
+  }
+}
+```
+
+
+
+**Notes**
+
+- The `A5` module launches a Dash web application, so triggering it will **start a web server** and may block further execution unless handled asynchronously.
+- Error messages will be returned in the response if any module fails to execute properly.
+
+
+
+#### Running the API Server
+
+Make sure you're in the root directory where `api.py` is located and run:
+
+```bash
+python api.py
+```
+
+The API will start at:  
+```
+http://localhost:5000
+```
+
 
 ## 4. Data Understanding
 ### 4.1 Data Acquisition
