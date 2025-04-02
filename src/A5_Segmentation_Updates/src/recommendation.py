@@ -7,7 +7,7 @@ from .prompts import SYSTEM_PROMPT, build_full_prompt
 API_KEY = "AIzaSyDfvojCflHjso_MX67YVZaBULVYSlLv84A"
 client = genai.Client(api_key=API_KEY)
 
-def query_llm(prompt: str, max_tokens: int = 1024) -> str:
+def query_llm(prompt: str, max_tokens: int = 4096) -> str:
     """
     Query the Gemini model with a text prompt.
     """
