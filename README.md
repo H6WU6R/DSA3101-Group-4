@@ -180,6 +180,7 @@ git --version
 ```
 
 3. **Clone the respository**  
+  
 You may do this using SSH:
 
 ```bash
