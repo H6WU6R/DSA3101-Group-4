@@ -169,9 +169,9 @@ To set up the project on a local machine, follow the steps below:
    If not, you can visit the [Python website](https://www.python.org/) for instructions on installation.  
    Once installed, you can verify your version of Python by running the following in your terminal:
    
-   ```bash
-   python --version
-   ```
+ ```bash
+ python --version
+ ```
 2. **Ensure Git is installed**
 If you do not have Git installed, visit the [Git website](https://git-scm.com/) for instructions on installation. Once installed, you can verify your version of Git by running the following in your terminal:
 
@@ -307,7 +307,7 @@ To populate the database, please refer to README.md inside the folder `database`
 python src/main.py 
 ```
 
-2. **Deactivate your virtual environment**
+2. **If you want to deactivate your virtual environment**
 
 ```bash
 deactivate
