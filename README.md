@@ -7,7 +7,9 @@
   - [2. Technical Implementation](#2-technical-implementation)
     - [2.1 Branch Usage Instruction](#21-branch-usage-instruction)
     - [2.2 Main Branch_Repository Structure](#22-main-branch-repository-structure)
-    - [2.3 Setup Instruction](#23-setup-instruction)
+    - [2.4 GPG Decryption & Sensitive Data Encryption Workflow 5 Database](#24-GPG-Decryption_&_Sensitive_Data_Encryption_Workflow_5_Database)
+    - [2.5 Database intruction](#25-Database_intruction)
+    - [2.6 Setup Instruction](#23-setup-instruction)
   - [3. Deployment](#3-deployment)
     - [3.1 Web Application](#31-web-application)
     - [3.2 Docker Instructions](#32-docker-instructions)
@@ -271,8 +273,11 @@ This file is meant to be run **before** you execute your main application (i.e. 
 
 - For demo purposes, the GPG passphrase and Fernet encryption key are hardcoded in the `Decry-Encryptor.py` script. **For production, use secure methods (such as environment variables) to handle sensitive credentials.**
 
+### 2.5 Database
 
-### 2.5 Run the program
+To populate database, please refer to README.md inside folder `database`.
+
+### 2.6 Run the program
 
 1. **Run the main program**
 
