@@ -217,8 +217,14 @@ for mac:
 ```bash
 source venv/bin/activate
 ```
-
-7. **Install necessary packages**
+7. **Select the Python Interpreter in VS Code**
+   If you are using VS Code:
+   - Open the Command Palette by pressing `Shift` + `Command` + `P`.
+   - Type and select `Python: Select Interpreter`.
+   - From the list, choose the interpreter located in your `.venv` directory (it should resemble `.venv/bin/python`).
+   - This ensures that VS Code uses the virtual environment's Python interpreter for your project.
+  
+8. **Install necessary packages**
 
 ```bash
 pip install --upgrade pip setuptools wheel
