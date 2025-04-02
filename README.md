@@ -217,7 +217,7 @@ for mac:
 ```bash
 source venv/bin/activate
 ```
-7. **Select the Python Interpreter in VS Code**
+7. **Select the Python Interpreter in VS Code**  
    If you are using VS Code:
    - Open the Command Palette by pressing `Shift` + `Command` + `P`.
    - Type and select `Python: Select Interpreter`.
