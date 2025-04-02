@@ -1,9 +1,9 @@
 import os
 import pandas as pd
-from data_preprocessing import load_data, perform_exploratory_analysis, create_campaign_segment
-from reporting import correlation_analysis, grouped_analysis
-from visualisation import plot_all_metrics, plot_countplots, plot_boxplots
-from clustering import perform_clustering, merge_bank_revenue, rank_personalization
+from B4_Cost_Effectiveness_Of_Campaigns.data_preprocessing import load_data, perform_exploratory_analysis, create_campaign_segment
+from B4_Cost_Effectiveness_Of_Campaigns.reporting import correlation_analysis, grouped_analysis
+from B4_Cost_Effectiveness_Of_Campaigns.visualisation import plot_all_metrics, plot_countplots, plot_boxplots
+from B4_Cost_Effectiveness_Of_Campaigns.clustering import perform_clustering, merge_bank_revenue, rank_personalization
 
 def main():
     # Load the marketing data
