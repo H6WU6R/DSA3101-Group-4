@@ -1,28 +1,11 @@
 <div align="center">
   <img src="src/A5_Segmentation_Updates/Resources/App%20Logo.png" alt="App Logo" width="200"/>
   
-  <style>
-    .shine-text {
-      position: relative;
-      color: #3c6454;
-      font-size: 48px;
-      text-align: center;
-      margin-bottom: 20px;
-      background: linear-gradient(90deg, #3c6454 0%, #93af1c 50%, #3c6454 100%);
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: shine 3s infinite linear;
-    }
-
-    @keyframes shine {
-      0% { background-position: 200% center; }
-      100% { background-position: -200% center; }
-    }
-  </style>
-
-  <h1 class="shine-text">DSA3101-Group-4</h1>
+  # DSA3101-Group-4
+  
+  [![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge&logo=github&logoColor=white&labelColor=3c6454&color=93af1c)](https://github.com/H6WU6R/DSA3101-Group-4)
+  [![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python&logoColor=white&labelColor=3c6454&color=93af1c)](https://www.python.org/)
+  [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&labelColor=3c6454&color=93af1c)](LICENSE)
 </div>
 
 # About The Project
