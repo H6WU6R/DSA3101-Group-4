@@ -321,6 +321,7 @@ deactivate
 ### 3.1 Web Application
 
 (The Web Application is automatically called in `src/main.py`.)  
+((To test the web application's functionalities, especially the segmentation updates and LLM recommendation generation: `src/A5_Segmentation_Updates/sample_test_data.csv`)
 We used Dash to create a robust and interactive web application with the following features:
 
 - #### Interactive Visualizations
