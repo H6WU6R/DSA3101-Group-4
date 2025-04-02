@@ -14,4 +14,4 @@ lightfm==1.17
 polars==1.26.0
 google-genai==1.8.0
 cryptography==44.0.2
-
+imbalanced-learn==0.12.4
