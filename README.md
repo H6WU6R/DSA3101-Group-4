@@ -58,13 +58,12 @@ DSA3101-Group-Project
 │   │
 │   ├── A3-Behavioral-Patterns/
 │   │   ├── A3_main.py
-│   │   ├── A3_trainmodel.py
-│   │   └── A3_dataclean.py
+│   │   ├── data_processing.py
+│   │   ├──  segment_profier.py
+│   │   └── segment_visualizer.py
 │   │
 │   ├── A4-Campaign-Impact-Analysis/
-│   │   ├── A4_main.py
-│   │   ├── A4_trainmodel.py
-│   │   └── A4_dataclean.py
+│   │   └── A4_main.py
 │   │
 │   ├── A5-Segmentation-Updates/
 │   │   ├── app.py                        # Main Dash application entry point
@@ -88,25 +87,26 @@ DSA3101-Group-Project
 │   │
 │   ├── B1-Predicting-Customer-Preferences/
 │   │   ├── B1_main.py
-│   │   ├── B1_trainmodel.py
-│   │   └── B1_dataclean.py
+│   │   ├── data_Imputation_and_label_construction.py
+│   │   ├── dataclean.py
+│   │   └── trainmodel.py
 │   │
 │   ├── B2-Campaign-Optimization/
 │   │   └── B2.md
 │   │
 │   ├── B3-Measuring-Campaign-ROI/
 │   │   ├── B3_main.py
-│   │   ├── B3.md
+│   │   └── B3.md
 │   │
 │   ├── B4-Cost-Effectiveness-of-Campaigns/
 │   │   ├── B4_main.py
-│   │   ├── B4_trainmodel.py
-│   │   └── B4_dataclean.py
+│   │   ├── data_preprocessing.py
+│   │   ├── clustering.py
+│   │   ├── reporting.py
+│   │   └── visualisation.py
 │   │
 │   ├── B5-Customer-Retention-Strategies/
 │   │   ├── B5_main.py
-│   │   ├── B5_trainmodel.py
-│   │   └── B5_dataclean.py
 │   │
 │   └── main.py
 │
