@@ -18,8 +18,8 @@
     - [3.2 Docker Instructions](#32-docker-instructions)
   - [4. Data Understanding](#4-data-understanding)
     - [4.1 Data Preparation](#41-data-preparation)
-    - [4.2 Data Dictionaries](#42-data-dictionaries)
-    - [4.3 Data Dictionaries]()
+    - [4.2 Data Preparation and Feature Engineering](#42-data-preparation-and-feature-engineering)
+    - [4.3 Data Dictionaries](#43-data-dictionaries)
 
 ## 1. Project Overview
 
