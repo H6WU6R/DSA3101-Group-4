@@ -26,7 +26,7 @@ def save_cluster_distributions(data, features, save_dir="src/B3_Campaign_ROI_Eva
     plt.savefig(f"{save_dir}/cluster_distribution.png", bbox_inches='tight')
     plt.close()
 
-    print(f"Distribution of clusters has been saved to：{os.path.abspath(save_dir)}")
+    print("Distribution of clusters has been saved to src/B3_Campaign_ROI_Evaluation")
     
     # Saving statistical distribution of features by cluster
     fig, axes = plt.subplots(2, 3, figsize=(18, 12))
@@ -49,7 +49,7 @@ def save_cluster_distributions(data, features, save_dir="src/B3_Campaign_ROI_Eva
     plt.savefig(f"{save_dir}/feature_distributions.png", bbox_inches='tight')
     plt.close()
 
-    print(f"Statistical distribution of features by cluster has been saved to：{os.path.abspath(save_dir)}")
+    print("Statistical distribution of features by cluster has been saved to src/B3_Campaign_ROI_Evaluation")
     
 def preprocess_data(data):
     """Load and preprocess raw data."""
@@ -135,7 +135,7 @@ def optimize_clusters(X, save_path="src/B3_Campaign_ROI_Evaluation/clustering_op
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
 
-    print(f"Optimised clustering has been saved to：{os.path.abspath(save_path)}")
+    print("Optimised clustering has been saved to src/B3_Campaign_ROI_Evaluation")
     return K_range[np.argmax(silhouette_scores)]
 
 def main():
