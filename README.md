@@ -434,7 +434,7 @@ This section contains a list of processed datasets for each of the CSV files sta
   |:---|:---|:---:|:---|:---:|
 | `CustomerID` | Unique identifier for each customer | int64 | Positive integers | 8000 |
 | `Age` | Customer age in years | int64 | 18-100 | 56 |
-|` Gender`| Customer gender | object | ['Female', 'Male', 'Other'] | 'Female' |
+| `Gender`| Customer gender | object | ['Female', 'Male', 'Other'] | 'Female' |
 | `Income`| Annual income in local currency | float64 | Positive numbers | 136912.0 |
 | `CampaignChannel` | Marketing channel used | object | ['Social Media', 'Email', 'PPC', 'Referral', 'SEO'] | 'Social Media' |
 | `CampaignType` | Campaign objective type | object | ['Awareness', 'Retention', 'Conversion'] | 'Awareness' |
